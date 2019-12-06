@@ -1,17 +1,49 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css" rel="stylesheet" integrity="sha384-mtS696VnV9qeIoC8w/PrPoRzJ5gwydRVn0oQ9b+RJOPxE1Z1jXuuJcyeNxvNZhdx" crossorigin="anonymous">
+<style>
+/* Set the size of the div element that contains the map */
+#map {
+	height: 400px; /* The height is 400 pixels */
+	width: 100%; /* The width is the width of the web page */
+}
+</style>
 </head>
 <body>
-
-This is the body!
-<iframe width="600" height="450" frameborder="0" style="border:0"
-src="https://www.google.com/maps/embed/v1/view?center=42.330522099999996,-83.046866999999992&zoom=13&key=${mapKey }" allowfullscreen></iframe>
+	<h3>Tutor App!!</h3>
+	<!--The div element for the map -->
+	<div id="map"></div>
+	<script>
+		// Initialize and add the map
+		function initMap() {
+			// The location of Uluru
+			var uluru = {
+				lat : 42.330522099999996,
+				lng : -83.046866999999992
+			};
+			// The map, centered at Uluru
+			var map = new google.maps.Map(document.getElementById('map'), {
+				zoom : 15,
+				center : uluru
+			});
+			// The marker, positioned at Uluru
+			var marker = new google.maps.Marker({
+				position : uluru,
+				map : map
+			});
+		}
+	</script>
+	<!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
+	<script async defer
+		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
+		
+	</script>
 </body>
 </html>

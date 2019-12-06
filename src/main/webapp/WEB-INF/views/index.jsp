@@ -16,9 +16,21 @@
 	<h3>Tutor App!!</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
+	<div id="locations">${tutors}
+	</div>
 	<script>
 		// Initialize and add the map
 		function initMap() {
+		 	var locations = document.getElementById("locations").innerHTML;
+		 	var array = locations.split("],");
+		 	console.log(locations);
+		 	
+		 	console.log(array.length);
+		 	for (var i = 0; i < array.length; i++) {
+		 		console.log(array[i][0]);
+		 		console.log(array[i][1]);
+		 		} 
+			
 			// The location of Uluru
 			var uluru = {
 				lat : ${latitude},
@@ -29,6 +41,16 @@
 				zoom : 15,
 				center : uluru
 			});
+			
+		  /* 	var marker, i;
+		 	for (i = 0; i < locations.length; i++) { 
+		 	      console.log(locations[i][0]);
+		 	      console.log(locations[i][1]);
+		 	      marker = new google.maps.Marker({
+		 	    	   
+		 	        position: new google.maps.LatLng(locations[i][2], locations[i][3]),
+		 	        map: map
+		 	      });  */
 			// The marker, positioned at Uluru
 			var marker = new google.maps.Marker({
 				position : uluru,

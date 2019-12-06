@@ -11,6 +11,7 @@
 <body>
 
 This is the body!
-
+<iframe width="600" height="450" frameborder="0" style="border:0"
+src="https://www.google.com/maps/embed/v1/view?center=42.330522099999996,-83.046866999999992&zoom=13&key=${mapKey }" allowfullscreen></iframe>
 </body>
 </html>

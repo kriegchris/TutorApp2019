@@ -13,16 +13,25 @@
 </style>
 </head>
 <body>
-	<h3>Tutor App!!</h3>
+	<h3>This is your center</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
-	<div id="locations" style="visibility: hidden">${tutors}</div>
-	<h1>Find Center</h1>
-	<form action="/find-center">
-	<input type="text" name="lat" placeholder="latitude">
-	<input type="text" name="lng" placeholder="longitude">
-	<input type="submit" value="Find Center" class="btn btn-primary">
+	<form action="search-business">
+	<div name="latitude" value="${latitude }" style="visibility: hidden"></div>
+	<div name="longitude" value="${longitude }" style="visibility: hidden"></div>
+		Location Category: <select class="custom-select" id="cat" name="cat"
+			style="width: 200px;">
+			<option selected="">Select option</option>
+			<option value="cafe">Cafe</option>
+			<option value="bar">Bar</option>
+			<option value="library">Library</option>
+			<option value="park">Park</option>
+		</select> <br>
+		<br>
+		Radius(meters) <input type="number" name="radius" placeholder="e.g. 1609">
+		<input type="submit" value="Submit"><br>
 	</form>
+	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>
 		// Initialize and add the map
 		function initMap() {
@@ -35,7 +44,7 @@
 				zoom : 15,
 				center : currentLocation
 			});
-			
+			/*
 		 	var locations = document.getElementById("locations").innerHTML;
 		 	var array = locations.match(/\d+(?:\.\d+)?/g).map(Number);
 		 	var size = 2;
@@ -45,24 +54,24 @@
 		 	console.log(array.length);
 		 	console.log(newArray);
 		 	
-		 	/* for (var i = 0; i < newArray.length; i++) {
+		 	 for (var i = 0; i < newArray.length; i++) {
 		 		console.log(newArray[i]);
-		 		}  */ 
+		 		}  
 		 	var bounds = new google.maps.LatLngBounds();
 		 	for (var i = 0; i < newArray.length; i++) {
-			    /* console.log(typeof newArray[i][0]) */
+			   	console.log(typeof newArray[i][0]) 
 			    var position = new google.maps.LatLng(newArray[i][0], -newArray[i][1]);
         		bounds.extend(position);
 			    var marker = new google.maps.Marker({
 			      position: position,
 			      map: map,
-			      /* title: beach[0], */
+			     title: beach[0],
 			    });
-			  }
+			  } */
 			var userMarker = new google.maps.Marker({
 				position : currentLocation,
 				map : map
-			});  
+			});
 			
 		}
 	</script>

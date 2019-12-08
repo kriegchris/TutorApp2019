@@ -16,46 +16,48 @@
 	<h3>Tutor App!!</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
-	<div id="locations">${tutors}
-	</div>
+	<div id="locations" style="visibility: hidden">${tutors}</div>
 	<script>
 		// Initialize and add the map
 		function initMap() {
-		 	var locations = document.getElementById("locations").innerHTML;
-		 	var array = locations.split("],");
-		 	console.log(locations);
-		 	
-		 	console.log(array.length);
-		 	for (var i = 0; i < array.length; i++) {
-		 		console.log(array[i][0]);
-		 		console.log(array[i][1]);
-		 		} 
-			
-			// The location of Uluru
-			var uluru = {
+			var currentLocation = {
 				lat : ${latitude},
 				lng : ${longitude}
 			};
-			// The map, centered at Uluru
+			// The map, centered at the current user's location
 			var map = new google.maps.Map(document.getElementById('map'), {
 				zoom : 15,
-				center : uluru
+				center : currentLocation
 			});
 			
-		  /* 	var marker, i;
-		 	for (i = 0; i < locations.length; i++) { 
-		 	      console.log(locations[i][0]);
-		 	      console.log(locations[i][1]);
-		 	      marker = new google.maps.Marker({
-		 	    	   
-		 	        position: new google.maps.LatLng(locations[i][2], locations[i][3]),
-		 	        map: map
-		 	      });  */
-			// The marker, positioned at Uluru
-			var marker = new google.maps.Marker({
-				position : uluru,
+		 	var locations = document.getElementById("locations").innerHTML;
+		 	var array = locations.match(/\d+(?:\.\d+)?/g).map(Number);
+		 	var size = 2;
+		 	var newArray = new Array(Math.ceil(array.length / size)).fill("")
+		 	    .map(function() { return this.splice(0, size) }, array.slice());
+		 	
+		 	console.log(array.length);
+		 	console.log(newArray);
+		 	
+		 	/* for (var i = 0; i < newArray.length; i++) {
+		 		console.log(newArray[i]);
+		 		}  */ 
+		 	var bounds = new google.maps.LatLngBounds();
+		 	for (var i = 0; i < newArray.length; i++) {
+			    /* console.log(typeof newArray[i][0]) */
+			    var position = new google.maps.LatLng(newArray[i][0], -newArray[i][1]);
+        		bounds.extend(position);
+			    var marker = new google.maps.Marker({
+			      position: position,
+			      map: map,
+			      /* title: beach[0], */
+			    });
+			  }
+			var userMarker = new google.maps.Marker({
+				position : currentLocation,
 				map : map
-			});
+			});  
+			
 		}
 	</script>
 	<!--Load the API from the specified URL

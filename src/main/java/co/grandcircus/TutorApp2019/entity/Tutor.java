@@ -69,7 +69,7 @@ public class Tutor {
 
 	@Override
 	public String toString() {
-		return "[" + latitude + "," + longitude + "]";
+		return latitude + "," + longitude;
 	}
 	
 	

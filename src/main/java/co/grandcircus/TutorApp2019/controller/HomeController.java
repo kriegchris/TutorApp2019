@@ -21,7 +21,9 @@ import org.springframework.web.servlet.ModelAndView;
 import co.grandcircus.TutorApp2019.entity.Business;
 import co.grandcircus.TutorApp2019.entity.BusinessResults;
 import co.grandcircus.TutorApp2019.entity.MapData;
+import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.Tutor;
+import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
 
 @Controller
@@ -35,6 +37,9 @@ public class HomeController {
 	
 	@Autowired
 	TutorRepo tr;
+	
+	@Autowired
+	StudentRepo sr;
 	
 	@Autowired
 	HttpSession session;
@@ -95,8 +100,37 @@ public class HomeController {
 		return mv;
 	}
 	
-//	@RequestMapping("register")
+	// This mapping takes one to the student registration page.
+	@RequestMapping("register-student")
+	public ModelAndView registerStudent() {
+		ModelAndView mv = new ModelAndView("register-student");
+		return mv;
+	}
+	// This mapping takes one to the tutor registration page.
+	@RequestMapping("register-tutor")
+	public ModelAndView registerTeacher() {
+		ModelAndView mv = new ModelAndView("register-tutor");
+		return mv;
+	}
+	// This mapping adds students to the database.
+	@RequestMapping("register-s")
+	public ModelAndView registerStud(Student student) {
+		ModelAndView mv = new ModelAndView("index");
+		sr.save(student);
+		return mv;
+	}
+	// This mapping adds tutors to the database.
+	@RequestMapping("register-t")
+	public ModelAndView registerTeach(Tutor t) {
+		ModelAndView mv = new ModelAndView("index");
+		tr.save(t);
+		return mv;
+	}
 	
+	@RequestMapping("student-login")
+	public ModelAndView studentLogin() {
+		return new ModelAndView("redirect:/get-location");
+	}
 	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();

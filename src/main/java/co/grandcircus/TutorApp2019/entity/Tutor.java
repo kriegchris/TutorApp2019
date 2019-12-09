@@ -54,6 +54,21 @@ public class Tutor {
 		this.rating = rating;
 		this.review = review;
 	}
+	
+	
+
+	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
+			String subject, String bio) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.email = email;
+		this.password = password;
+		this.subject = subject;
+		this.bio = bio;
+	}
 
 	public Integer getId() {
 		return id;

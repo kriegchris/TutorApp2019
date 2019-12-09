@@ -17,8 +17,8 @@
 	<!--The div element for the map -->
 	<div id="map"></div>
 	<form action="search-business">
-	<div name="latitude" value="${latitude }" style="visibility: hidden"></div>
-	<div name="longitude" value="${longitude }" style="visibility: hidden"></div>
+	<input name="latitude" value="${latitude }" type="hidden">
+	<input name="longitude" value="${longitude }" type="hidden">
 		Location Category: <select class="custom-select" id="cat" name="cat"
 			style="width: 200px;">
 			<option selected="">Select option</option>

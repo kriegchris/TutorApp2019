@@ -5,13 +5,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.TutorApp2019.entity.BusinessResults;
+import co.grandcircus.TutorApp2019.entity.Coordinates;
 import co.grandcircus.TutorApp2019.entity.MapData;
 import co.grandcircus.TutorApp2019.entity.Tutor;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -71,14 +76,17 @@ public class HomeController {
 	
 	@RequestMapping("search-business")
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Double radius, 
-			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
+			Coordinates c) {
 		ModelAndView mv = new ModelAndView("center-map");
-		List<Double> coords = getCenter(lat, lng);
+		List<Double> coords = getCenter(c.getLat(), c.getLng());
 		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
-		"&latitude=" + lat + "&longitude=" + lng + "&radius=" + radius;
+		"&latitude=" + coords.get(0) + "&longitude=" + coords.get(1) + "&radius=" + radius;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + yelpKey);
-		// need to map to pojo, responseEntity
+		ResponseEntity<BusinessResults> businessResponse = rt.exchange(url, HttpMethod.GET, 
+				new HttpEntity<String> ("parameters", headers), BusinessResults.class);
+		System.out.println(c.getLat() + " " + c.getLng());
+		System.out.println(businessResponse);
 		
 		return mv;
 	}

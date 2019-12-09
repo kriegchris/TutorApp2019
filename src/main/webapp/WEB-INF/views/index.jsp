@@ -4,76 +4,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-<style>
-/* Set the size of the div element that contains the map */
-#map {
-	height: 400px; /* The height is 400 pixels */
-	width: 100%; /* The width is the width of the web page */
-}
-</style>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-mtS696VnV9qeIoC8w/PrPoRzJ5gwydRVn0oQ9b+RJOPxE1Z1jXuuJcyeNxvNZhdx"
+	crossorigin="anonymous">
 </head>
 <body>
-	<h3>Tutor App!!</h3>
-	<!--The div element for the map -->
-	<div id="map"></div>
-	<div id="locations" style="visibility: hidden">${tutors}</div>
-	<h1>Find Center</h1>
-	<form action="/find-center">
-	<input type="text" name="lat" placeholder="latitude">
-	<input type="text" name="lng" placeholder="longitude">
-	<input type="submit" value="Find Center" class="btn btn-primary">
-	</form>
-	<script>
-		// Initialize and add the map
-		function initMap() {
-			var currentLocation = {
-				lat : ${latitude},
-				lng : ${longitude}
-			};
-			// The map, centered at the current user's location
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 15,
-				center : currentLocation
-			});
-			
-		 	var locations = document.getElementById("locations").innerHTML;
-		 	var array = locations.match(/\d+(?:\.\d+)?/g).map(Number);
-		 	var size = 2;
-		 	var newArray = new Array(Math.ceil(array.length / size)).fill("")
-		 	    .map(function() { return this.splice(0, size) }, array.slice());
-		 	
-		 	console.log(array.length);
-		 	console.log(newArray);
-		 	
-		 	/* for (var i = 0; i < newArray.length; i++) {
-		 		console.log(newArray[i]);
-		 		}  */ 
-		 	var bounds = new google.maps.LatLngBounds();
-		 	for (var i = 0; i < newArray.length; i++) {
-			    /* console.log(typeof newArray[i][0]) */
-			    var position = new google.maps.LatLng(newArray[i][0], -newArray[i][1]);
-        		bounds.extend(position);
-			    var marker = new google.maps.Marker({
-			      position: position,
-			      map: map,
-			      /* title: beach[0], */
-			    });
-			  }
-			var userMarker = new google.maps.Marker({
-				position : currentLocation,
-				map : map
-			});  
-			
-		}
-	</script>
-	<!--Load the API from the specified URL
-    * The async attribute allows the browser to render the page while the API loads
-    * The key parameter will contain your own API key (which is not needed for this tutorial)
-    * The callback parameter executes the initMap() function
-    -->
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
-		
-	</script>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1>Welcome. Please enter your login info</h1>
+
+			<h3>Tutor Login</h3>
+			<form action="tutor-login">
+				Email: <input type="email" name="email"> Password: <input
+					type="password" name="password"> <input type="submit"
+					value="Login" class="btn btn-primary">
+			</form>
+			<h3>Tutor Registration</h3>
+			<form action="register-tutor">
+				<input type="submit" value="Register Now" class="btn btn-primary">
+			</form>
+
+			<h3>Student Login</h3>
+			<form action="student-login">
+				Email: <input type="email" name="email"> Password: <input
+					type="password" name="password"> <input type="submit"
+					value="Login" class="btn btn-primary">
+			</form>
+			<h3>Student Registration</h3>
+			<form action="register-student">
+				<input type="submit" value="Register Now" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+
 </body>
 </html>

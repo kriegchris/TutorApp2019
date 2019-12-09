@@ -3,6 +3,9 @@ package co.grandcircus.TutorApp2019.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -32,6 +35,12 @@ public class HomeController {
 	
 	@Autowired
 	TutorRepo tr;
+	
+	@Autowired
+	HttpSession session;
+	
+	@Autowired
+	HttpServletResponse response;
 
 	RestTemplate rt = new RestTemplate();
 
@@ -55,7 +64,7 @@ public class HomeController {
 	
 	@RequestMapping("get-location")
 	public ModelAndView getLocation() {
-		ModelAndView mv = new ModelAndView("index");
+		ModelAndView mv = new ModelAndView("map-display");
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
 
 		MapData request = new MapData();
@@ -85,6 +94,9 @@ public class HomeController {
 		mv.addObject("businesses", businesses);
 		return mv;
 	}
+	
+//	@RequestMapping("register")
+	
 	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();

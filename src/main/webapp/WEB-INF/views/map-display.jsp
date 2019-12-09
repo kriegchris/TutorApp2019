@@ -16,13 +16,13 @@
 	<h3>Tutor App!!</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
-	<div id="locations" style="visibility: hidden">${tutors}</div>
 	<h1>Find Center</h1>
 	<form action="/find-center">
 	<input type="text" name="lat" placeholder="latitude">
 	<input type="text" name="lng" placeholder="longitude">
 	<input type="submit" value="Find Center" class="btn btn-primary">
 	</form>
+	<div id="locations" style="visibility: hidden">${tutors}</div>
 	<script>
 		// Initialize and add the map
 		function initMap() {

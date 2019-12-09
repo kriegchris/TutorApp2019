@@ -77,8 +77,8 @@ public class Location {
 
 	@Override
 	public String toString() {
-		return "address1=" + address1 + "&address2=" + address2 + "&address3=" + address3 + "&city=" + city
-				+ "&zip=" + zip + "&country=" + country + "&state=" + state;
+		return address1 + " " + address2 + " " + address3 + " " + city
+				+ ", " + state + ", " + country + " " + zip;
 	}
 	
 	

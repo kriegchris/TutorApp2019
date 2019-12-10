@@ -61,9 +61,12 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("center-map");
 		ArrayList<Double> coords = (ArrayList<Double>) getCenter(lat, lng);
 		tr.save(new Tutor("center", coords.get(0), coords.get(1)));
+		Tutor t = tr.findByLatitudeAndLongitude(lat, lng);
+		session.setAttribute("tutor", t.getName());
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
+		mv.addObject("tutor", session.getAttribute("tutor")); 
 		return mv;	
 	}
 	

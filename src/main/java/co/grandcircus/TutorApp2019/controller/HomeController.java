@@ -60,7 +60,7 @@ public class HomeController {
 	public ModelAndView findCenter(@RequestParam("lat") Double lat, @RequestParam("lng") Double lng) {
 		ModelAndView mv = new ModelAndView("center-map");
 		ArrayList<Double> coords = (ArrayList<Double>) getCenter(lat, lng);
-		tr.save(new Tutor("center", coords.get(0), coords.get(1)));
+//		tr.save(new Tutor("center", coords.get(0), coords.get(1)));
 		Tutor t = tr.findByLatitudeAndLongitude(lat, lng);
 		session.setAttribute("tutor", t.getName());
 		mv.addObject("latitude", coords.get(0));

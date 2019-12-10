@@ -150,10 +150,9 @@ public class Tutor {
 		this.review = review;
 	}
 
+	//We need to update this after implementing AJAC
 	@Override
 	public String toString() {
-		return "Tutor [id=" + id + ", name=" + name + ", latitude=" + latitude + ", longitude=" + longitude + ", email="
-				+ email + ", password=" + password + ", subject=" + subject + ", bio=" + bio + ", rating=" + rating
-				+ ", review=" + review + "]";
+		return  latitude + "," + longitude;
 	}
 }

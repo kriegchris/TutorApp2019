@@ -1,15 +1,18 @@
 package co.grandcircus.TutorApp2019.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Tutor {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="tutor_id")
 	private Integer id;
 	private String name;
 	private Double latitude;
@@ -21,6 +24,33 @@ public class Tutor {
 	private String rating;
 	private String review;
 	
+	@OneToOne(mappedBy = "tutor")
+	private TimeLedger timeledger;
+	
+	public TimeLedger getTimeledger() {
+		return timeledger;
+	}
+
+	public void setTimeledgerTutor(TimeLedger timeledgerTutor) {
+		this.timeledger = timeledgerTutor;
+	}
+
+	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
+			String subject, String bio, String rating, String review, TimeLedger timeledgerTutor) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.email = email;
+		this.password = password;
+		this.subject = subject;
+		this.bio = bio;
+		this.rating = rating;
+		this.review = review;
+		this.timeledger = timeledgerTutor;
+	}
+
 	public Tutor() {
 		super();
 	}

@@ -1,21 +1,27 @@
 package co.grandcircus.TutorApp2019.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Student {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="student_id")
 	private Integer id;
 	private String name;
 	private String email;
 	private String password;
 //	private Double latitude;
 //	private Double longitude;
+	
+	@OneToOne(mappedBy = "student")
+	private TimeLedger timeledger;
 
 	public Student() {
 		super();
@@ -65,6 +71,23 @@ public class Student {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Student(Integer id, String name, String email, String password, TimeLedger timeledgerStudent) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.timeledger = timeledgerStudent;
+	}
+
+	public TimeLedger getTimeledgerStudent() {
+		return timeledger;
+	}
+
+	public void setTimeledgerStudent(TimeLedger timeledgerStudent) {
+		this.timeledger = timeledgerStudent;
 	}
 
 	@Override

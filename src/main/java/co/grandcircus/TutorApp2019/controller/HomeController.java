@@ -24,6 +24,7 @@ import co.grandcircus.TutorApp2019.entity.MapData;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.Tutor;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
+import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
 
 @Controller
@@ -40,6 +41,9 @@ public class HomeController {
 	
 	@Autowired
 	StudentRepo sr;
+	
+	@Autowired
+	TimeLedgerRepo tlr;
 	
 	@Autowired
 	HttpSession session;
@@ -102,6 +106,12 @@ public class HomeController {
 		mv.addObject("businesses", businesses);
 		return mv;
 	}
+	
+//	@RequestMapping("confirm-session")
+//	public ModelAndView confirmSession() {
+//		tlr.save(new TimeLedger("confirm")); 
+//		return null;
+//	}
 	
 	// This mapping takes one to the student registration page.
 	@RequestMapping("register-student")

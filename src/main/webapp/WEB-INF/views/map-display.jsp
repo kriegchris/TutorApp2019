@@ -4,6 +4,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
+	crossorigin="anonymous">
 <style>
 /* Set the size of the div element that contains the map */
 #map {
@@ -19,9 +25,9 @@
 	<div id="map"></div>
 	<h1>Find Center</h1>
 	<form action="/find-center">
-	<input type="text" name="lat" placeholder="latitude">
-	<input type="text" name="lng" placeholder="longitude">
-	<input type="submit" value="Find Center" class="btn btn-primary">
+		<input type="text" name="lat" placeholder="latitude"> <input
+			type="text" name="lng" placeholder="longitude"> <input
+			type="submit" value="Find Center" class="btn btn-primary">
 	</form>
 	<div id="locations" style="visibility: hidden">${tutors}</div>
 	<script>

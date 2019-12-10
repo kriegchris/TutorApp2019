@@ -4,6 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
+	crossorigin="anonymous">
 <style>
 /* Set the size of the div element that contains the map */
 #map {
@@ -17,8 +22,8 @@
 	<!--The div element for the map -->
 	<div id="map"></div>
 	<form action="search-business">
-	<input name="latitude" value="${latitude }" type="hidden">
-	<input name="longitude" value="${longitude }" type="hidden">
+		<input name="latitude" value="${latitude }" type="hidden"> <input
+			name="longitude" value="${longitude }" type="hidden">
 		Location Category: <select class="custom-select" id="cat" name="cat"
 			style="width: 200px;" required>
 			<option selected="">Select option</option>
@@ -26,10 +31,9 @@
 			<option value="bar">Bar</option>
 			<option value="library">Library</option>
 			<option value="park">Park</option>
-		</select> <br>
-		<br>
-		Radius(meters) <input required type="number" name="radius" placeholder="e.g. 1609">
-		<input type="submit" value="Submit"><br>
+		</select> <br> <br> Radius(meters) <input required type="number"
+			name="radius" placeholder="e.g. 1609"> <input type="submit"
+			value="Submit"><br>
 	</form>
 	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>

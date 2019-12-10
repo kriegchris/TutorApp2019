@@ -7,9 +7,9 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link
-	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/cyborg/bootstrap.min.css"
+	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
-	integrity="sha384-mtS696VnV9qeIoC8w/PrPoRzJ5gwydRVn0oQ9b+RJOPxE1Z1jXuuJcyeNxvNZhdx"
+	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
 </head>
 <body>
@@ -25,7 +25,7 @@
 				<c:forEach var="b" items="${businesses }">
 					<tr>
 						<td><img src="${b.image_url }" width="104px" height="104px"></td>
-						<td> <a href="${b.url }" target="_blank">${b.name }</a></td>
+						<td><a href="${b.url }" target="_blank">${b.name }</a></td>
 						<td>${b.location }</td>
 						<td>**create button**</td>
 					</tr>

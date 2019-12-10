@@ -20,7 +20,7 @@
 	<input name="latitude" value="${latitude }" type="hidden">
 	<input name="longitude" value="${longitude }" type="hidden">
 		Location Category: <select class="custom-select" id="cat" name="cat"
-			style="width: 200px;">
+			style="width: 200px;" required>
 			<option selected="">Select option</option>
 			<option value="cafe">Cafe</option>
 			<option value="bar">Bar</option>
@@ -28,7 +28,7 @@
 			<option value="park">Park</option>
 		</select> <br>
 		<br>
-		Radius(meters) <input type="number" name="radius" placeholder="e.g. 1609">
+		Radius(meters) <input required type="number" name="radius" placeholder="e.g. 1609">
 		<input type="submit" value="Submit"><br>
 	</form>
 	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>

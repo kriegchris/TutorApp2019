@@ -128,8 +128,12 @@ public class HomeController {
 	}
 	
 	@RequestMapping("student-login")
-	public ModelAndView studentLogin() {
-		return new ModelAndView("redirect:/get-location");
+	public ModelAndView studentLogin(@RequestParam("email") String email) {
+		ModelAndView mv = new ModelAndView("redirect:/get-location");
+		Student s = sr.findByEmail(email);
+		session.setAttribute("student", s.getName());
+		mv.addObject("student", session.getAttribute("student"));
+		return mv;
 	}
 	
 	public List<Double> getCenter(Double lat, Double lng) {

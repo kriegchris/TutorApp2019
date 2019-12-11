@@ -2,6 +2,7 @@ package co.grandcircus.TutorApp2019.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -72,6 +73,7 @@ public class HomeController {
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
 		mv.addObject("tutor", session.getAttribute("tutor")); 
+		System.out.println("Tutor from find-center: " + t.getId());
 		return mv;	
 	}
 	
@@ -105,24 +107,38 @@ public class HomeController {
 				new HttpEntity<String> ("parameters", headers), BusinessResults.class);
 		List<Business> businesses = businessResponse.getBody().getBusinesses();
 		mv.addObject("businesses", businesses);
+		Student s = (Student) session.getAttribute("student"); 
+		mv.addObject("studentId", s.getId());
+		System.out.println("Search-business student id: " + s.getId());
+		Tutor t = (Tutor) session.getAttribute("tutor");
+		mv.addObject("tutorId", t.getId()); 
+		System.out.println("Search-business tutor id: " + t.getId());
 		return mv;
 	}
 	
+	//this is to confirm location for session
+	//FIX ME
 	@RequestMapping("confirm-session")
 	public ModelAndView confirmSession(String meetingLocation) {
 		ModelAndView mv = new ModelAndView("confirmation-page");
 		mv.addObject("student", session.getAttribute("student"));
 		mv.addObject("tutor", session.getAttribute("tutor"));
 		mv.addObject("meetingLocation", meetingLocation);
+		System.out.println("Confirm-session mapping: " + session.getAttribute("student"));
 		return mv;
 	}
 	
+	//adds all meeting details to time ledger table 
 	@RequestMapping("confirmation")
-	public ModelAndView confirmationDisplay(String meetingLocation, Student student, Tutor tutor, 
-			@RequestParam("duration") Integer duration, @RequestParam("startTime") String time) {
-		System.out.println(meetingLocation);
-		tlr.save(new TimeLedger(student, tutor, meetingLocation, time, duration)); 
-		return new ModelAndView("confirmation-page");
+	public ModelAndView confirmationDisplay(String meetingLocation, Integer studentId, Integer tutorId, 
+			Integer duration, String startTime) {
+		System.out.println("Confirmation mapping to session display: " + meetingLocation + " " + 
+			studentId + " " + tutorId);
+		// .orElse(null) will return null if nothing exists
+		Student student = sr.findById(studentId).orElse(null);
+		Tutor tutor = tr.findById(tutorId).orElse(null); 
+		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration)); 
+		return new ModelAndView("session-display");
 	}
 	
 	
@@ -160,6 +176,7 @@ public class HomeController {
 		session.setAttribute("student", sr.findByEmail(email));
 		//session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
 		mv.addObject("student", session.getAttribute("student"));
+		System.out.println("Student login: " + session.getAttribute("student"));
 		return mv;
 	}
 	

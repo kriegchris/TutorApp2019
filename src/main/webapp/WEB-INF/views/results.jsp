@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Business List</title>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -15,6 +15,7 @@
 <body>
 	<div class="container">
 		<div class="jumbotron">
+		<h2>Meeting place options for your tutor session: </h2>
 			<table class="table">
 				<tr>
 					<th>Image</th>
@@ -27,7 +28,8 @@
 						<td><img src="${b.image_url }" width="104px" height="104px"></td>
 						<td><a href="${b.url }" target="_blank">${b.name }</a></td>
 						<td>${b.location }</td>
-						<td><a href="/confirm-session?meetingLocation=${b.location}" class="btn btn-primary">Confirm Session</a> </td>
+						<td><a href="/confirm-session?meetingLocation=${b.location}&studentId=${studentId}&tutorId=${tutorId}" 
+						class="btn btn-primary">Choose This Location</a> </td>
 					</tr>
 				</c:forEach>
 			</table>

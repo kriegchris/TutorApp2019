@@ -179,6 +179,7 @@ public class HomeController {
 		System.out.println("Student login: " + session.getAttribute("student"));
 		return mv;
 	}
+
 	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();

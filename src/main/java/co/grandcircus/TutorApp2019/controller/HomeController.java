@@ -110,16 +110,18 @@ public class HomeController {
 	}
 	
 	@RequestMapping("confirm-session")
-	public ModelAndView confirmSession() {
+	public ModelAndView confirmSession(String meetingLocation) {
 		ModelAndView mv = new ModelAndView("confirmation-page");
 		mv.addObject("student", session.getAttribute("student"));
 		mv.addObject("tutor", session.getAttribute("tutor"));
+		mv.addObject("meetingLocation", meetingLocation);
 		return mv;
 	}
 	
 	@RequestMapping("confirmation")
-	public ModelAndView confirmationDisplay(@RequestParam("meetingLocation") String meetingLocation, Student student, Tutor tutor, 
+	public ModelAndView confirmationDisplay(String meetingLocation, Student student, Tutor tutor, 
 			@RequestParam("duration") Integer duration, @RequestParam("startTime") String time) {
+		System.out.println(meetingLocation);
 		tlr.save(new TimeLedger(student, tutor, meetingLocation, time, duration)); 
 		return new ModelAndView("confirmation-page");
 	}

@@ -118,7 +118,7 @@ public class HomeController {
 	}
 	
 	@RequestMapping("confirmation")
-	public ModelAndView confirmationDisplay(@RequestParam("meetingLocation") String meetingLocation, @RequestParam("studentInfo") Student student, @RequestParam("tutorInfo") Tutor tutor, 
+	public ModelAndView confirmationDisplay(@RequestParam("meetingLocation") String meetingLocation, Student student, Tutor tutor, 
 			@RequestParam("duration") Integer duration, @RequestParam("startTime") String time) {
 		tlr.save(new TimeLedger(student, tutor, meetingLocation, time, duration)); 
 		return new ModelAndView("confirmation-page");

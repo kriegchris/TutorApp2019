@@ -19,7 +19,7 @@
 </style>
 </head>
 <body>
-	<h1>Welcome Back, ${student }</h1>
+	<h1>Welcome Back, ${studentName}</h1>
 	<h3>Tutor App!!</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>

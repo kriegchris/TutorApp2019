@@ -17,8 +17,8 @@ public class Student {
 	private String name;
 	private String email;
 	private String password;
-//	private Double latitude;
-//	private Double longitude;
+	// private Double latitude;
+	// private Double longitude;
 	
 	@OneToOne(mappedBy = "student")
 	private TimeLedger timeledger;

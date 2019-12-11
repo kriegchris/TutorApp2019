@@ -27,7 +27,7 @@
 						<td><img src="${b.image_url }" width="104px" height="104px"></td>
 						<td><a href="${b.url }" target="_blank">${b.name }</a></td>
 						<td>${b.location }</td>
-						<td><a href="/confirm-session" class="btn btn-primary">Confirm Session</a> </td>
+						<td><a href="/confirm-session?meetingLocation=${b.location}" class="btn btn-primary">Confirm Session</a> </td>
 					</tr>
 				</c:forEach>
 			</table>

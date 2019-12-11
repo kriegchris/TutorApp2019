@@ -18,7 +18,7 @@
 </style>
 </head>
 <body>
-	<h3>This is your center point between you and ${tutor }.</h3>
+	<h3>This is your center point between you and ${tutorName}.</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
 	<form action="search-business">

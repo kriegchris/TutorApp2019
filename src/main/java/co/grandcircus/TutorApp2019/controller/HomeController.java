@@ -22,6 +22,7 @@ import co.grandcircus.TutorApp2019.entity.Business;
 import co.grandcircus.TutorApp2019.entity.BusinessResults;
 import co.grandcircus.TutorApp2019.entity.MapData;
 import co.grandcircus.TutorApp2019.entity.Student;
+import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
@@ -64,9 +65,10 @@ public class HomeController {
 	public ModelAndView findCenter(@RequestParam("lat") Double lat, @RequestParam("lng") Double lng) {
 		ModelAndView mv = new ModelAndView("center-map");
 		ArrayList<Double> coords = (ArrayList<Double>) getCenter(lat, lng);
-//		tr.save(new Tutor("center", coords.get(0), coords.get(1)));
 		Tutor t = tr.findByLatitudeAndLongitude(lat, lng);
-		session.setAttribute("tutor", t.getName());
+		session.setAttribute("tutorName", t.getName());
+		session.setAttribute("tutor", new Tutor(t.getId(), t.getName(), t.getLatitude(), t.getLongitude(), 
+				t.getEmail(), t.getPassword(), t.getSubject(), t.getBio(), t.getRating(), t.getReview()));
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
@@ -107,11 +109,21 @@ public class HomeController {
 		return mv;
 	}
 	
-//	@RequestMapping("confirm-session")
-//	public ModelAndView confirmSession() {
-//		tlr.save(new TimeLedger("confirm")); 
-//		return null;
-//	}
+	@RequestMapping("confirm-session")
+	public ModelAndView confirmSession() {
+		ModelAndView mv = new ModelAndView("confirmation-page");
+		mv.addObject("student", session.getAttribute("student"));
+		mv.addObject("tutor", session.getAttribute("tutor"));
+		return mv;
+	}
+	
+	@RequestMapping("confirmation")
+	public ModelAndView confirmationDisplay(@RequestParam("meetingLocation") String meetingLocation, @RequestParam("studentInfo") Student student, @RequestParam("tutorInfo") Tutor tutor, 
+			@RequestParam("duration") Integer duration, @RequestParam("startTime") String time) {
+		tlr.save(new TimeLedger(student, tutor, meetingLocation, time, duration)); 
+		return new ModelAndView("confirmation-page");
+	}
+	
 	
 	// This mapping takes one to the student registration page.
 	@RequestMapping("register-student")
@@ -144,7 +156,8 @@ public class HomeController {
 	public ModelAndView studentLogin(@RequestParam("email") String email) {
 		ModelAndView mv = new ModelAndView("redirect:/get-location");
 		Student s = sr.findByEmail(email);
-		session.setAttribute("student", s.getName());
+		session.setAttribute("studentName", s.getName());
+		session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
 		mv.addObject("student", session.getAttribute("student"));
 		return mv;
 	}

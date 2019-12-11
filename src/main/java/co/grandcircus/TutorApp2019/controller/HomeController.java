@@ -54,6 +54,17 @@ public class HomeController {
 	HttpServletResponse response;
 
 	RestTemplate rt = new RestTemplate();
+	
+	@RequestMapping("my-sessions")
+	public ModelAndView mySessions(Integer id) {
+		ModelAndView mv = new ModelAndView("my-sessions");
+	//	List<TimeLedger> sessions = tlr.findByIdEquals(id);
+	//	mv.addObject("sessions", sessions);
+		System.out.println(id);
+	//	System.out.println(sessions);
+	//  System.out.println(tlr.findByIdEquals(id));
+		return mv;
+	}
 
 	@RequestMapping("/")
 	public ModelAndView homePage() {

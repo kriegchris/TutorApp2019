@@ -31,9 +31,9 @@
 
 			<h3>Student Login</h3>
 			<form action="student-login">
-				Email: <input type="email" name="email"> Password: <input
-					type="password" name="password"> <input type="submit"
-					value="Login" class="btn btn-primary">
+				Email: <input type="email" name="email"> 
+				Password: <input type="password" name="password">
+				<input type="submit" value="Login" class="btn btn-primary">
 			</form>
 			<h3>Student Registration</h3>
 			<form action="register-student">

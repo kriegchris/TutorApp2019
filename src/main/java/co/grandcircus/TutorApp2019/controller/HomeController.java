@@ -67,8 +67,7 @@ public class HomeController {
 		ArrayList<Double> coords = (ArrayList<Double>) getCenter(lat, lng);
 		Tutor t = tr.findByLatitudeAndLongitude(lat, lng);
 		session.setAttribute("tutorName", t.getName());
-		session.setAttribute("tutor", new Tutor(t.getId(), t.getName(), t.getLatitude(), t.getLongitude(), 
-				t.getEmail(), t.getPassword(), t.getSubject(), t.getBio(), t.getRating(), t.getReview()));
+		session.setAttribute("tutor", t);
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
@@ -157,9 +156,9 @@ public class HomeController {
 	@RequestMapping("student-login")
 	public ModelAndView studentLogin(@RequestParam("email") String email) {
 		ModelAndView mv = new ModelAndView("redirect:/get-location");
-		Student s = sr.findByEmail(email);
-		session.setAttribute("studentName", s.getName());
-		session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
+		session.setAttribute("studentName", sr.findByEmail(email).getName());
+		session.setAttribute("student", sr.findByEmail(email));
+		//session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
 		mv.addObject("student", session.getAttribute("student"));
 		return mv;
 	}

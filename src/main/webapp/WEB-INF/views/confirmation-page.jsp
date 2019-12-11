@@ -17,8 +17,24 @@
 	<input name="studentInfo" type="hidden" value="${student}">
 	<input name="meetingLocation" type="hidden" value="${meetingLocation}">
 	Duration:<input name="duration" type="number" placeholder="minutes">
-	Start Time:<input type="text" name="startTime">
+	Start Time:<input type="time" name="startTime">
 	<input name="submit" type="submit" value="Reserve Session">
 	</form>
+	<br>
+<!-- 	<table>
+  <tr>
+    <th>Tutor Name</th>
+    <th>Meeting Location</th>
+    <th>Duration</th>
+    <th>Start Time</th>
+  </tr>
+  <tr>
+    <td>${tutor}</td>
+    <td>${meetingLocation}</td>
+    <td>${duration}</td>
+    <td>${startTime}</td>
+  </tr>
+</table> -->
+
 </body>
 </html>

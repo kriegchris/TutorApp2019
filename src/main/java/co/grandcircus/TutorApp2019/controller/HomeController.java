@@ -149,8 +149,16 @@ public class HomeController {
 	
 	//FIXME
 	@RequestMapping("tutor-sessions")
-	public ModelAndView tutorSessionsDisplay() {
-		return new ModelAndView("tutor-sessions", "sessions", tlr.findAll());
+	public ModelAndView tutorSessionsDisplay(Tutor tutor) {
+		Tutor t = (Tutor) session.getAttribute("tutor"); 
+		return new ModelAndView("tutor-sessions", "sessions", tlr.findByTutorId(t.getId()));
+	}
+	
+	
+	@RequestMapping("student-sessions")
+	public ModelAndView studentSessionDisplay (Student student) {
+		Student s = (Student) session.getAttribute("student"); 
+		return new ModelAndView("student-sessions", "sessions", tlr.findByStudentId(s.getId()));
 	}
 	
 	
@@ -172,6 +180,11 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("index");
 		sr.save(student);
 		return mv;
+	}
+	
+	@RequestMapping("tutor-welcome")
+	public ModelAndView tutorHome() {
+		return new ModelAndView("tutor-welcome");
 	}
 	// This mapping adds tutors to the database.
 	@RequestMapping("register-t")
@@ -201,12 +214,6 @@ public class HomeController {
 		System.out.println("Tutor login: " + session.getAttribute("tutor"));
 		return mv;
 	}
-	
-	@RequestMapping("student-sessions")
-	public ModelAndView studentSessionDisplay () {
-		return new ModelAndView("student-sessions", "sessions", tlr.findAll());
-	}
-	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;

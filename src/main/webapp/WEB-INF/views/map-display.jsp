@@ -19,18 +19,23 @@
 </style>
 </head>
 <body>
-	<h1>Welcome Back, ${studentName}</h1>
-	<h3>Tutor App!!</h3>
-	<!--The div element for the map -->
-	<div id="map"></div>
-	<h1>Find Center</h1>
-	<form action="/find-center">
-		<input type="text" name="lat" placeholder="latitude"> <input
-			type="text" name="lng" placeholder="longitude"> <input
-			type="submit" value="Find Center" class="btn btn-primary">
-	</form>
-	<div id="locations" style="visibility: hidden">${tutors}</div>
-	<script>
+	<div class="container"> 
+		<div class="jumbotron">
+			<h1>Welcome Back, ${studentName}!</h1>
+		</div>
+		<!--The div element for the map -->
+		<div id="map"></div>
+		<br>
+		<br>
+		
+		<h4>Select a tutor and find the middle point between the two of you: </h4>
+		<form action="/find-center">
+			<input type="text" name="lat" placeholder="latitude"> 
+			<input type="text" name="lng" placeholder="longitude"> 
+			<input type="submit" value="Find Center" class="btn btn-primary">
+		</form>
+		<div id="locations" style="visibility: hidden">${tutors}</div>
+		<script>
 		// Initialize and add the map
 		function initMap() {
 			var currentLocation = {
@@ -73,14 +78,15 @@
 		}
 		
 	</script>
-	<!--Load the API from the specified URL
+		<!--Load the API from the specified URL
     * The async attribute allows the browser to render the page while the API loads
     * The key parameter will contain your own API key (which is not needed for this tutorial)
     * The callback parameter executes the initMap() function
     -->
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		
 	</script>
+	</div> 
 </body>
 </html>

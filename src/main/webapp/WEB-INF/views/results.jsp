@@ -16,6 +16,7 @@
 	<div class="container">
 		<div class="jumbotron">
 		<h2>Meeting place options for your tutor session: </h2>
+		</div>
 			<table class="table">
 				<tr>
 					<th>Image</th>
@@ -33,7 +34,7 @@
 					</tr>
 				</c:forEach>
 			</table>
-		</div>
+		
 	</div>
 </body>
 </html>

@@ -1,11 +1,13 @@
 package co.grandcircus.TutorApp2019.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Student {
@@ -20,8 +22,8 @@ public class Student {
 	// private Double latitude;
 	// private Double longitude;
 	
-	@OneToOne(mappedBy = "student")
-	private TimeLedger timeledger;
+	@OneToMany(mappedBy = "student", orphanRemoval=true)
+	private List<TimeLedger> timeledger;
 
 	public Student() {
 		super();
@@ -73,7 +75,7 @@ public class Student {
 		this.password = password;
 	}
 
-	public Student(Integer id, String name, String email, String password, TimeLedger timeledgerStudent) {
+	public Student(Integer id, String name, String email, String password, List<TimeLedger> timeledgerStudent) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -82,11 +84,11 @@ public class Student {
 		this.timeledger = timeledgerStudent;
 	}
 
-	public TimeLedger getTimeledgerStudent() {
+	public List<TimeLedger> getTimeledgerStudent() {
 		return timeledger;
 	}
 
-	public void setTimeledgerStudent(TimeLedger timeledgerStudent) {
+	public void setTimeledgerStudent(List<TimeLedger> timeledgerStudent) {
 		this.timeledger = timeledgerStudent;
 	}
 

@@ -19,16 +19,21 @@
 </style>
 </head>
 <body>
-	<h1>Welcome Back, ${studentName}</h1>
-	<h3>Tutor App!!</h3>
-	<!--The div element for the map -->
-	<div id="map"></div>
-	<h1>Find Center</h1>
-	<form action="/find-center">
-		<input type="text" name="tutorName" placeholder="Enter a name"><input
-			type="submit" value="Find Center" class="btn btn-primary">
-	</form>
-	<script>
+	<div class="container"> 
+		<div class="jumbotron">
+			<h1>Welcome Back, ${studentName}!</h1>
+		</div>
+		<!--The div element for the map -->
+		<div id="map"></div>
+		<br>
+		<br>
+		
+		<h4>Select a tutor and find the middle point between the two of you: </h4>
+		<form action="/find-center">
+			<input type="text" name="tutorName" placeholder="Enter a name">
+			<input type="submit" value="Find Center" class="btn btn-primary">
+		</form>
+		<script>
 		// Initialize and add the map
 		var map, infoWindow;
 		function initMap() {
@@ -83,5 +88,6 @@
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 	</script>
+	</div> 
 </body>
 </html>

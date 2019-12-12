@@ -123,7 +123,7 @@ public class HomeController {
 	}
 	
 	//this is to confirm location for session
-	//FIX ME
+	//FIXME
 	@RequestMapping("confirm-session")
 	public ModelAndView confirmSession(String meetingLocation) {
 		ModelAndView mv = new ModelAndView("confirmation-page");
@@ -145,6 +145,12 @@ public class HomeController {
 		Tutor tutor = tr.findById(tutorId).orElse(null); 
 		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration)); 
 		return new ModelAndView("session-display");
+	}
+	
+	//FIXME
+	@RequestMapping("tutor-sessions")
+	public ModelAndView tutorSessionsDisplay() {
+		return new ModelAndView("tutor-sessions", "sessions", tlr.findAll());
 	}
 	
 	
@@ -174,7 +180,7 @@ public class HomeController {
 		tr.save(t);
 		return mv;
 	}
-	
+
 	@RequestMapping("student-login")
 	public ModelAndView studentLogin(@RequestParam("email") String email) {
 		ModelAndView mv = new ModelAndView("redirect:/get-location");
@@ -183,6 +189,16 @@ public class HomeController {
 		//session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
 		mv.addObject("student", session.getAttribute("student"));
 		System.out.println("Student login: " + session.getAttribute("student"));
+		return mv;
+	}
+	
+	@RequestMapping("tutor-login")
+	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+		ModelAndView mv = new ModelAndView("tutor-welcome");
+		session.setAttribute("tutorName", tr.findByEmail(email).getName());
+		session.setAttribute("tutor", tr.findByEmail(email));
+		mv.addObject("tutor", session.getAttribute("tutor"));
+		System.out.println("Tutor login: " + session.getAttribute("tutor"));
 		return mv;
 	}
 	

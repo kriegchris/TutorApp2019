@@ -18,22 +18,26 @@
 </style>
 </head>
 <body>
+<div class="container">
+<br>
 	<h3>This is your center point between you and ${tutorName}.</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
+	<br>
+	<hr>
 	<form action="search-business">
 		<input name="latitude" value="${latitude }" type="hidden"> <input
 			name="longitude" value="${longitude }" type="hidden">
-		Location Category: <select class="custom-select" id="cat" name="cat"
+			Meeting Location Category: <select class="custom-select" id="cat" name="cat"
 			style="width: 200px;" required>
 			<option selected="">Select option</option>
 			<option value="cafe">Cafe</option>
 			<option value="bar">Bar</option>
 			<option value="library">Library</option>
 			<option value="park">Park</option>
-		</select> <br> <br> Radius(meters) <input required type="number"
-			name="radius" placeholder="e.g. 1609"> <input type="submit"
-			value="Submit"><br>
+			</select> <br> <br> 
+			Search Radius: <input required type="number" name="radius" placeholder="e.g. 1609 meters"> 
+			<input type="submit" value="Submit"><br>
 	</form>
 	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>
@@ -88,5 +92,7 @@
 		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		
 	</script>
+	
+	</div>
 </body>
 </html>

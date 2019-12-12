@@ -7,7 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class TimeLedger {
@@ -20,11 +20,11 @@ public class TimeLedger {
 	private String startTime;
 	private Integer duration;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "student_id")
 	private Student student;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne
     @JoinColumn(name = "tutor_id", referencedColumnName = "tutor_id")
 	private Tutor tutor;
 	

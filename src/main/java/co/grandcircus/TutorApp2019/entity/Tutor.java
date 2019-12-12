@@ -1,11 +1,13 @@
 package co.grandcircus.TutorApp2019.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Tutor {
@@ -24,19 +26,19 @@ public class Tutor {
 	private String rating;
 	private String review;
 	
-	@OneToOne(mappedBy = "tutor")
-	private TimeLedger timeledger;
+	@OneToMany(mappedBy = "tutor", orphanRemoval=true)
+	private List<TimeLedger> timeledger;
 	
-	public TimeLedger getTimeledger() {
+	public List<TimeLedger> getTimeledger() {
 		return timeledger;
 	}
 
-	public void setTimeledgerTutor(TimeLedger timeledgerTutor) {
+	public void setTimeledgerTutor(List<TimeLedger> timeledgerTutor) {
 		this.timeledger = timeledgerTutor;
 	}
 
 	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
-			String subject, String bio, String rating, String review, TimeLedger timeledgerTutor) {
+			String subject, String bio, String rating, String review, List<TimeLedger> timeledgerTutor) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -183,6 +185,6 @@ public class Tutor {
 	//We need to update this after implementing AJAC
 	@Override
 	public String toString() {
-		return  latitude + "," + longitude;
+		return  latitude + "," + longitude + "," + name;
 	}
 }

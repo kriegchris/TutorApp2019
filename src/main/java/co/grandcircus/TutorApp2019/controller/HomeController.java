@@ -202,6 +202,11 @@ public class HomeController {
 		return mv;
 	}
 	
+	@RequestMapping("student-sessions")
+	public ModelAndView studentSessionDisplay () {
+		return new ModelAndView("student-sessions", "sessions", tlr.findAll());
+	}
+	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;

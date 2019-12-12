@@ -15,6 +15,8 @@
 <body>
 
 	<div class="container">
+	<br>
+	
 		<div class="jumbotron">
 			<h1>QuickTutor</h1>
 		</div>

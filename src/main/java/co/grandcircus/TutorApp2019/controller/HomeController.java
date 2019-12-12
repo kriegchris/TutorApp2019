@@ -2,7 +2,6 @@ package co.grandcircus.TutorApp2019.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -21,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.TutorApp2019.entity.Business;
 import co.grandcircus.TutorApp2019.entity.BusinessResults;
+import co.grandcircus.TutorApp2019.entity.GoogleMarks;
 import co.grandcircus.TutorApp2019.entity.MapData;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
@@ -63,10 +63,10 @@ public class HomeController {
 	}
 
 	@RequestMapping("find-center")
-	public ModelAndView findCenter(@RequestParam("lat") Double lat, @RequestParam("lng") Double lng) {
+	public ModelAndView findCenter(@RequestParam("tutorName") String name) {
 		ModelAndView mv = new ModelAndView("center-map");
-		ArrayList<Double> coords = (ArrayList<Double>) getCenter(lat, lng);
-		Tutor t = tr.findByLatitudeAndLongitude(lat, lng);
+		Tutor t = tr.findByName(name);
+		ArrayList<Double> coords = (ArrayList<Double>) getCenter(t.getLatitude(), t.getLongitude());
 		session.setAttribute("tutorName", t.getName());
 		session.setAttribute("tutor", t);
 		mv.addObject("latitude", coords.get(0));
@@ -89,8 +89,14 @@ public class HomeController {
 		mv.addObject("longitude", data.getLocation().getLng());
 		mv.addObject("mapKey", mapKey);
 
-		List<Tutor> tutorList = tr.findAll();
-		mv.addObject("tutors", tutorList);
+		ArrayList<GoogleMarks> marks = new ArrayList<>();
+		List<Tutor> tutors = tr.findAll();
+		
+		for (Tutor t : tutors) {
+			marks.add(dataToMarks(t));
+		}
+		
+		mv.addObject("tutors", marks);
 		return mv;
 	}
 	
@@ -117,7 +123,7 @@ public class HomeController {
 	}
 	
 	//this is to confirm location for session
-	//FIX ME
+	//FIXME
 	@RequestMapping("confirm-session")
 	public ModelAndView confirmSession(String meetingLocation) {
 		ModelAndView mv = new ModelAndView("confirmation-page");
@@ -139,6 +145,12 @@ public class HomeController {
 		Tutor tutor = tr.findById(tutorId).orElse(null); 
 		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration)); 
 		return new ModelAndView("session-display");
+	}
+	
+	//FIXME
+	@RequestMapping("tutor-sessions")
+	public ModelAndView tutorSessionsDisplay() {
+		return new ModelAndView("tutor-sessions", "sessions", tlr.findAll());
 	}
 	
 	
@@ -168,7 +180,7 @@ public class HomeController {
 		tr.save(t);
 		return mv;
 	}
-	
+
 	@RequestMapping("student-login")
 	public ModelAndView studentLogin(@RequestParam("email") String email) {
 		ModelAndView mv = new ModelAndView("redirect:/get-location");
@@ -178,6 +190,21 @@ public class HomeController {
 		mv.addObject("student", session.getAttribute("student"));
 		System.out.println("Student login: " + session.getAttribute("student"));
 		return mv;
+	}
+	
+	@RequestMapping("tutor-login")
+	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+		ModelAndView mv = new ModelAndView("tutor-welcome");
+		session.setAttribute("tutorName", tr.findByEmail(email).getName());
+		session.setAttribute("tutor", tr.findByEmail(email));
+		mv.addObject("tutor", session.getAttribute("tutor"));
+		System.out.println("Tutor login: " + session.getAttribute("tutor"));
+		return mv;
+	}
+	
+	@RequestMapping("student-sessions")
+	public ModelAndView studentSessionDisplay () {
+		return new ModelAndView("student-sessions", "sessions", tlr.findAll());
 	}
 	
 	public List<Double> getCenter(Double lat, Double lng) {
@@ -195,5 +222,12 @@ public class HomeController {
 		return coordinates;
 	}
 
+	public GoogleMarks dataToMarks(Tutor tutor) {
+		String gName = tutor.getName();
+		double gLat = tutor.getLatitude();
+		double gLng = tutor.getLongitude();
+
+		return new GoogleMarks(gName, gLat, gLng);
+	}
 
 }

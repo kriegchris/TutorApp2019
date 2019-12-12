@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Home</title>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -15,31 +15,42 @@
 <body>
 
 	<div class="container">
+	<br>
+	
 		<div class="jumbotron">
-			<h1>Welcome. Please enter your login info</h1>
-
+			<h1>QuickTutor</h1>
+		</div>
+		<h3>Welcome to QuickTutor!</h3>
+		<h3>The place to find nearby help, now.</h3>
+		<br>
+		<hr>
+		<br>
 			<h3>Tutor Login</h3>
 			<form action="tutor-login">
 				Email: <input type="email" name="email"> Password: <input
 					type="password" name="password"> <input type="submit"
 					value="Login" class="btn btn-primary">
 			</form>
-			<h3>Tutor Registration</h3>
+			<br>
+			<h5>Tutor Registration</h5>
 			<form action="register-tutor">
 				<input type="submit" value="Register Now" class="btn btn-primary">
 			</form>
-
+			<br>
+			<hr>
+			<br>
 			<h3>Student Login</h3>
 			<form action="student-login">
 				Email: <input type="email" name="email"> 
 				Password: <input type="password" name="password">
 				<input type="submit" value="Login" class="btn btn-primary">
 			</form>
-			<h3>Student Registration</h3>
+			<br>
+			<h5>Student Registration</h5>
 			<form action="register-student">
 				<input type="submit" value="Register Now" class="btn btn-primary">
 			</form>
-		</div>
+		
 	</div>
 
 </body>

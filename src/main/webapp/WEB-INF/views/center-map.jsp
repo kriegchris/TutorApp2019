@@ -18,22 +18,44 @@
 </style>
 </head>
 <body>
+<div class="container">
+<br>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+			<button class="navbar-toggler collapsed" type="button"
+				data-toggle="collapse" data-target="#navbarColor01"
+				aria-controls="navbarColor01" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="navbar-collapse collapse" id="navbarColor01" style="">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" href="/get-location">Home
+							<!-- <span class="sr-only">(current)</span> -->
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
+				</ul>
+			</div>
+		</nav>
+<br>
 	<h3>This is your center point between you and ${tutorName}.</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
+	<br>
+	<hr>
 	<form action="search-business">
 		<input name="latitude" value="${latitude }" type="hidden"> <input
 			name="longitude" value="${longitude }" type="hidden">
-		Location Category: <select class="custom-select" id="cat" name="cat"
+			Meeting Location Category: <select class="custom-select" id="cat" name="cat"
 			style="width: 200px;" required>
 			<option selected="">Select option</option>
 			<option value="cafe">Cafe</option>
 			<option value="bar">Bar</option>
 			<option value="library">Library</option>
 			<option value="park">Park</option>
-		</select> <br> <br> Radius(meters) <input required type="number"
-			name="radius" placeholder="e.g. 1609"> <input type="submit"
-			value="Submit"><br>
+			</select> <br> <br> 
+			Search Radius: <input required type="number" name="radius" placeholder="e.g. 1609 meters"> 
+			<input type="submit" value="Submit"><br>
 	</form>
 	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>
@@ -88,5 +110,7 @@
 		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		
 	</script>
+	
+	</div>
 </body>
 </html>

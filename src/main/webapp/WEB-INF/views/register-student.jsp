@@ -13,29 +13,17 @@
 	crossorigin="anonymous">
 </head>
 <body>
+<div class ="container">
 <br>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-			<button class="navbar-toggler collapsed" type="button"
-				data-toggle="collapse" data-target="#navbarColor01"
-				aria-controls="navbarColor01" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="navbar-collapse collapse" id="navbarColor01" style="">
-				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link" href="/index">Login
-							<!-- <span class="sr-only">(current)</span> -->
-					</a></li>
-					
-				</ul>
-			</div>
-		</nav>
+		<div class="jumbotron">
 	<h1>Please fill out your information below:</h1>
+		</div>
 	<form action="register-s">
-		Full Name: <input type="text" name="name"> E-mail: <input
-			type="email" name="email"> Password: <input type="password"
-			name="password"> <input type="submit" class="btn btn-primary"
-			value="Register">
+		Full Name: <input type="text" name="name"> <br><br>
+		E-mail: <input type="email" name="email"> <br><br>
+		Password: <input type="password" name="password"> <br><br>
+		<input type="submit" class="btn btn-primary" value="Register">
 	</form>
+</div>
 </body>
 </html>

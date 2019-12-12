@@ -30,6 +30,8 @@
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="/tutor-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/tutor-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+					
 				</ul>
 			</div>
 		</nav>

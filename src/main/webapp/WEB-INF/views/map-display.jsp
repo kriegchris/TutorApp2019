@@ -75,7 +75,10 @@
 			      position: new google.maps.LatLng(locations[i][5], locations[i][6]),
 			      map: map,
 			      animation: google.maps.Animation.DROP,
-			      title: locations[i][1]
+			      title: locations[i][1],
+			      icon : {
+					    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+						}
 			    });
 			    
 			    var infowindow = new google.maps.InfoWindow();
@@ -97,7 +100,10 @@
 			  }
 			var marker = new google.maps.Marker({
 				position : currentLocation,
-				map : map
+				map : map,
+				icon : {
+				    url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+					}
 			});
 			
 			google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {

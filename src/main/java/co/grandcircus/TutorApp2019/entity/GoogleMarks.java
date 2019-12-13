@@ -7,10 +7,22 @@ public class GoogleMarks {
 	private String bio;
 	private String rating;
 	private String subject;
+	private String image_url;
+	private String url;
+	private String businessName;
 	private double lat;
 	private double lng;
 	
 	public GoogleMarks() {
+	}
+	
+	public GoogleMarks(String image_url, String url, String businessName, double lat, double lng) {
+		super();
+		this.image_url = image_url;
+		this.url = url;
+		this.businessName = businessName;
+		this.lat = lat;
+		this.lng = lng;
 	}
 
 	public GoogleMarks(String name, double lat, double lng) {
@@ -91,6 +103,30 @@ public class GoogleMarks {
 	@Override
 	public String toString() {
 		return "[\"" + id + "\", " + "\"" + name + "\", " + "\"" + subject + "\", " + "\"" + bio + "\", "  + "\"" + rating + "\", " + lat + ", " + lng + "]";
+	}
+
+	public String getBusinessName() {
+		return businessName;
+	}
+
+	public void setBusinessName(String businessName) {
+		this.businessName = businessName;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getImage_url() {
+		return image_url;
+	}
+
+	public void setImage_url(String image_url) {
+		this.image_url = image_url;
 	}
 
 	

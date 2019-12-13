@@ -20,8 +20,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.TutorApp2019.entity.Business;
 import co.grandcircus.TutorApp2019.entity.BusinessResults;
+import co.grandcircus.TutorApp2019.entity.Coordinates;
 import co.grandcircus.TutorApp2019.entity.GoogleMarks;
 import co.grandcircus.TutorApp2019.entity.MapData;
+import co.grandcircus.TutorApp2019.entity.PlaceResults;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
@@ -67,6 +69,13 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("center-map");
 		Tutor t = tr.findByName(name);
 		ArrayList<Double> coords = (ArrayList<Double>) getCenter(t.getLatitude(), t.getLongitude());
+		mv.addObject("tutorLat", t.getLatitude());
+		mv.addObject("tutorLon", t.getLongitude());
+		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
+		MapData request = new MapData();
+		MapData data = rt.postForObject(url, request, MapData.class);
+		mv.addObject("stuLat", data.getLocation().getLat());
+		mv.addObject("stuLon", data.getLocation().getLng());	
 		session.setAttribute("tutorName", t.getName());
 		session.setAttribute("tutor", t);
 		mv.addObject("latitude", coords.get(0));
@@ -103,8 +112,9 @@ public class HomeController {
 	@RequestMapping("search-business")
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius, 
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
-		ModelAndView mv = new ModelAndView("results");
+		ModelAndView mv = new ModelAndView("center-map");
 		List<Double> coords = getCenter(lat, lng);
+		radius = radius * 1609;
 		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
 		"&latitude=" + coords.get(0) + "&longitude=" + coords.get(1) + "&radius=" + radius;
 		HttpHeaders headers = new HttpHeaders();
@@ -112,7 +122,29 @@ public class HomeController {
 		ResponseEntity<BusinessResults> businessResponse = rt.exchange(url, HttpMethod.GET, 
 				new HttpEntity<String> ("parameters", headers), BusinessResults.class);
 		List<Business> businesses = businessResponse.getBody().getBusinesses();
+		// Loop through list of businesses, extracting their address
+		ArrayList<GoogleMarks> businessMarks = new ArrayList<>();
+		for (Business b : businesses) {
+			String url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" + b.getLocation().getAddress1() + ",";
+			if (b.getLocation().getAddress2() != null) {
+				url2 = url2 + b.getLocation().getAddress2() + ",";
+			}
+			if (b.getLocation().getAddress3() != null) {
+				url2 = url2 + b.getLocation().getAddress3() + ",";
+			}
+			url2 = url2 + b.getLocation().getCity() + "," + b.getLocation().getState() + "&key=" + mapKey;
+			// Feed the address through the GoogleMaps API
+			PlaceResults data = rt.getForObject(url2, PlaceResults.class);
+			// Extract the accurate coordinates 
+			Coordinates c = data.getResults().get(0).getGeometry().getLocation();
+			// Put those coordinates in an ArrayList<GoogleMarks> 
+			businessMarks.add(new GoogleMarks(b.getImage_url(), b.getUrl(), b.getName(), c.getLat(), c.getLng()));
+		}
+		System.out.println(businessMarks);
+		mv.addObject("businessMarks", businessMarks);
 		mv.addObject("businesses", businesses);
+		mv.addObject("latitude", lat);
+		mv.addObject("longitude", lng);
 		Student s = (Student) session.getAttribute("student"); 
 		mv.addObject("studentId", s.getId());
 		System.out.println("Search-business student id: " + s.getId());

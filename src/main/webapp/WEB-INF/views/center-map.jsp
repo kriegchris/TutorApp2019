@@ -48,7 +48,7 @@
 	<form action="search-business">
 		<input name="latitude" value="${latitude }" type="hidden"> <input
 			name="longitude" value="${longitude }" type="hidden">
-			Meeting Location Category: <select class="custom-select" id="cat" name="cat"
+			Meeting Location Category: <select required class="custom-select" id="cat" name="cat"
 			style="width: 200px;" required>
 			<option selected="">Select option</option>
 			<option value="cafe">Cafe</option>
@@ -56,51 +56,74 @@
 			<option value="library">Library</option>
 			<option value="park">Park</option>
 			</select> <br> <br> 
-			Search Radius: <input required type="number" name="radius" placeholder="e.g. 1609 meters"> 
+			Search Radius (miles): <input required type="number" name="radius" placeholder="max: 24 miles"> 
 			<input type="submit" value="Submit"><br>
 	</form>
 	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>
 		// Initialize and add the map
 		function initMap() {
-			var currentLocation = {
+			var centerLocation = {
 				lat : ${latitude},
 				lng : ${longitude}
 			};
 			// The map, centered at the current user's location
 			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 15,
-				center : currentLocation
-			});
-			/*
-		 	var locations = document.getElementById("locations").innerHTML;
-		 	var array = locations.match(/\d+(?:\.\d+)?/g).map(Number);
-		 	var size = 2;
-		 	var newArray = new Array(Math.ceil(array.length / size)).fill("")
-		 	    .map(function() { return this.splice(0, size) }, array.slice());
-		 	
-		 	console.log(array.length);
-		 	console.log(newArray);
-		 	
-		 	 for (var i = 0; i < newArray.length; i++) {
-		 		console.log(newArray[i]);
-		 		}  
-		 	var bounds = new google.maps.LatLngBounds();
-		 	for (var i = 0; i < newArray.length; i++) {
-			   	console.log(typeof newArray[i][0]) 
-			    var position = new google.maps.LatLng(newArray[i][0], -newArray[i][1]);
-        		bounds.extend(position);
-			    var marker = new google.maps.Marker({
-			      position: position,
-			      map: map,
-			     title: beach[0],
-			    });
-			  } */
-			var userMarker = new google.maps.Marker({
-				position : currentLocation,
-				map : map
+				zoom : 10,
+				center : centerLocation
 			});
 			
+			var studentLocation = {
+					lat : ${stuLat},
+					lng : ${stuLon}
+				};
+
+			var studentMarker = new google.maps.Marker({
+				position : studentLocation,
+				map : map,
+				icon : {
+				url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+				}
+			});
+			
+
+			var tutorLocation = {
+					lat : ${tutorLat},
+					lng : ${tutorLon}
+				};
+
+			var tutorMarker = new google.maps.Marker({
+				position : tutorLocation,
+				map : map,
+				icon : {
+			    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+				}
+			});
+			
+			 var businesses = ${businessMarks}
+			
+		 	for (var i = 0; i < businesses.length; i++) {
+			    var marker = new google.maps.Marker({
+			      position: new google.maps.LatLng(businesses[i][5], businessess[i][6]),
+			      map: map,
+			      animation: google.maps.Animation.DROP,
+			      title: locations[i][2],
+			      icon : {
+					    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+						}
+			    });
+			    
+		/* 	    var infowindow = new google.maps.InfoWindow();
+			    
+			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			        return function() {
+			        	infowindow.close();
+			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>");
+			          	infowindow.open(map, marker);
+			        }
+			        
+			      })(marker, i));
+			  }  */
 		}
 	</script>
 	<!--Load the API from the specified URL

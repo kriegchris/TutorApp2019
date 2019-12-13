@@ -44,7 +44,7 @@
 					<th>Address</th>
 					<th>Reserve</th>
 				</tr>
-				<c:forEach var="b" items="${businesses }">
+				<c:forEach var="b" items="${businesses}">
 					<tr>
 						<td><img src="${b.image_url }" width="104px" height="104px"></td>
 						<td><a href="${b.url }" target="_blank">${b.name }</a></td>

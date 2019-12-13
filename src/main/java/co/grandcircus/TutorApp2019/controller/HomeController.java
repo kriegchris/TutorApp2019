@@ -214,6 +214,13 @@ public class HomeController {
 		System.out.println("Tutor login: " + session.getAttribute("tutor"));
 		return mv;
 	}
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout() {
+		session.invalidate();
+		return new ModelAndView("redirect:/");
+	}
+	
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
@@ -230,11 +237,15 @@ public class HomeController {
 	}
 
 	public GoogleMarks dataToMarks(Tutor tutor) {
+		Integer id = tutor.getId();
 		String gName = tutor.getName();
+		String subject = tutor.getSubject();
+		String bio = tutor.getBio();
+		String rating = tutor.getRating();
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
 
-		return new GoogleMarks(gName, gLat, gLng);
+		return new GoogleMarks(id, gName, subject, bio, rating, gLat, gLng);
 	}
 
 }

@@ -35,7 +35,7 @@
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
-					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+					<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
 					
 				</ul>
 			</div>
@@ -58,7 +58,6 @@
 		var map, infoWindow;
 		function initMap() {
 			var locations = ${tutors};
-			/* console.log(locations) */
 			var currentLocation = {
 				lat : ${latitude},
 				lng : ${longitude}
@@ -71,21 +70,27 @@
 			});
 			
 		 	var bounds = new google.maps.LatLngBounds();
-		 	/* console.log(locations.length) */
 		 	for (var i = 0; i < locations.length; i++) {
 			    var marker = new google.maps.Marker({
-			      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			      position: new google.maps.LatLng(locations[i][5], locations[i][6]),
 			      map: map,
 			      animation: google.maps.Animation.DROP,
-			      title: locations[i][0]
+			      title: locations[i][1]
 			    });
-			    var infowindow = new google.maps.InfoWindow({
-			          content: locations[i][0]
-			        });
+			    
+			    var infowindow = new google.maps.InfoWindow();
+			    var contentString = '<p>Name: ' + locations[i][1] + '</p>' +
+			    '<p>Subject: ' + locations[i][3] + '</p>' +'<p>Bio: ' + locations[i][4] +
+			    '</p>' +'<p>Rating: ' + locations[i][2] + '</p>' + '<a href="/find-center?tutorId=' + 
+			    locations[i][0] + '" class="btn btn-primary">Book Now!</a>'
+			    
 			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 			        return function() {
-			          infowindow.setContent(locations[i][0]);
-			          infowindow.open(map, marker);
+			        	infowindow.close();
+			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
+			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
+			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Book Now!" + "</a>");
+			          	infowindow.open(map, marker);
 			        }
 			        
 			      })(marker, i));
@@ -97,12 +102,25 @@
 			
 			google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 		        return function() {
-		          infowindow.setContent("me");
-		          infowindow.open(map, marker);
+		        	infowindow.close();
+		          	infowindow.setContent("me");
+		          	infowindow.open(map, marker);
 		        }
 		        
 		      })(marker, i));
 			
+			/* function placeMarker(loc) {
+			    var latLng = new google.maps.LatLng( loc[5], loc[6]);
+			    var marker = new google.maps.Marker({
+			      position : latLng,
+			      map      : map
+			    });
+			    google.maps.event.addListener(marker, 'mouseover', function(){
+			        infowindow.close(); // Close previously opened infowindow
+			        infowindow.setContent( "<div id='infowindow'>"+ loc[0] +"</div>");
+			        infowindow.open(map, marker);
+			    });
+			  } */
 		}
 	</script>
 	<script async defer

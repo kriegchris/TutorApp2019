@@ -19,8 +19,8 @@
 </style>
 </head>
 <body>
-	<div class="container"> 
-	<br>
+	<div class="container">
+		<br>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -33,10 +33,12 @@
 					<li class="nav-item"><a class="nav-link" href="/get-location">Home
 							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
-					<li class="nav-item"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/student-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/student-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-					
+
 				</ul>
 			</div>
 		</nav>
@@ -45,14 +47,33 @@
 		</div>
 		<!--The div element for the map -->
 		<div id="map"></div>
-		<br>
-		<br>
-		
-		<h4>Select a tutor and find the middle point between the two of you: </h4>
+		<br> <br>
+
+		<!-- 		<h4>Select a tutor and find the middle point between the two of you: </h4>
 		<form action="/find-center">
 			<input type="text" name="tutorName" placeholder="Enter a name">
 			<input type="submit" value="Find Center" class="btn btn-primary">
+		</form> -->
+		<h4>Filter Tutors By Subject:</h4>
+		<form action="/map-display">
+			<select class="custom-select" name="subject" type="text">
+				<option selected="">Select option</option>
+				<option value="English">English</option>
+				<option value="Biology">Biology</option>
+				<option value="Spanish">Spanish</option>
+				<option value="French">French</option>
+				<option value="Algebra">Algebra</option>
+				<option value="Math">Math</option>
+				<option value="Calculus">Calculus</option>
+				<option value="Coding">Coding</option>
+				<option value="Java">Java</option>
+				<option value="Chemistry">Chemistry</option>
+
+
+			</select><!--  <input type="text" name="tutorName" placeholder="Enter a name">
+			<input type="submit" value="Find Center" class="btn btn-primary"> -->
 		</form>
+
 		<script>
 		// Initialize and add the map
 		var map, infoWindow;
@@ -123,9 +144,9 @@
 			  } */
 		}
 	</script>
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 	</script>
-	</div> 
+	</div>
 </body>
 </html>

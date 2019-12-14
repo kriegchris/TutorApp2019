@@ -55,8 +55,9 @@
 			<input type="submit" value="Find Center" class="btn btn-primary">
 		</form> -->
 		<h4>Filter Tutors By Subject:</h4>
-		<form action="/map-display">
-			<select class="custom-select" name="subject" type="text">
+		<form action="/subject-filter">
+			<input type="text" value="${tutor.subject }" type="hidden"> <select
+				class="custom-select" name="subject" type="text">
 				<option selected="">Select option</option>
 				<option value="English">English</option>
 				<option value="Biology">Biology</option>
@@ -68,10 +69,7 @@
 				<option value="Coding">Coding</option>
 				<option value="Java">Java</option>
 				<option value="Chemistry">Chemistry</option>
-
-
-			</select><!--  <input type="text" name="tutorName" placeholder="Enter a name">
-			<input type="submit" value="Find Center" class="btn btn-primary"> -->
+			</select> <input type="submit" value="Filter" class="btn btn-primary">
 		</form>
 
 		<script>

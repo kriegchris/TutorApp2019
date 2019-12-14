@@ -126,14 +126,13 @@ public class HomeController {
 		mv.addObject("longitude", data.getLocation().getLng());
 		mv.addObject("mapKey", mapKey);	
 		
-		ArrayList<GoogleMarks> marks = new ArrayList<>();
+		ArrayList<TutorMarks> marks = new ArrayList<>();
 		ArrayList<Tutor> tutors = tr.findBySubject(subject);
 		
-		System.out.println(tutors);
 		for (Tutor ts : tutors) {
-			marks.add(dataToMarks(ts));
+			marks.add(dataToTutorMarks(ts));
 		}
-		mv.addObject("tutors", tutors);
+		mv.addObject("tutors", marks);
 		return mv;
 		
 	}

@@ -1,4 +1,4 @@
-package co.grandcircus.TutorApp2019.entity;
+package co.grandcircus.TutorApp2019.json;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

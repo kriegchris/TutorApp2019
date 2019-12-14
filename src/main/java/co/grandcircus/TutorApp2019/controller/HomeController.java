@@ -141,10 +141,9 @@ public class HomeController {
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius, 
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
 		ModelAndView mv = new ModelAndView("business-map");
-		List<Double> coords = getCenter(lat, lng);
 		radius = radius * 1609;
 		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
-		"&latitude=" + coords.get(0) + "&longitude=" + coords.get(1) + "&radius=" + radius;
+		"&latitude=" + lat + "&longitude=" + lng + "&radius=" + radius;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + yelpKey);
 		ResponseEntity<BusinessResults> businessResponse = rt.exchange(url, HttpMethod.GET, 
@@ -170,21 +169,21 @@ public class HomeController {
 					data.getResults().get(0).getFormatted_address(), c.getLat(), c.getLng()));
 		}
 		mv.addObject("businessMarks", businessMarks);
-		mv.addObject("businesses", businesses); //This is not currently being used
 		mv.addObject("stuLat", session.getAttribute("currentLat"));
 		mv.addObject("stuLon", session.getAttribute("currentLon"));
-		mv.addObject("tutorLat", lat);
-		mv.addObject("tutorLon", lng);
-		mv.addObject("latitude", coords.get(0));
-		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		Student s = (Student) session.getAttribute("student");
-		System.out.println(s);
-		mv.addObject("studentId", s.getId());
-		System.out.println("Search-business student id: " + s.getId());
 		Tutor t = (Tutor) session.getAttribute("tutor");
+		
+		mv.addObject("tutorLat", t.getLatitude());
+		mv.addObject("tutorLon", t.getLongitude());
+		mv.addObject("latitude", lat);
+		mv.addObject("longitude", lng);
+		mv.addObject("mapKey", mapKey);
 		mv.addObject("tutorId", t.getId()); 
-		System.out.println("Search-business tutor id: " + t.getId());
+		Student s = (Student) session.getAttribute("student");
+//		System.out.println(s);
+		mv.addObject("studentId", s.getId());
+//		System.out.println("Search-business student id: " + s.getId());
+//		System.out.println("Search-business tutor id: " + t.getId());
 		return mv;
 	}
 	

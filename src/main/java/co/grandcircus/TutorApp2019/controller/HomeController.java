@@ -114,6 +114,30 @@ public class HomeController {
 		return mv;
 	}
 	
+	@RequestMapping("subject-filter")
+	public ModelAndView filterSubject(String subject) {
+		ModelAndView mv = new ModelAndView("map-display");
+		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
+
+		MapData request = new MapData();
+		MapData data = rt.postForObject(url, request, MapData.class);
+
+		mv.addObject("latitude", data.getLocation().getLat());
+		mv.addObject("longitude", data.getLocation().getLng());
+		mv.addObject("mapKey", mapKey);	
+		
+		ArrayList<GoogleMarks> marks = new ArrayList<>();
+		ArrayList<Tutor> tutors = tr.findBySubject(subject);
+		
+		System.out.println(tutors);
+		for (Tutor ts : tutors) {
+			marks.add(dataToMarks(ts));
+		}
+		mv.addObject("tutors", tutors);
+		return mv;
+		
+	}
+	
 	@RequestMapping("search-business")
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius, 
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {

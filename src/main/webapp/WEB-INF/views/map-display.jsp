@@ -31,7 +31,6 @@
 			<div class="navbar-collapse collapse" id="navbarColor01" style="">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link" href="/get-location">Home
-							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
 					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
@@ -92,7 +91,7 @@
 			        	infowindow.close();
 			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
 			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
-			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Book Now!" + "</a>");
+			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>");
 			          	infowindow.open(map, marker);
 			        }
 			        

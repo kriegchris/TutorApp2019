@@ -59,6 +59,7 @@
 			Search Radius (miles): <input required type="number" name="radius" placeholder="max: 24 miles"> 
 			<input type="submit" value="Submit"><br>
 	</form>
+	<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 	<script>
 		// Initialize and add the map
 		function initMap() {
@@ -68,11 +69,11 @@
 			};
 			// The map, centered at the current user's location
 			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 10,
+				zoom : 12,
 				center : centerLocation
 			});
 			
-			 var studentLocation = {
+			var studentLocation = {
 					lat : ${stuLat},
 					lng : ${stuLon}
 				};
@@ -97,10 +98,41 @@
 				icon : {
 			    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
 				}
-			}); 
+			});
+			
+			var businesses = ${businessMarks};
+			
+		 	for (var i = 0; i < businesses.length; i++) {
+			    var marker = new google.maps.Marker({
+			      position: new google.maps.LatLng(businesses[i][4], businesses[i][5]),
+			      map: map,
+			      animation: google.maps.Animation.DROP,
+			      title: businesses[i][2],
+			      icon : {
+					    url : "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
+						} 
+			    });
 			    
+		 	    var infowindow = new google.maps.InfoWindow();
+			    
+			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			        return function() {
+			        	infowindow.close();
+			          	infowindow.setContent("<img src=\"" + businesses[i][0] + "\" width=\"104px\"" +" height=\"104px\">" + "<p>Address: " + businesses[i][3] + "</p>" +
+			          			"<a href=" + "\"" + businesses[i][1] + "\" target=\"_blank\"" + ">" + businesses[i][2] + "</a>" + "<a href=" + "\"/confirm-session?meetingLocation=" + 
+			          			businesses[i][3] + "&studentId=" + ${studentId} + "&tutorId=" + ${tutorId} + "\"" + " class=\"btn btn-primary\"" + ">" + "Choose Location" + "</a>");
+			          	infowindow.open(map, marker);
+			        }
+			        
+			      })(marker, i));
+			  } 
 		}
 	</script>
+	<!--Load the API from the specified URL
+    * The async attribute allows the browser to render the page while the API loads
+    * The key parameter will contain your own API key (which is not needed for this tutorial)
+    * The callback parameter executes the initMap() function
+    -->
 	<script async defer
 		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		

@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.grandcircus.TutorApp2019.entity.Business;
+import co.grandcircus.TutorApp2019.entity.BusinessMarks;
 import co.grandcircus.TutorApp2019.entity.BusinessResults;
 import co.grandcircus.TutorApp2019.entity.Coordinates;
 import co.grandcircus.TutorApp2019.entity.GoogleMarks;
@@ -27,6 +28,7 @@ import co.grandcircus.TutorApp2019.entity.PlaceResults;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
+import co.grandcircus.TutorApp2019.entity.TutorMarks;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -97,12 +99,15 @@ public class HomeController {
 		mv.addObject("latitude", data.getLocation().getLat());
 		mv.addObject("longitude", data.getLocation().getLng());
 		mv.addObject("mapKey", mapKey);
+		
+		session.setAttribute("currentLat", data.getLocation().getLat());
+		session.setAttribute("currentLon", data.getLocation().getLng());
 
-		ArrayList<GoogleMarks> marks = new ArrayList<>();
+		ArrayList<TutorMarks> marks = new ArrayList<>();
 		List<Tutor> tutors = tr.findAll();
 		
 		for (Tutor t : tutors) {
-			marks.add(dataToMarks(t));
+			marks.add(dataToTutorMarks(t));
 		}
 		
 		mv.addObject("tutors", marks);
@@ -112,7 +117,7 @@ public class HomeController {
 	@RequestMapping("search-business")
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius, 
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
-		ModelAndView mv = new ModelAndView("center-map");
+		ModelAndView mv = new ModelAndView("business-map");
 		List<Double> coords = getCenter(lat, lng);
 		radius = radius * 1609;
 		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
@@ -123,7 +128,7 @@ public class HomeController {
 				new HttpEntity<String> ("parameters", headers), BusinessResults.class);
 		List<Business> businesses = businessResponse.getBody().getBusinesses();
 		// Loop through list of businesses, extracting their address
-		ArrayList<GoogleMarks> businessMarks = new ArrayList<>();
+		ArrayList<BusinessMarks> businessMarks = new ArrayList<>();
 		for (Business b : businesses) {
 			String url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" + b.getLocation().getAddress1() + ",";
 			if (b.getLocation().getAddress2() != null) {
@@ -138,14 +143,20 @@ public class HomeController {
 			// Extract the accurate coordinates 
 			Coordinates c = data.getResults().get(0).getGeometry().getLocation();
 			// Put those coordinates in an ArrayList<GoogleMarks> 
-			businessMarks.add(new GoogleMarks(b.getImage_url(), b.getUrl(), b.getName(), c.getLat(), c.getLng()));
+			businessMarks.add(new BusinessMarks(b.getImage_url(), b.getUrl(), b.getName(), 
+					data.getResults().get(0).getFormatted_address(), c.getLat(), c.getLng()));
 		}
-		System.out.println(businessMarks);
 		mv.addObject("businessMarks", businessMarks);
-		mv.addObject("businesses", businesses);
-		mv.addObject("latitude", lat);
-		mv.addObject("longitude", lng);
-		Student s = (Student) session.getAttribute("student"); 
+		mv.addObject("businesses", businesses); //This is not currently being used
+		mv.addObject("stuLat", session.getAttribute("currentLat"));
+		mv.addObject("stuLon", session.getAttribute("currentLon"));
+		mv.addObject("tutorLat", lat);
+		mv.addObject("tutorLon", lng);
+		mv.addObject("latitude", coords.get(0));
+		mv.addObject("longitude", coords.get(1));
+		mv.addObject("mapKey", mapKey);
+		Student s = (Student) session.getAttribute("student");
+		System.out.println(s);
 		mv.addObject("studentId", s.getId());
 		System.out.println("Search-business student id: " + s.getId());
 		Tutor t = (Tutor) session.getAttribute("tutor");
@@ -231,6 +242,8 @@ public class HomeController {
 		ModelAndView mv = new ModelAndView("redirect:/get-location");
 		session.setAttribute("studentName", sr.findByEmail(email).getName());
 		session.setAttribute("student", sr.findByEmail(email));
+		Student s = sr.findByEmail(email);
+		System.out.println(s);
 		//session.setAttribute("student", new Student(s.getId(), s.getName(), s.getEmail(), s.getPassword()));
 		mv.addObject("student", session.getAttribute("student"));
 		System.out.println("Student login: " + session.getAttribute("student"));
@@ -268,7 +281,7 @@ public class HomeController {
 		return coordinates;
 	}
 
-	public GoogleMarks dataToMarks(Tutor tutor) {
+	public TutorMarks dataToTutorMarks(Tutor tutor) {
 		Integer id = tutor.getId();
 		String gName = tutor.getName();
 		String subject = tutor.getSubject();
@@ -277,7 +290,7 @@ public class HomeController {
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
 
-		return new GoogleMarks(id, gName, subject, bio, rating, gLat, gLng);
+		return new TutorMarks(id, gName, subject, bio, rating, gLat, gLng);
 	}
 
 }

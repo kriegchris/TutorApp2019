@@ -43,8 +43,10 @@
 		</nav>
 		<br>
 		<h3>Where would you like to meet ${tutorName}?</h3>
+		
 		<!--The div element for the map -->
 		<div id="map"></div>
+		
 		<br>
 		<hr>
 		<form action="search-business">
@@ -62,6 +64,7 @@
 				style="width: 105px"><input type="submit" value="Submit"><br>
 		</form>
 		<script>
+		
 		// Initialize and add the map
 		function initMap() {
 			var centerLocation = {
@@ -78,7 +81,8 @@
 					lat : ${stuLat},
 					lng : ${stuLon}
 				};
-
+			 
+			//this places a marker for the student
 			var studentMarker = new google.maps.Marker({
 				position : studentLocation,
 				map : map,
@@ -87,12 +91,12 @@
 				}
 			});
 			
-
 			var tutorLocation = {
 					lat : ${tutorLat},
 					lng : ${tutorLon}
 				};
-
+			
+			//this places a marker for the tutor
 			var tutorMarker = new google.maps.Marker({
 				position : tutorLocation,
 				map : map,

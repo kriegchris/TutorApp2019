@@ -44,8 +44,10 @@
 		<div class="jumbotron">
 			<h1>Welcome Back, ${studentName}!</h1>
 		</div>
+		
 		<!--The div element for the map -->
 		<div id="map"></div>
+		
 		<br> <br>
 
 		<h4>Filter Tutors By Subject:</h4>
@@ -69,7 +71,9 @@
 		<script>
 		// Initialize and add the map
 		var map, infoWindow;
+		//this function renders the map on the page
 		function initMap() {
+			//this comes from the controller to display all the tutors from the database on the map
 			var locations = ${tutors};
 			var currentLocation = {
 				lat : ${latitude},
@@ -82,6 +86,7 @@
 				center : currentLocation
 			});
 			
+			//this function iterates through the tutors list, creates a marker for each tutor & places it on the map
 		 	var bounds = new google.maps.LatLngBounds();
 		 	for (var i = 0; i < locations.length; i++) {
 			    var marker = new google.maps.Marker({
@@ -94,12 +99,8 @@
 						}
 			    });
 			    
+			    //this function adds content to each marker in a popup window
 			    var infowindow = new google.maps.InfoWindow();
-			    var contentString = '<p>Name: ' + locations[i][1] + '</p>' +
-			    '<p>Subject: ' + locations[i][3] + '</p>' +'<p>Bio: ' + locations[i][4] +
-			    '</p>' +'<p>Rating: ' + locations[i][2] + '</p>' + '<a href="/find-center?tutorId=' + 
-			    locations[i][0] + '" class="btn btn-primary">Book Now!</a>'
-			    
 			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 			        return function() {
 			        	infowindow.close();
@@ -111,6 +112,8 @@
 			        
 			      })(marker, i));
 			  }
+		 	
+		 	//this function maps the students the current location and puts a marker there
 			var marker = new google.maps.Marker({
 				position : currentLocation,
 				map : map,
@@ -119,6 +122,7 @@
 					}
 			});
 			
+		 	//this relates to the user marker window
 			google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 		        return function() {
 		        	infowindow.close();
@@ -127,19 +131,6 @@
 		        }
 		        
 		      })(marker, i));
-			
-			/* function placeMarker(loc) {
-			    var latLng = new google.maps.LatLng( loc[5], loc[6]);
-			    var marker = new google.maps.Marker({
-			      position : latLng,
-			      map      : map
-			    });
-			    google.maps.event.addListener(marker, 'mouseover', function(){
-			        infowindow.close(); // Close previously opened infowindow
-			        infowindow.setContent( "<div id='infowindow'>"+ loc[0] +"</div>");
-			        infowindow.open(map, marker);
-			    });
-			  } */
 		}
 	</script>
 		<script async defer

@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,97 +71,186 @@ public class HomeController {
 		mv.addObject("mapKey", mapKey);
 		return mv;
 	}
-
-	@RequestMapping("find-center")
-	public ModelAndView findCenter(@RequestParam("tutorName") String name) {
-		ModelAndView mv = new ModelAndView("center-map");
-		Tutor t = tr.findByName(name);
-		ArrayList<Double> coords = (ArrayList<Double>) getCenter(t.getLatitude(), t.getLongitude());
-		mv.addObject("tutorLat", t.getLatitude());
-		mv.addObject("tutorLon", t.getLongitude());
-		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
-		MapData request = new MapData();
-		MapData data = rt.postForObject(url, request, MapData.class);
-		mv.addObject("stuLat", data.getLocation().getLat());
-		mv.addObject("stuLon", data.getLocation().getLng());
-		session.setAttribute("tutorName", t.getName());
-		session.setAttribute("tutor", t);
-		mv.addObject("latitude", coords.get(0));
-		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		mv.addObject("publishKey", pubnubPublishKey);
-		mv.addObject("subscribeKey", pubnubSubKey);
-		mv.addObject("tutor", session.getAttribute("tutor")); 
-		System.out.println("Tutor from find-center: " + t.getId());
+	
+	// This mapping takes one to the student registration page.
+	@RequestMapping("register-student")
+	public ModelAndView registerStudent() {
+		ModelAndView mv = new ModelAndView("register-student");
+		return mv;
+	}
+	
+	// This mapping adds students to the database.
+	@RequestMapping("register-s")
+	public ModelAndView registerStud(Student student) {
+		ModelAndView mv = new ModelAndView("index");
+		sr.save(student);
 		return mv;
 	}
 
+	// This mapping takes one to the tutor registration page.
+	@RequestMapping("register-tutor")
+	public ModelAndView registerTeacher() {
+		ModelAndView mv = new ModelAndView("register-tutor");
+		return mv;
+	}
+
+	// This mapping adds tutors to the database.
+	@RequestMapping("register-t")
+	public ModelAndView registerTeach(Tutor t) {
+		ModelAndView mv = new ModelAndView("index");
+		tr.save(t);
+		return mv;
+	}
+
+	@RequestMapping("student-login")
+	public ModelAndView studentLogin(@RequestParam("email") String email) {
+		try {
+			ModelAndView mv = new ModelAndView("redirect:/get-location");
+			//once the student logs in, we get their  name from the database and display on welcome/home page
+			session.setAttribute("studentName", sr.findByEmail(email).getName());
+			//this saves the student in order to use again when confirming a tutoring session
+			session.setAttribute("student", sr.findByEmail(email));
+			mv.addObject("student", session.getAttribute("student"));
+			return mv;
+		} catch (NullPointerException e) {
+			//if email is not contained in database, invalid email  message appears
+			ModelAndView mv = new ModelAndView("index");
+			mv.addObject("studentError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			return mv;
+		}
+	}
+
+	@RequestMapping("tutor-login")
+	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+		try {
+			//same thing for tutor as student(above mapping) for when tutor logs in 
+		ModelAndView mv = new ModelAndView("tutor-welcome");
+		session.setAttribute("tutorName", tr.findByEmail(email).getName());
+		session.setAttribute("tutor", tr.findByEmail(email));
+		mv.addObject("tutor", session.getAttribute("tutor"));
+		return mv;
+		} catch (NullPointerException e) {
+			//if email is not contained in database, invalid email message appears
+			ModelAndView mv = new ModelAndView("index");
+			mv.addObject("tutorError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			return mv;
+		}
+	}
+	
+	//takes tutor to their home page after logging in & to home page through nav bar
+	@RequestMapping("tutor-welcome")
+	public ModelAndView tutorHome() {
+		return new ModelAndView("tutor-welcome");
+	}
+	
+	//finding user's location on the map & displaying all tutors on the map
 	@RequestMapping("get-location")
 	public ModelAndView getLocation() {
 		ModelAndView mv = new ModelAndView("map-display");
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
-
 		MapData request = new MapData();
 		MapData data = rt.postForObject(url, request, MapData.class);
-
+		//added students current lng and lat to the map
 		mv.addObject("latitude", data.getLocation().getLat());
 		mv.addObject("longitude", data.getLocation().getLng());
+		//used to render the  map
 		mv.addObject("mapKey", mapKey);
-
+		//saves users current lng and lat in session memory 
 		session.setAttribute("currentLat", data.getLocation().getLat());
 		session.setAttribute("currentLon", data.getLocation().getLng());
-
+		//finds all the tutors in the database & stores them in an ArrayList to mark them on the map
 		ArrayList<TutorMarks> marks = new ArrayList<>();
 		List<Tutor> tutors = tr.findAll();
-
+		
+		//FIXME
 		for (Tutor t : tutors) {
 			marks.add(dataToTutorMarks(t));
 		}
-
 		mv.addObject("tutors", marks);
 		return mv;
 	}
 
+	//filters tutors by subject and displays only those tutors on the map for selected subject
 	@RequestMapping("subject-filter")
 	public ModelAndView filterSubject(String subject) {
 		ModelAndView mv = new ModelAndView("map-display");
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
-
 		MapData request = new MapData();
 		MapData data = rt.postForObject(url, request, MapData.class);
-
+		
+		//FIXME 
+		//use current lat & lng already stored in sessions for mapping the current user
 		mv.addObject("latitude", data.getLocation().getLat());
 		mv.addObject("longitude", data.getLocation().getLng());
 		mv.addObject("mapKey", mapKey);
-
+		//filters database by subject & puts tutors in an ArrayList 
 		ArrayList<TutorMarks> marks = new ArrayList<>();
 		ArrayList<Tutor> tutors = tr.findBySubject(subject);
-
+		
+		//FIXME
 		for (Tutor ts : tutors) {
 			marks.add(dataToTutorMarks(ts));
 		}
 		mv.addObject("tutors", marks);
 		return mv;
-
+	}
+	
+	//finds the center point between student and tutor
+	@RequestMapping("find-center")
+	public ModelAndView findCenter(@RequestParam("tutorName") String name) {
+		ModelAndView mv = new ModelAndView("center-map");
+		//finds tutor by name to get their lng & lat
+		Tutor t = tr.findByName(name);
+		ArrayList<Double> coords = (ArrayList<Double>) getCenter(t.getLatitude(), t.getLongitude());
+		mv.addObject("tutorLat", t.getLatitude());
+		mv.addObject("tutorLon", t.getLongitude());
+		
+		//FIXME
+		//already stored in sessions
+		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
+		MapData request = new MapData();
+		MapData data = rt.postForObject(url, request, MapData.class);
+		mv.addObject("stuLat", data.getLocation().getLat());
+		mv.addObject("stuLon", data.getLocation().getLng());
+		//selects the tutor and stores it in sessions memory for later use in tutor session confirmation/booking
+		session.setAttribute("tutorName", t.getName());
+		session.setAttribute("tutor", t);
+		//this lat & lng returns the center point between the tutor and student
+		mv.addObject("latitude", coords.get(0));
+		mv.addObject("longitude", coords.get(1));
+		mv.addObject("mapKey", mapKey);
+		
+		//FIXME
+		//implement pubnub later
+		mv.addObject("publishKey", pubnubPublishKey);
+		mv.addObject("subscribeKey", pubnubSubKey);
+		return mv;
 	}
 
+	//displays all business, per category & radius around center point
 	@RequestMapping("search-business")
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius,
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
 		ModelAndView mv = new ModelAndView("business-map");
+		// converted miles from user entry to meters for yelp api for radius search
 		radius = radius * 1609;
 		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
 		"&latitude=" + lat + "&longitude=" + lng + "&radius=" + radius;
 		HttpHeaders headers = new HttpHeaders();
+		//for yelp api, we need bearer token
 		headers.add("Authorization", "Bearer " + yelpKey);
 		ResponseEntity<BusinessResults> businessResponse = rt.exchange(url, HttpMethod.GET,
 				new HttpEntity<String>("parameters", headers), BusinessResults.class);
+		// results from Yelp are stored in a List of Businesses
 		List<Business> businesses = businessResponse.getBody().getBusinesses();
-		// Loop through list of businesses, extracting their address
 		ArrayList<BusinessMarks> businessMarks = new ArrayList<>();
+		// Loop through list of businesses, extracting their address
 		for (Business b : businesses) {
+			// We are using the GoogleMaps API to find accurate coordinates for each business
 			String url2 = "https://maps.googleapis.com/maps/api/geocode/json?address=" + b.getLocation().getAddress1()
 					+ ",";
+			// Some address have null values for address2 & address3, this prevents it being appended to the string
+			// and if there are values, it will append them to the string 
 			if (b.getLocation().getAddress2() != null) {
 				url2 = url2 + b.getLocation().getAddress2() + ",";
 			}
@@ -172,9 +260,9 @@ public class HomeController {
 			url2 = url2 + b.getLocation().getCity() + "," + b.getLocation().getState() + "&key=" + mapKey;
 			// Feed the address through the GoogleMaps API
 			PlaceResults data = rt.getForObject(url2, PlaceResults.class);
-			// Extract the accurate coordinates
+			// Extract the accurate coordinates for the business
 			Coordinates c = data.getResults().get(0).getGeometry().getLocation();
-			// Put those coordinates in an ArrayList<GoogleMarks>
+			// Put those coordinates & business information in an ArrayList<BusinessMarks>
 			businessMarks.add(new BusinessMarks(b.getImage_url(), b.getUrl(), b.getName(),
 					data.getResults().get(0).getFormatted_address(), c.getLat(), c.getLng()));
 		}
@@ -190,22 +278,17 @@ public class HomeController {
 		mv.addObject("mapKey", mapKey);
 		mv.addObject("tutorId", t.getId()); 
 		Student s = (Student) session.getAttribute("student");
-//		System.out.println(s);
 		mv.addObject("studentId", s.getId());
-//		System.out.println("Search-business student id: " + s.getId());
-//		System.out.println("Search-business tutor id: " + t.getId());
 		return mv;
 	}
 
 	// this is to confirm location for session
-	// FIXME
 	@RequestMapping("confirm-session")
 	public ModelAndView confirmSession(String meetingLocation) {
 		ModelAndView mv = new ModelAndView("confirmation-page");
 		mv.addObject("student", session.getAttribute("student"));
 		mv.addObject("tutor", session.getAttribute("tutor"));
-		mv.addObject("meetingLocation", meetingLocation);
-		System.out.println("Confirm-session mapping: " + session.getAttribute("student"));
+		mv.addObject("meetingLocation", meetingLocation); //comes from the anchor tag in business-map.jsp
 		return mv;
 	}
 
@@ -213,8 +296,6 @@ public class HomeController {
 	@RequestMapping("confirmation")
 	public ModelAndView confirmationDisplay(String meetingLocation, Integer studentId, Integer tutorId,
 			Integer duration, String startTime) {
-		System.out.println(
-				"Confirmation mapping to session display: " + meetingLocation + " " + studentId + " " + tutorId);
 		// .orElse(null) will return null if nothing exists
 		Student student = sr.findById(studentId).orElse(null);
 		Tutor tutor = tr.findById(tutorId).orElse(null);
@@ -222,100 +303,33 @@ public class HomeController {
 		return new ModelAndView("session-display");
 	}
 
-	// FIXME
+	//display all tutors current & past sessions
 	@RequestMapping("tutor-sessions")
 	public ModelAndView tutorSessionsDisplay(Tutor tutor) {
 		Tutor t = (Tutor) session.getAttribute("tutor");
 		return new ModelAndView("tutor-sessions", "sessions", tlr.findByTutorId(t.getId()));
 	}
 
+	//display all students current & past sessions
 	@RequestMapping("student-sessions")
 	public ModelAndView studentSessionDisplay(Student student) {
 		Student s = (Student) session.getAttribute("student");
 		return new ModelAndView("student-sessions", "sessions", tlr.findByStudentId(s.getId()));
 	}
 
-	// This mapping takes one to the student registration page.
-	@RequestMapping("register-student")
-	public ModelAndView registerStudent() {
-		ModelAndView mv = new ModelAndView("register-student");
-		return mv;
-	}
 
-	// This mapping takes one to the tutor registration page.
-	@RequestMapping("register-tutor")
-	public ModelAndView registerTeacher() {
-		ModelAndView mv = new ModelAndView("register-tutor");
-		return mv;
-	}
-
-	// This mapping adds students to the database.
-	@RequestMapping("register-s")
-	public ModelAndView registerStud(Student student) {
-		ModelAndView mv = new ModelAndView("index");
-		sr.save(student);
-		return mv;
-	}
-
-	@RequestMapping("tutor-welcome")
-	public ModelAndView tutorHome() {
-		return new ModelAndView("tutor-welcome");
-	}
-
-	// This mapping adds tutors to the database.
-	@RequestMapping("register-t")
-	public ModelAndView registerTeach(Tutor t) {
-		ModelAndView mv = new ModelAndView("index");
-		tr.save(t);
-		return mv;
-	}
-
-	@RequestMapping("student-login")
-	public ModelAndView studentLogin(@RequestParam("email") String email) {
-		try {
-			ModelAndView mv = new ModelAndView("redirect:/get-location");
-			session.setAttribute("studentName", sr.findByEmail(email).getName());
-			session.setAttribute("student", sr.findByEmail(email));
-			Student s = sr.findByEmail(email);
-			System.out.println(s);
-			// session.setAttribute("student", new Student(s.getId(), s.getName(),
-			// s.getEmail(), s.getPassword()));
-			mv.addObject("student", session.getAttribute("student"));
-			System.out.println("Student login: " + session.getAttribute("student"));
-			return mv;
-		} catch (NullPointerException e) {
-			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("studentError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
-			return mv;
-		}
-	}
-
-	@RequestMapping("tutor-login")
-	public ModelAndView tutorLogin(@RequestParam("email") String email) {
-		try {
-		ModelAndView mv = new ModelAndView("tutor-welcome");
-		session.setAttribute("tutorName", tr.findByEmail(email).getName());
-		session.setAttribute("tutor", tr.findByEmail(email));
-		mv.addObject("tutor", session.getAttribute("tutor"));
-		System.out.println("Tutor login: " + session.getAttribute("tutor"));
-		return mv;
-		} catch (NullPointerException e) {
-			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("tutorError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
-			return mv;
-		}
-	}
-
+	//logs student or tutor out and takes them back to log in page
 	@RequestMapping("/logout")
 	public ModelAndView logout() {
+		//clears session memory when user logs out
 		session.invalidate();
 		return new ModelAndView("redirect:/");
 	}
 
+	//helper method to find the center between student and tutor
 	public List<Double> getCenter(Double lat, Double lng) {
 		List<Double> coordinates = new ArrayList<>();
 		String url = "https://www.googleapis.com/geolocation/v1/geolocate?key=" + mapKey;
-
 		MapData request = new MapData();
 		MapData data = rt.postForObject(url, request, MapData.class);
 		Double currentLat = data.getLocation().getLat();
@@ -327,6 +341,7 @@ public class HomeController {
 		return coordinates;
 	}
 
+	//helper method to display info in popups about tutor
 	public TutorMarks dataToTutorMarks(Tutor tutor) {
 		Integer id = tutor.getId();
 		String gName = tutor.getName();
@@ -335,7 +350,6 @@ public class HomeController {
 		String rating = tutor.getRating();
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
-
 		return new TutorMarks(id, gName, subject, bio, rating, gLat, gLng);
 	}
 

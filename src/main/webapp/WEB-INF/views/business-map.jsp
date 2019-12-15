@@ -43,8 +43,10 @@
 		</nav>
 		<br>
 		<h3>This is your center point between you and ${tutorName}.</h3>
+		
 		<!--The div element for the map -->
 		<div id="map"></div>
+		
 		<br>
 		<hr>
 		<form action="search-business">
@@ -63,6 +65,7 @@
 		</form>
 		<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 		<script>
+		
 		// Initialize and add the map
 		function initMap() {
 			var centerLocation = {
@@ -74,12 +77,12 @@
 				zoom : 12,
 				center : centerLocation
 			});
-			
+			//student location
 			var studentLocation = {
 					lat : ${stuLat},
 					lng : ${stuLon}
 				};
-
+			//adds marker to student location
 			var studentMarker = new google.maps.Marker({
 				position : studentLocation,
 				map : map,
@@ -88,12 +91,12 @@
 				}
 			});
 			
-
+			//tutor location
 			var tutorLocation = {
 					lat : ${tutorLat},
 					lng : ${tutorLon}
 				};
-
+			//adds marker for tutor location
 			var tutorMarker = new google.maps.Marker({
 				position : tutorLocation,
 				map : map,
@@ -104,6 +107,7 @@
 			
 			var businesses = ${businessMarks};
 			
+			//places all businesses on the map
 		 	for (var i = 0; i < businesses.length; i++) {
 			    var marker = new google.maps.Marker({
 			      position: new google.maps.LatLng(businesses[i][4], businesses[i][5]),
@@ -115,6 +119,7 @@
 						} 
 			    });
 			    
+			    //displays popup window for each business
 		 	    var infowindow = new google.maps.InfoWindow();
 			    
 			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
@@ -123,18 +128,16 @@
 			          	infowindow.setContent("<img src=\"" + businesses[i][0] + "\" width=\"104px\"" +" height=\"104px\">" + "<p>Address: " + businesses[i][3] + "</p>" +
 			          			"<a href=" + "\"" + businesses[i][1] + "\" target=\"_blank\"" + ">" + businesses[i][2] + "</a>" + "<a href=" + "\"/confirm-session?meetingLocation=" + 
 			          			businesses[i][3] + "&studentId=" + ${studentId} + "&tutorId=" + ${tutorId} + "\"" + " class=\"btn btn-primary\"" + ">" + "Choose Location" + "</a>");
+			          	//meetingLocation is sent over to the controller via the anchor tag
 			          	infowindow.open(map, marker);
 			        }
 			        
 			      })(marker, i));
 			  } 
 		}
+		
 	</script>
-		<!--Load the API from the specified URL
-    * The async attribute allows the browser to render the page while the API loads
-    * The key parameter will contain your own API key (which is not needed for this tutorial)
-    * The callback parameter executes the initMap() function
-    -->
+	
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		

@@ -41,6 +41,12 @@ public class HomeController {
 	@Value("${yelp.key}")
 	private String yelpKey;
 	
+	@Value("${pubnub.publish.key}")
+	private String pubnubPublishKey;
+	
+	@Value("${pubnub.subscribe.key}")
+	private String pubnubSubKey;
+	
 	@Autowired
 	TutorRepo tr;
 	
@@ -82,6 +88,8 @@ public class HomeController {
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
+		mv.addObject("publishKey", pubnubPublishKey);
+		mv.addObject("subscribeKey", pubnubSubKey);
 		mv.addObject("tutor", session.getAttribute("tutor")); 
 		System.out.println("Tutor from find-center: " + t.getId());
 		return mv;	

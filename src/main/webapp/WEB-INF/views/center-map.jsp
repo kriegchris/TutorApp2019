@@ -40,7 +40,7 @@
 			</div>
 		</nav>
 <br>
-	<h3>This is your center point between you and ${tutorName}.</h3>
+	<h3>Where would you like to meet ${tutorName}?</h3>
 	<!--The div element for the map -->
 	<div id="map"></div>
 	<br>

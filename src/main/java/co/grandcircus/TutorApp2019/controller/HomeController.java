@@ -19,16 +19,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import co.grandcircus.TutorApp2019.entity.Business;
-import co.grandcircus.TutorApp2019.entity.BusinessMarks;
-import co.grandcircus.TutorApp2019.entity.BusinessResults;
-import co.grandcircus.TutorApp2019.entity.Coordinates;
-import co.grandcircus.TutorApp2019.entity.MapData;
-import co.grandcircus.TutorApp2019.entity.PlaceResults;
+
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
-import co.grandcircus.TutorApp2019.entity.TutorMarks;
+import co.grandcircus.TutorApp2019.json.Business;
+import co.grandcircus.TutorApp2019.json.BusinessResults;
+import co.grandcircus.TutorApp2019.json.Coordinates;
+import co.grandcircus.TutorApp2019.json.MapData;
+import co.grandcircus.TutorApp2019.json.PlaceResults;
+import co.grandcircus.TutorApp2019.marks.BusinessMarks;
+import co.grandcircus.TutorApp2019.marks.TutorMarks;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -41,6 +42,12 @@ public class HomeController {
 
 	@Value("${yelp.key}")
 	private String yelpKey;
+	
+	@Value("${pubnub.publish.key}")
+	private String pubnubPublishKey;
+	
+	@Value("${pubnub.subscribe.key}")
+	private String pubnubSubKey;
 
 	@Autowired
 	TutorRepo tr;
@@ -83,7 +90,9 @@ public class HomeController {
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
 		mv.addObject("mapKey", mapKey);
-		mv.addObject("tutor", session.getAttribute("tutor"));
+		mv.addObject("publishKey", pubnubPublishKey);
+		mv.addObject("subscribeKey", pubnubSubKey);
+		mv.addObject("tutor", session.getAttribute("tutor")); 
 		System.out.println("Tutor from find-center: " + t.getId());
 		return mv;
 	}
@@ -141,10 +150,9 @@ public class HomeController {
 	public ModelAndView searchBusiness(@RequestParam("cat") String cat, @RequestParam("radius") Integer radius,
 			@RequestParam("latitude") Double lat, @RequestParam("longitude") Double lng) {
 		ModelAndView mv = new ModelAndView("business-map");
-		List<Double> coords = getCenter(lat, lng);
 		radius = radius * 1609;
-		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + "&latitude=" + coords.get(0)
-				+ "&longitude=" + coords.get(1) + "&radius=" + radius;
+		String url = "https://api.yelp.com/v3/businesses/search?" + "term=" + cat + 
+		"&latitude=" + lat + "&longitude=" + lng + "&radius=" + radius;
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + yelpKey);
 		ResponseEntity<BusinessResults> businessResponse = rt.exchange(url, HttpMethod.GET,
@@ -171,21 +179,21 @@ public class HomeController {
 					data.getResults().get(0).getFormatted_address(), c.getLat(), c.getLng()));
 		}
 		mv.addObject("businessMarks", businessMarks);
-		mv.addObject("businesses", businesses); // This is not currently being used
 		mv.addObject("stuLat", session.getAttribute("currentLat"));
 		mv.addObject("stuLon", session.getAttribute("currentLon"));
-		mv.addObject("tutorLat", lat);
-		mv.addObject("tutorLon", lng);
-		mv.addObject("latitude", coords.get(0));
-		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		Student s = (Student) session.getAttribute("student");
-		System.out.println(s);
-		mv.addObject("studentId", s.getId());
-		System.out.println("Search-business student id: " + s.getId());
 		Tutor t = (Tutor) session.getAttribute("tutor");
-		mv.addObject("tutorId", t.getId());
-		System.out.println("Search-business tutor id: " + t.getId());
+		
+		mv.addObject("tutorLat", t.getLatitude());
+		mv.addObject("tutorLon", t.getLongitude());
+		mv.addObject("latitude", lat);
+		mv.addObject("longitude", lng);
+		mv.addObject("mapKey", mapKey);
+		mv.addObject("tutorId", t.getId()); 
+		Student s = (Student) session.getAttribute("student");
+//		System.out.println(s);
+		mv.addObject("studentId", s.getId());
+//		System.out.println("Search-business student id: " + s.getId());
+//		System.out.println("Search-business tutor id: " + t.getId());
 		return mv;
 	}
 

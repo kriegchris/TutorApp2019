@@ -1,4 +1,6 @@
-package co.grandcircus.TutorApp2019.entity;
+package co.grandcircus.TutorApp2019.marks;
+
+import co.grandcircus.TutorApp2019.marks.GoogleMarks;
 
 public class TutorMarks extends GoogleMarks {
 	

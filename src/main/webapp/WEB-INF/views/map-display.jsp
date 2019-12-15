@@ -48,15 +48,10 @@
 		<div id="map"></div>
 		<br> <br>
 
-		<!-- 		<h4>Select a tutor and find the middle point between the two of you: </h4>
-		<form action="/find-center">
-			<input type="text" name="tutorName" placeholder="Enter a name">
-			<input type="submit" value="Find Center" class="btn btn-primary">
-		</form> -->
 		<h4>Filter Tutors By Subject:</h4>
 		<form action="/subject-filter">
-			<input type="text" value="${tutor.subject }" type="hidden"> <select
-				class="custom-select" name="subject" type="text">
+			<input type="hidden" value="${tutor.subject }" type="hidden"> <select
+				class="custom-select" name="subject">
 				<option selected="">Select option</option>
 				<option value="English">English</option>
 				<option value="Biology">Biology</option>

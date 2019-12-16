@@ -28,8 +28,8 @@
 					<li class="nav-item active"><a class="nav-link" href="/tutor-welcome">Home
 							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="/tutor-sessions">Current Sessions</a></li>
-					<li class="nav-item"><a class="nav-link" href="/tutor-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/new-tutor-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/past-tutor-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 					
 				</ul>

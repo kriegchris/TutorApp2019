@@ -1,6 +1,8 @@
 package co.grandcircus.TutorApp2019.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -17,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
-
 
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
@@ -64,6 +65,7 @@ public class HomeController {
 	HttpServletResponse response;
 
 	RestTemplate rt = new RestTemplate();
+	LocalDate today = LocalDate.now();
 
 	@RequestMapping("/")
 	public ModelAndView homePage() {
@@ -304,22 +306,76 @@ public class HomeController {
 		// .orElse(null) will return null if nothing exists
 		Student student = sr.findById(studentId).orElse(null);
 		Tutor tutor = tr.findById(tutorId).orElse(null);
-		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration));
+		Boolean completed = false;
+		LocalDate sessionDate = LocalDate.now();
+		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration, completed, sessionDate));
 		return new ModelAndView("session-display");
 	}
 
-	//display all tutors current & past sessions
-	@RequestMapping("tutor-sessions")
+	//display all tutors past sessions
+	@RequestMapping("past-tutor-sessions")
 	public ModelAndView tutorSessionsDisplay(Tutor tutor) {
+		ModelAndView mv = new ModelAndView("past-tutor-sessions");
 		Tutor t = (Tutor) session.getAttribute("tutor");
-		return new ModelAndView("tutor-sessions", "sessions", tlr.findByTutorId(t.getId()));
+		List<TimeLedger> sessions = tlr.findByTutorId(t.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isBefore(today)) {
+				filteredSessions.add(x); 
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+	}
+	
+	//display all tutors current sessions
+	@RequestMapping("new-tutor-sessions")
+	public ModelAndView newTutorSessionDisplay(Tutor tutor) {
+		ModelAndView mv = new ModelAndView("new-tutor-sessions");
+		Tutor t = (Tutor) session.getAttribute("tutor");
+		List<TimeLedger> sessions = tlr.findByTutorId(t.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isEqual(today)) {
+				filteredSessions.add(x); 
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+		
 	}
 
-	//display all students current & past sessions
-	@RequestMapping("student-sessions")
+	//display all students past sessions
+	@RequestMapping("past-student-sessions")
 	public ModelAndView studentSessionDisplay(Student student) {
+		ModelAndView mv = new ModelAndView("past-student-sessions");
 		Student s = (Student) session.getAttribute("student");
-		return new ModelAndView("student-sessions", "sessions", tlr.findByStudentId(s.getId()));
+		List<TimeLedger> sessions = tlr.findByStudentId(s.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isBefore(today)) {
+				filteredSessions.add(x); 
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+	}
+	
+	//display all tutors current sessions
+	@RequestMapping("new-student-sessions")
+	public ModelAndView newStudentSessionDisplay(Student student) {
+		ModelAndView mv = new ModelAndView("new-student-sessions");
+		Student s = (Student) session.getAttribute("student");
+		List<TimeLedger> sessions = tlr.findByStudentId(s.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isEqual(today)) {
+				filteredSessions.add(x); 
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+		
 	}
 
 

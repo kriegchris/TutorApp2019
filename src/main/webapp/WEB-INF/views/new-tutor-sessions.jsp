@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+    pageEncoding="UTF-8"%>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Tutor Sessions</title>
+<title>New Tutor Sessions</title>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -13,6 +13,7 @@
 	crossorigin="anonymous">
 </head>
 <body>
+
 	<div class="container">
 		<br>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -27,8 +28,8 @@
 					<li class="nav-item"><a class="nav-link" href="/tutor-welcome">Home
 							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="/tutor-sessions">Current Sessions</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/tutor-sessions">Past Sessions</a></li>
+					<li class="nav-item active"><a class="nav-link" href="/new-tutor-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/past-tutor-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 					
 				</ul>
@@ -44,6 +45,8 @@
 				<th>Meeting Location</th>
 				<th>Duration</th>
 				<th>Session Start Time</th>
+				<th>Completed</th>
+				<th>Date</th>
 			</tr>
 			<c:forEach var="t" items="${sessions}">
 				<tr>
@@ -51,6 +54,8 @@
 					<td>${t.meetingLocation }</td>
 					<td>${t.duration}</td>
 					<td>${t.startTime }</td>
+					<td>${t.completed }</td>
+					<td>${t.sessionDate }</td>
 				</tr>
 			</c:forEach>
 		</table>

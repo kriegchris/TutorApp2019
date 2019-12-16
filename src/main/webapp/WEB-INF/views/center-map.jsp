@@ -33,9 +33,9 @@
 							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/student-sessions">Current Sessions</a></li>
+						href="/new-student-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link"
-						href="/student-sessions">Past Sessions</a></li>
+						href="/past-student-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 
 				</ul>

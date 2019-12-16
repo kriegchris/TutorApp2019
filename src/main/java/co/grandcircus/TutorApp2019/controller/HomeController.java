@@ -47,7 +47,7 @@ public class HomeController {
 	
 	@Value("${pubnub.subscribe.key}")
 	private String pubnubSubKey;
-
+	
 	@Autowired
 	TutorRepo tr;
 
@@ -128,6 +128,7 @@ public class HomeController {
 		session.setAttribute("tutorName", tr.findByEmail(email).getName());
 		session.setAttribute("tutor", tr.findByEmail(email));
 		mv.addObject("tutor", session.getAttribute("tutor"));
+		//added students current lng and lat to the map
 		return mv;
 		} catch (NullPointerException e) {
 			//if email is not contained in database, invalid email message appears
@@ -167,6 +168,10 @@ public class HomeController {
 			marks.add(dataToTutorMarks(t));
 		}
 		mv.addObject("tutors", marks);
+		//FIXME
+		//implement pubnub later
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 

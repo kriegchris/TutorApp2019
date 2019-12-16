@@ -17,6 +17,7 @@
 	width: 100%; /* The width is the width of the web page */
 }
 </style>
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -48,7 +49,7 @@
 		<!--The div element for the map -->
 		<div id="map"></div>
 		
-		<br> <br>
+		<br><br>
 
 		<h4>Filter Tutors By Subject:</h4>
 		<form action="/subject-filter">
@@ -69,25 +70,45 @@
 		</form>
 
 		<script>
+		window.lat = ${latitude};
+		window.lng = ${longitude};
+		
+		function getLocation() {
+	        if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(updatePosition);
+	        }
+	      
+	        return null;
+	    };
+	    
+	    function updatePosition(position) {
+	        if (position) {
+	          window.lat = position.coords.latitude;
+	          window.lng = position.coords.longitude;
+	        }
+	      }
+	      
+	    setInterval(function(){updatePosition(getLocation());}, 10000);
+	        
+	    function currentLocation() {
+	       return {lat:window.lat, lng:window.lng};
+	    };
+	      
 		// Initialize and add the map
-		var map, infoWindow;
+		var map;
+		var infoWindow;
+		var mark;
+		
 		//this function renders the map on the page
-		function initMap() {
+		var initialize = function() {
 			//this comes from the controller to display all the tutors from the database on the map
 			var locations = ${tutors};
-			var currentLocation = {
-				lat : ${latitude},
-				lng : ${longitude}
-			};
 			
 			// The map, centered at the current user's location
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 10,
-				center : currentLocation
-			});
+			map = new google.maps.Map(document.getElementById('map'), {center:{lat:lat,lng:lng},zoom:12});
 			
 			//this function iterates through the tutors list, creates a marker for each tutor & places it on the map
-		 	var bounds = new google.maps.LatLngBounds();
+		 	/* var bounds = new google.maps.LatLngBounds(); */
 		 	for (var i = 0; i < locations.length; i++) {
 			    var marker = new google.maps.Marker({
 			      position: new google.maps.LatLng(locations[i][5], locations[i][6]),
@@ -100,10 +121,10 @@
 			    });
 			    
 			    //this function adds content to each marker in a popup window
-			    var infowindow = new google.maps.InfoWindow();
-			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
-			        return function() {
-			        	infowindow.close();
+			  var infowindow = new google.maps.InfoWindow();
+			  google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			      return function() {
+			       		infowindow.close();
 			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
 			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
 			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>");
@@ -114,8 +135,8 @@
 			  }
 		 	
 		 	//this function maps the students the current location and puts a marker there
-			var marker = new google.maps.Marker({
-				position : currentLocation,
+			mark = new google.maps.Marker({
+				position:{lat:lat, lng:lng},
 				map : map,
 				icon : {
 				    url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
@@ -123,18 +144,40 @@
 			});
 			
 		 	//this relates to the user marker window
-			google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			google.maps.event.addListener(mark, 'mouseover', (function(marker, i) {
 		        return function() {
 		        	infowindow.close();
 		          	infowindow.setContent("me");
 		          	infowindow.open(map, marker);
 		        }
 		        
-		      })(marker, i));
+		    })(mark, i));
 		}
+		
+		var redraw = function(payload) {
+		    lat = payload.message.lat;
+		    lng = payload.message.lng;
+
+		    /* map.setCenter({lat:lat, lng:lng, alt:0}); */
+		    mark.setPosition({lat:lat, lng:lng, alt:0});
+		 };
+
+		 var pnChannel = "map2-channel";
+		 var pubnub = new PubNub({
+		    publishKey:   '${pubKey}',
+		    subscribeKey: '${subKey}'
+		 });
+
+		 pubnub.subscribe({channels: [pnChannel]});
+		 pubnub.addListener({message:redraw});
+
+		 setInterval(function() {
+		     pubnub.publish({channel:pnChannel, message:currentLocation()});
+		 }, 10000);
+		
 	</script>
 		<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
+			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initialize">
 	</script>
 	</div>
 </body>

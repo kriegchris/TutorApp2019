@@ -19,8 +19,8 @@
 </style>
 </head>
 <body>
-	<div class="container"> 
-	<br>
+	<div class="container">
+		<br>
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -31,32 +31,50 @@
 			<div class="navbar-collapse collapse" id="navbarColor01" style="">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link" href="/get-location">Home
-							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/student-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/student-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
+
 				</ul>
 			</div>
 		</nav>
 		<div class="jumbotron">
 			<h1>Welcome Back, ${studentName}!</h1>
 		</div>
+		
 		<!--The div element for the map -->
 		<div id="map"></div>
-		<br>
-		<br>
 		
-		<h4>Select a tutor and find the middle point between the two of you: </h4>
-		<form action="/find-center">
-			<input type="text" name="tutorName" placeholder="Enter a name">
-			<input type="submit" value="Find Center" class="btn btn-primary">
+		<br> <br>
+
+		<h4>Filter Tutors By Subject:</h4>
+		<form action="/subject-filter">
+			<input type="hidden" value="${tutor.subject }" type="hidden"> <select
+				class="custom-select" name="subject">
+				<option selected="">Select option</option>
+				<option value="English">English</option>
+				<option value="Biology">Biology</option>
+				<option value="Spanish">Spanish</option>
+				<option value="French">French</option>
+				<option value="Algebra">Algebra</option>
+				<option value="Math">Math</option>
+				<option value="Calculus">Calculus</option>
+				<option value="Coding">Coding</option>
+				<option value="Java">Java</option>
+				<option value="Chemistry">Chemistry</option>
+			</select> <input type="submit" value="Filter" class="btn btn-primary">
 		</form>
+
 		<script>
 		// Initialize and add the map
 		var map, infoWindow;
+		//this function renders the map on the page
 		function initMap() {
+			//this comes from the controller to display all the tutors from the database on the map
 			var locations = ${tutors};
-			/* console.log(locations) */
 			var currentLocation = {
 				lat : ${latitude},
 				lng : ${longitude}
@@ -68,44 +86,56 @@
 				center : currentLocation
 			});
 			
+			//this function iterates through the tutors list, creates a marker for each tutor & places it on the map
 		 	var bounds = new google.maps.LatLngBounds();
-		 	/* console.log(locations.length) */
 		 	for (var i = 0; i < locations.length; i++) {
 			    var marker = new google.maps.Marker({
-			      position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+			      position: new google.maps.LatLng(locations[i][5], locations[i][6]),
 			      map: map,
 			      animation: google.maps.Animation.DROP,
-			      title: locations[i][0]
+			      title: locations[i][1],
+			      icon : {
+					    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+						}
 			    });
-			    var infowindow = new google.maps.InfoWindow({
-			          content: locations[i][0]
-			        });
+			    
+			    //this function adds content to each marker in a popup window
+			    var infowindow = new google.maps.InfoWindow();
 			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 			        return function() {
-			          infowindow.setContent(locations[i][0]);
-			          infowindow.open(map, marker);
+			        	infowindow.close();
+			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
+			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
+			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>");
+			          	infowindow.open(map, marker);
 			        }
 			        
 			      })(marker, i));
 			  }
+		 	
+		 	//this function maps the students the current location and puts a marker there
 			var marker = new google.maps.Marker({
 				position : currentLocation,
-				map : map
+				map : map,
+				icon : {
+				    url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+					}
 			});
 			
+		 	//this relates to the user marker window
 			google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 		        return function() {
-		          infowindow.setContent("me");
-		          infowindow.open(map, marker);
+		        	infowindow.close();
+		          	infowindow.setContent("me");
+		          	infowindow.open(map, marker);
 		        }
 		        
 		      })(marker, i));
-			
 		}
 	</script>
-	<script async defer
-		src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
+		<script async defer
+			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 	</script>
-	</div> 
+	</div>
 </body>
 </html>

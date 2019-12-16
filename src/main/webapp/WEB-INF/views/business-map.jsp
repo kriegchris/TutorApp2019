@@ -42,7 +42,7 @@
 			</div>
 		</nav>
 		<br>
-		<h3>Where would you like to meet ${tutorName}?</h3>
+		<h3>This is your center point between you and ${tutorName}.</h3>
 		
 		<!--The div element for the map -->
 		<div id="map"></div>
@@ -50,7 +50,7 @@
 		<br>
 		<hr>
 		<form action="search-business">
-			<input name="latitude" value="${latitude }" type="hidden"> <input
+			<input name="latitude" value="${latitude }" type="hidden"><input
 				name="longitude" value="${longitude }" type="hidden">
 			Meeting Location Category: <select required class="custom-select"
 				id="cat" name="cat" style="width: 200px;" required>
@@ -63,6 +63,7 @@
 				name="radius" min="1" max="24" placeholder="max 24 miles"
 				style="width: 105px"><input type="submit" value="Submit"><br>
 		</form>
+		<%-- 	<div id="locations" style="visibility: hidden">${tutors}</div> --%>
 		<script>
 		
 		// Initialize and add the map
@@ -73,16 +74,15 @@
 			};
 			// The map, centered at the current user's location
 			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 10,
+				zoom : 12,
 				center : centerLocation
 			});
-			
-			 var studentLocation = {
+			//student location
+			var studentLocation = {
 					lat : ${stuLat},
 					lng : ${stuLon}
 				};
-			 
-			//this places a marker for the student
+			//adds marker to student location
 			var studentMarker = new google.maps.Marker({
 				position : studentLocation,
 				map : map,
@@ -91,22 +91,53 @@
 				}
 			});
 			
+			//tutor location
 			var tutorLocation = {
 					lat : ${tutorLat},
 					lng : ${tutorLon}
 				};
-			
-			//this places a marker for the tutor
+			//adds marker for tutor location
 			var tutorMarker = new google.maps.Marker({
 				position : tutorLocation,
 				map : map,
 				icon : {
 			    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
 				}
-			}); 
+			});
+			
+			var businesses = ${businessMarks};
+			
+			//places all businesses on the map
+		 	for (var i = 0; i < businesses.length; i++) {
+			    var marker = new google.maps.Marker({
+			      position: new google.maps.LatLng(businesses[i][4], businesses[i][5]),
+			      map: map,
+			      animation: google.maps.Animation.DROP,
+			      title: businesses[i][2],
+			      icon : {
+					    url : "http://maps.google.com/mapfiles/ms/icons/orange-dot.png"
+						} 
+			    });
 			    
+			    //displays popup window for each business
+		 	    var infowindow = new google.maps.InfoWindow();
+			    
+			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
+			        return function() {
+			        	infowindow.close();
+			          	infowindow.setContent("<img src=\"" + businesses[i][0] + "\" width=\"104px\"" +" height=\"104px\">" + "<p>Address: " + businesses[i][3] + "</p>" +
+			          			"<a href=" + "\"" + businesses[i][1] + "\" target=\"_blank\"" + ">" + businesses[i][2] + "</a>" + "<a href=" + "\"/confirm-session?meetingLocation=" + 
+			          			businesses[i][3] + "&studentId=" + ${studentId} + "&tutorId=" + ${tutorId} + "\"" + " class=\"btn btn-primary\"" + ">" + "Choose Location" + "</a>");
+			          	//meetingLocation is sent over to the controller via the anchor tag
+			          	infowindow.open(map, marker);
+			        }
+			        
+			      })(marker, i));
+			  } 
 		}
+		
 	</script>
+	
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
 		

@@ -1,4 +1,4 @@
-package co.grandcircus.TutorApp2019.entity;
+package co.grandcircus.TutorApp2019.json;
 
 import java.util.List;
 

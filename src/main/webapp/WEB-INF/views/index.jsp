@@ -27,7 +27,9 @@
 		<br>
 			<h3>Tutor Login</h3>
 			<form action="tutor-login">
-				Email: <input type="email" name="email"> Password: <input
+				Email: <input type="email" name="email"> 
+				${tutorError}
+				Password: <input
 					type="password" name="password"> <input type="submit"
 					value="Login" class="btn btn-primary">
 			</form>
@@ -41,7 +43,8 @@
 			<br>
 			<h3>Student Login</h3>
 			<form action="student-login">
-				Email: <input type="email" name="email"> 
+				Email: <input type="email" name="email">
+			${studentError}
 				Password: <input type="password" name="password">
 				<input type="submit" value="Login" class="btn btn-primary">
 			</form>

@@ -1,6 +1,6 @@
-package co.grandcircus.TutorApp2019.entity;
+package co.grandcircus.TutorApp2019.marks;
 
-public class GoogleMarks {
+public abstract class GoogleMarks {
 	
 	private String name;
 	private double lat;
@@ -8,7 +8,7 @@ public class GoogleMarks {
 	
 	public GoogleMarks() {
 	}
-
+	
 	public GoogleMarks(String name, double lat, double lng) {
 		super();
 		this.name = name;
@@ -44,8 +44,5 @@ public class GoogleMarks {
 	public String toString() {
 		return "[\"" + name + "\", " + lat + ", " + lng + "]";
 	}
-	
-	
-	
 
 }

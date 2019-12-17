@@ -33,7 +33,7 @@
 		<div class="jumbotron">
 			<h3>Your Sessions:</h3>
 		</div>
-
+		<h4>${thanks}</h4>
 		<table class="table">
 			<tr>
 				<th>Tutor</th>
@@ -52,7 +52,7 @@
 					<td>${t.startTime }</td>
 					<td>${t.completed }</td>
 					<td>${t.sessionDate }</td>
-					<td>**add button here**</td>
+					<td><a href="/review-page?id=${t.id}" class="btn btn-primary">Rate & Review</a></td>
 					
 				</tr>
 			</c:forEach>

@@ -106,13 +106,18 @@ public class HomeController {
 	}
 
 	@RequestMapping("student-login")
-	public ModelAndView studentLogin(@RequestParam("email") String email) {
+	public ModelAndView studentLogin(@RequestParam("email") String email, String password) {
 		try {
 			ModelAndView mv = new ModelAndView("redirect:/get-location");
 			//once the student logs in, we get their  name from the database and display on welcome/home page
 			session.setAttribute("studentName", sr.findByEmail(email).getName());
 			//this saves the student in order to use again when confirming a tutoring session
 			session.setAttribute("student", sr.findByEmail(email));
+			if (!sr.findByEmail(email).getPassword().equals(password)) {
+				ModelAndView mv2 = new ModelAndView("index");
+				mv2.addObject("studentPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+				return mv2;
+			}
 			mv.addObject("student", session.getAttribute("student"));
 			return mv;
 		} catch (NullPointerException e) {
@@ -124,12 +129,17 @@ public class HomeController {
 	}
 
 	@RequestMapping("tutor-login")
-	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+	public ModelAndView tutorLogin(@RequestParam("email") String email, String password) {
 		try {
 			//same thing for tutor as student(above mapping) for when tutor logs in 
 		ModelAndView mv = new ModelAndView("tutor-welcome");
 		session.setAttribute("tutorName", tr.findByEmail(email).getName());
 		session.setAttribute("tutor", tr.findByEmail(email));
+		if (!tr.findByEmail(email).getPassword().equals(password)) {
+			ModelAndView mv2 = new ModelAndView("index");
+			mv2.addObject("tutorPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+			return mv2;
+		}
 		mv.addObject("tutor", session.getAttribute("tutor"));
 		//added students current lng and lat to the map
 		return mv;

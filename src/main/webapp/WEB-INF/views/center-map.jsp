@@ -54,8 +54,7 @@
 				name="longitude" value="${longitude }" type="hidden">
 			Meeting Location Category: <select required class="custom-select"
 				id="cat" name="cat" style="width: 200px;" required>
-				<option selected="">Select option</option>
-				<option value="cafe">Cafe</option>
+				<option selected value="cafe">Cafe</option>
 				<option value="bar">Bar</option>
 				<option value="library">Library</option>
 				<option value="park">Park</option>

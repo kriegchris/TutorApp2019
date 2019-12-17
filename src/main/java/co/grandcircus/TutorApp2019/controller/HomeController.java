@@ -230,8 +230,8 @@ public class HomeController {
 		
 		//FIXME
 		//implement pubnub later
-		mv.addObject("publishKey", pubnubPublishKey);
-		mv.addObject("subscribeKey", pubnubSubKey);
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -287,6 +287,10 @@ public class HomeController {
 		mv.addObject("tutorId", t.getId()); 
 		Student s = (Student) session.getAttribute("student");
 		mv.addObject("studentId", s.getId());
+		//FIXME
+		//implement pubnub later
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 

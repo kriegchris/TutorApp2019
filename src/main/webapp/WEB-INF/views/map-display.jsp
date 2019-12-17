@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -173,7 +172,7 @@
 
 		 setInterval(function() {
 		     pubnub.publish({channel:pnChannel, message:currentLocation()});
-		 }, 10000);
+		 }, 1000);
 		
 	</script>
 		<script async defer

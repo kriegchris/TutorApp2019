@@ -16,6 +16,7 @@
 	width: 100%; /* The width is the width of the web page */
 }
 </style>
+<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -64,33 +65,44 @@
 				style="width: 105px"><input type="submit" value="Submit"><br>
 		</form>
 		<script>
+		window.lat = ${stuLat};
+		window.lng = ${stuLon};
 		
+		function getLocation() {
+	        if (navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(updatePosition);
+	        }
+	      
+	        return null;
+	    };
+	    
+	    function updatePosition(position) {
+	        if (position) {
+	          window.lat = position.coords.latitude;
+	          window.lng = position.coords.longitude;
+	        }
+	      }
+	      
+	    setInterval(function(){updatePosition(getLocation());}, 10000);
+	        
+	    function currentLocation() {
+	       return {lat:window.lat, lng:window.lng};
+	    };
+	    
 		// Initialize and add the map
-		function initMap() {
+		var map;
+		var infoWindow;
+		var mark;
+		
+		//this function renders the map on the page
+		var initialize = function() {
 			var centerLocation = {
-				lat : ${latitude},
-				lng : ${longitude}
-			};
-			// The map, centered at the current user's location
-			var map = new google.maps.Map(document.getElementById('map'), {
-				zoom : 10,
-				center : centerLocation
-			});
-			
-			 var studentLocation = {
-					lat : ${stuLat},
-					lng : ${stuLon}
+					lat : ${latitude},
+					lng : ${longitude}
 				};
-			 
-			//this places a marker for the student
-			var studentMarker = new google.maps.Marker({
-				position : studentLocation,
-				map : map,
-				icon : {
-				url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-				}
-			});
-			
+			// The map, centered at the center point between the student and the tutor	
+			map = new google.maps.Map(document.getElementById('map'), {center:centerLocation,zoom:12});
+		 	
 			var tutorLocation = {
 					lat : ${tutorLat},
 					lng : ${tutorLon}
@@ -104,12 +116,41 @@
 			    url : "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
 				}
 			}); 
-			    
+			
+		 	//this function maps the students the current location and puts a marker there
+			mark = new google.maps.Marker({
+				position:{lat:lat, lng:lng},
+				map : map,
+				icon : {
+				    url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+					}
+			});
+			
 		}
+		
+		var redraw = function(payload) {
+		    lat = payload.message.lat;
+		    lng = payload.message.lng;
+
+		    /* map.setCenter({lat:lat, lng:lng, alt:0}); */
+		    mark.setPosition({lat:lat, lng:lng, alt:0});
+		 };
+
+		 var pnChannel = "map2-channel";
+		 var pubnub = new PubNub({
+		    publishKey:   '${pubKey}',
+		    subscribeKey: '${subKey}'
+		 });
+
+		 pubnub.subscribe({channels: [pnChannel]});
+		 pubnub.addListener({message:redraw});
+
+		 setInterval(function() {
+		     pubnub.publish({channel:pnChannel, message:currentLocation()});
+		 }, 1000);
 	</script>
 		<script async defer
-			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initMap">
-		
+			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initialize">
 	</script>
 
 	</div>

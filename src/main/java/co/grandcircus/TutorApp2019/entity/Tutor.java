@@ -28,7 +28,7 @@ public class Tutor implements Serializable {
 	private String password;
 	private String subject;
 	private String bio;
-	private String rating;
+	private Double rating;
 	private String review;
 	
 	@OneToMany(mappedBy = "tutor", orphanRemoval=true)
@@ -43,7 +43,7 @@ public class Tutor implements Serializable {
 	}
 
 	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
-			String subject, String bio, String rating, String review, List<TimeLedger> timeledgerTutor) {
+			String subject, String bio, Double rating, String review, List<TimeLedger> timeledgerTutor) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -78,7 +78,7 @@ public class Tutor implements Serializable {
 	}
 
 	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
-			String subject, String bio, String rating, String review) {
+			String subject, String bio, Double rating, String review) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -171,11 +171,11 @@ public class Tutor implements Serializable {
 		this.bio = bio;
 	}
 
-	public String getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 

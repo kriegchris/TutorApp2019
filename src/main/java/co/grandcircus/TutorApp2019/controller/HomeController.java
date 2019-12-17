@@ -1,5 +1,6 @@
 package co.grandcircus.TutorApp2019.controller;
 
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -361,6 +362,36 @@ public class HomeController {
 		return mv;
 	}
 	
+	@RequestMapping("add-review")
+	public ModelAndView addReview(@RequestParam("sessionId") Integer id, String review, Double rating) {
+		System.out.println(id);
+		ModelAndView mv = new ModelAndView("redirect:/past-student-sessions");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		System.out.println(tutorSession);
+		System.out.println(review);
+		Tutor t = tutorSession.getTutor();
+		System.out.println(t);
+		t.setReview(review);
+		DecimalFormat df = new DecimalFormat("0.#");
+		Double newRating = (t.getRating()  + rating) / 2;
+		String newRating2 = String.valueOf(df.format(newRating));
+		System.out.println(newRating2);
+		t.setRating(Double.valueOf(newRating2));
+		tr.save(t);
+		mv.addObject("thanks", "Thanks for leaving a review!");
+		return mv;
+	}
+	
+	@RequestMapping("review-page")
+	public ModelAndView reviewPage(Integer id) {
+		ModelAndView mv = new ModelAndView("add-review");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		Tutor t = tutorSession.getTutor();
+		mv.addObject("sessionId", id);
+		mv.addObject("tutorName", t.getName());
+		return mv;
+	}
+	
 	//display all tutors current sessions
 	@RequestMapping("new-student-sessions")
 	public ModelAndView newStudentSessionDisplay(Student student) {
@@ -408,10 +439,10 @@ public class HomeController {
 		String gName = tutor.getName();
 		String subject = tutor.getSubject();
 		String bio = tutor.getBio();
-		String rating = tutor.getRating();
+		Double rating = tutor.getRating();
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
-		return new TutorMarks(id, gName, subject, bio, rating, gLat, gLng);
+		return new TutorMarks(id, gName, bio, rating, subject, gLat, gLng);
 	}
 
 }

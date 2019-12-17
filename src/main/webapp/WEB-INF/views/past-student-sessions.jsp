@@ -33,7 +33,7 @@
 		<div class="jumbotron">
 			<h3>Your Sessions:</h3>
 		</div>
-		<h4>${thanks}</h4>
+		${thanks}
 		<table class="table">
 			<tr>
 				<th>Tutor</th>

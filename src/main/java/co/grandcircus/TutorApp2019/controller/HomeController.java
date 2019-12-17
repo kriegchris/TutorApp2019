@@ -1,9 +1,9 @@
 package co.grandcircus.TutorApp2019.controller;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.TutorApp2019.entity.Review;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
@@ -31,6 +32,7 @@ import co.grandcircus.TutorApp2019.json.MapData;
 import co.grandcircus.TutorApp2019.json.PlaceResults;
 import co.grandcircus.TutorApp2019.marks.BusinessMarks;
 import co.grandcircus.TutorApp2019.marks.TutorMarks;
+import co.grandcircus.TutorApp2019.repo.ReviewRepo;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -58,6 +60,9 @@ public class HomeController {
 
 	@Autowired
 	TimeLedgerRepo tlr;
+	
+	@Autowired
+	ReviewRepo rr;
 
 	@Autowired
 	HttpSession session;
@@ -200,6 +205,23 @@ public class HomeController {
 			marks.add(dataToTutorMarks(ts));
 		}
 		mv.addObject("tutors", marks);
+		return mv;
+	}
+	
+	//displays details about the tutor
+	@RequestMapping("tutor-details")
+	public ModelAndView displayTutorDetails(@RequestParam("tutorId")Integer id) {
+		ModelAndView mv = new ModelAndView("tutor-details");
+		Tutor t = tr.findById(id).orElse(null);
+		mv.addObject("tutorName", t.getName());
+		mv.addObject("subject", t.getSubject());
+		mv.addObject("bio", t.getBio());
+		mv.addObject("rating", t.getRating());
+		if (rr.findByTutorId(id).isEmpty()) {
+			mv.addObject("no", "No Current ");
+		} else {
+			mv.addObject("reviews", rr.findByTutorId(id));
+		}
 		return mv;
 	}
 	
@@ -371,18 +393,12 @@ public class HomeController {
 		System.out.println(id);
 		ModelAndView mv = new ModelAndView("redirect:/past-student-sessions");
 		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
-		System.out.println(tutorSession);
-		System.out.println(review);
 		Tutor t = tutorSession.getTutor();
-		System.out.println(t);
-		t.setReview(review);
-		DecimalFormat df = new DecimalFormat("0.#");
-		Double newRating = (t.getRating()  + rating) / 2;
-		String newRating2 = String.valueOf(df.format(newRating));
-		System.out.println(newRating2);
-		t.setRating(Double.valueOf(newRating2));
-		tr.save(t);
-		mv.addObject("thanks", "Thanks for leaving a review!");
+		Double newRating = (rating + t.getRating()) / 2;
+		DecimalFormat decimalFormat = new DecimalFormat(".#");
+		t.setRating(Double.valueOf(decimalFormat.format(newRating)));
+		rr.save(new Review(review, tutorSession.getTutor(), tutorSession.getStudent()));
+		mv.addObject("thanks", "<span>Thanks for leaving a review!</span>");
 		return mv;
 	}
 	

@@ -29,6 +29,11 @@ public class Student implements Serializable {
 	
 	@OneToMany(mappedBy = "student", orphanRemoval=true)
 	private List<TimeLedger> timeledger;
+	
+	@OneToMany(mappedBy = "student", orphanRemoval=true)
+	private List<Review> reviews;
+	
+
 
 	public Student() {
 		super();
@@ -46,6 +51,16 @@ public class Student implements Serializable {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public Student(Integer id, String name, String email, String password, List<TimeLedger> timeledgerStudent, List<Review> reviews) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.timeledger = timeledgerStudent;
+		this.reviews = reviews;
 	}
 
 	public Integer getId() {
@@ -80,14 +95,6 @@ public class Student implements Serializable {
 		this.password = password;
 	}
 
-	public Student(Integer id, String name, String email, String password, List<TimeLedger> timeledgerStudent) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.timeledger = timeledgerStudent;
-	}
 
 	public List<TimeLedger> getTimeledgerStudent() {
 		return timeledger;
@@ -97,6 +104,14 @@ public class Student implements Serializable {
 		this.timeledger = timeledgerStudent;
 	}
 
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";

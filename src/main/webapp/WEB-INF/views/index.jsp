@@ -26,12 +26,13 @@
 		<hr>
 		<br>
 			<h3>Tutor Login</h3>
-			<form action="tutor-login">
+			<form action="tutor-login" method="post">
 				Email: <input type="email" name="email"> 
 				${tutorError}
 				Password: <input
 					type="password" name="password"> <input type="submit"
 					value="Login" class="btn btn-primary">
+					${tutorPasswordError}
 			</form>
 			<br>
 			<h5>Tutor Registration</h5>
@@ -42,10 +43,12 @@
 			<hr>
 			<br>
 			<h3>Student Login</h3>
-			<form action="student-login">
+			<form action="student-login" method="post">
 				Email: <input type="email" name="email">
 			${studentError}
 				Password: <input type="password" name="password">
+							${studentPasswordError}
+				
 				<input type="submit" value="Login" class="btn btn-primary">
 			</form>
 			<br>

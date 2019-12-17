@@ -54,8 +54,7 @@
 		<form action="/subject-filter">
 			<input type="hidden" value="${tutor.subject }" type="hidden"> <select
 				class="custom-select" name="subject">
-				<option selected="">Select option</option>
-				<option value="English">English</option>
+				<option selected value="English">English</option>
 				<option value="Biology">Biology</option>
 				<option value="Spanish">Spanish</option>
 				<option value="French">French</option>

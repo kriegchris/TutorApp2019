@@ -126,7 +126,8 @@
 			       		infowindow.close();
 			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
 			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
-			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>");
+			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>" + "		<a href=" + "\"/tutor-details?tutorId=" + 
+			          			locations[i][0] + "\"" + " class=\"btn btn-primary\"" + ">" + "See Details" + "</a>");
 			          	infowindow.open(map, marker);
 			        }
 			        

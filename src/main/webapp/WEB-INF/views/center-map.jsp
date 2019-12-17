@@ -15,6 +15,10 @@
 	height: 400px; /* The height is 400 pixels */
 	width: 100%; /* The width is the width of the web page */
 }
+.search-scope {
+  margin-top: 10px;
+  text-align: left;
+}
 </style>
 <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
 </head>
@@ -44,10 +48,10 @@
 		</nav>
 		<br>
 		<h3>Where would you like to meet ${tutorName}?</h3>
-		
+
 		<!--The div element for the map -->
 		<div id="map"></div>
-		
+
 		<br>
 		<hr>
 		<form action="search-business">
@@ -60,9 +64,15 @@
 				<option value="bar">Bar</option>
 				<option value="library">Library</option>
 				<option value="park">Park</option>
-			</select> <br> <br> Search Radius: <input required type="number"
-				name="radius" min="1" max="24" placeholder="max 24 miles"
-				style="width: 105px"><input type="submit" value="Submit"><br>
+			</select> <br> <br>
+			<div class="search-scope">
+				<input type="range" min="1" max="24" value="1" class="slider"
+					id="myRange" name="radius">
+				<p>
+					Search radius: <span id="demo"></span>
+				</p>
+			</div>
+			<input type="submit" value="Submit"><br>
 		</form>
 		<script>
 		window.lat = ${stuLat};
@@ -125,6 +135,30 @@
 				    url : "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
 					}
 			});
+		 	
+			var circle = new google.maps.Circle({
+				strokeColor: '#FF0000',
+				fillColor: '#FF0000',
+	            fillOpacity: 0.35,
+	            map: map,
+	            center: centerLocation,
+	            radius:1609
+			});
+
+				var slider = document.getElementById("myRange");
+				var output = document.getElementById("demo");
+				output.innerHTML = slider.value;
+
+
+				slider.oninput = function() {
+				  output.innerHTML = this.value;
+				  circle.setRadius(this.value*1609); // Sets the radius of the circle to be the value of the slider
+				}
+
+				function clickCircle(e) {
+				  var clickedCircle = e.target;
+				}
+
 			
 		}
 		

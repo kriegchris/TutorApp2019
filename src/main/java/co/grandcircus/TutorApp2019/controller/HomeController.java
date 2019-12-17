@@ -248,8 +248,7 @@ public class HomeController {
 		//this lat & lng returns the center point between the tutor and student
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		
+		mv.addObject("mapKey", mapKey);		
 		//FIXME
 		//implement pubnub later
 		mv.addObject("pubKey", pubnubPublishKey);
@@ -309,6 +308,7 @@ public class HomeController {
 		mv.addObject("tutorId", t.getId()); 
 		Student s = (Student) session.getAttribute("student");
 		mv.addObject("studentId", s.getId());
+		mv.addObject("radius", radius);
 		//FIXME
 		//implement pubnub later
 		mv.addObject("pubKey", pubnubPublishKey);

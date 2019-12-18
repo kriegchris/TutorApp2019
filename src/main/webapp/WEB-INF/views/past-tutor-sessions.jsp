@@ -27,7 +27,6 @@
 			<div class="navbar-collapse collapse" id="navbarColor01" style="">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link" href="/tutor-welcome">Home
-							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/new-tutor-sessions">Current Sessions</a></li>
@@ -44,22 +43,24 @@
 			<h1 class="jumbotron-text">     Past Sessions:</h1>
 		</div>
 
-		<div class="container">
-			<table class="table">
+<div class="container">
+		<table class="table">
+			<tr>
+				<th>Student</th>
+				<th>Meeting Location</th>
+				<th>Duration</th>
+				<th>Session Start Time</th>
+				<th>Completed</th>
+				<th>Session Date</th>
+			</tr>
+			<c:forEach var="t" items="${sessions}">
 				<tr>
-					<th>Student</th>
-					<th>Meeting Location</th>
-					<th>Duration</th>
-					<th>Session Start Time</th>
-					<th>Session Date</th>
-				</tr>
-				<c:forEach var="t" items="${sessions}">
-					<tr>
-						<td>${t.student.name }</td>
-						<td>${t.meetingLocation }</td>
-						<td>${t.duration}</td>
-						<td>${t.startTime }</td>
-						<td>${t.sessionDate }</td>
+					<td>${t.student.name }</td>
+					<td>${t.meetingLocation }</td>
+					<td>${t.duration}</td>
+					<td>${t.startTime }</td>
+					<td>${t.completed }</td>
+					<td>${t.sessionDate }</td>
 					</tr>
 				</c:forEach>
 			</table>

@@ -51,56 +51,64 @@
 		background-color: white;
 	}
 	
-article {
-	max-width: 36em;
-	margin: 0 auto;
-	padding: 1em;
-}	
-
+/* google maps	 */
 #map {
-	height: 500px; 
+	height: 400px; 
 	width: auto; 
-    z-index: 1;
     position:relative;
-    border: 8px solid black;
+    border: 2px solid black;
 } 
-/* 
-.map-display.img {
-	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80);
-	background-size: cover;
-	opacity: 0.5; 
-}
 
- .map-display {
-	display: no-repeat;
+.map-display-background {
+	background: url(https://images.unsplash.com/photo-1555885457-8cb63c8a576c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) center center no-repeat;
+	background-size: cover;
+	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	/* justify-content: space-between;  */
 	height: 100vh;
 	padding: 1em;
 	box-sizing: border-box;
-	color: white;
-	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80);
-	background-size: cover;
-	opacity: 0.5;
-} 
+}
 
-.welcome-title {
-	max-width: 16em;
-	margin: 0;
-	font-size: 8vh;
-	font-weight: bold;
-	line-height: .9;
-}
-	
-.map-display-footer {
+.business-map {
+	background: url(https://images.unsplash.com/photo-1555885457-8cb63c8a576c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) center center no-repeat;
+	background-size: cover;
 	display: flex;
-	margin-bottom: 1em;
+	flex-direction: column;
+	/* justify-content: space-between;  */
+	height: auto;
+	padding: 1em;
+	box-sizing: border-box;
 }
- */
+
+/* number next to radius slider */
+#demo {
+	padding: 15px;
+	font-size: 19px;
+}
+
+.welcome-back-text {
+	color: black;
+	font-weight: 900;
+	font-size: 2.5em;
+}
+
+.filter-text {
+	color: black;
+	font-weight: 900;
+	font-size: 2em;
+}
+
+.location-cat-text {
+	color: black;
+}
+
+
 #center-header {
 	color:white;
 	
 }
+
 .center-map {
 	display: no-repeat;
 	flex-direction: column;
@@ -109,15 +117,12 @@ article {
 	padding: 1em;
 	box-sizing: border-box;
 	color: white;
-	/* background: url(https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80);
+	/* background: url(https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80)center center no-repeat;
 	background-size: cover;
 	opacity: 0.5; */
 }  
 
-
-
-
-
+/* confirmation-page */
 /* Create four equal columns that sits next to each other */
 .column {
   -ms-flex: 25%; /* IE10 */
@@ -126,32 +131,14 @@ article {
   padding: 0 4px;
 }
 
+/* confirmation-page */
 .column img {
   margin-top: 8px;
   vertical-align: middle;
   width: 100%;
-  
 }
 
-#main-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-#center-content {
-    flex:1 1 auto; /* Lets middle column shrink/grow to available width */
-    max-width: auto;
-}
-#left-content,
-#right-content {
-    flex:0 0 auto; /* Forces side columns to stay same width */
-    width:100px; /* Sets the width of side columns */
-}
-img {
-    max-width:100%; /* Shrinks images to fit container */
-}
-
-
+/* confirmation-page */
 /* Responsive layout - makes a two column-layout instead of four columns */
 @media screen and (max-width: 800px) {
   .column {
@@ -161,6 +148,7 @@ img {
   }
 }
 
+/* confirmation-page */
 /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
 @media screen and (max-width: 600px) {
   .column {
@@ -170,34 +158,25 @@ img {
   }
 }
 
-/* .confirmation-page {
-	display: no-repeat;
-	flex-direction: column;
-	justify-content: space-between;
-	height: 100vh;
-	padding: 1em;
-	box-sizing: border-box;
-	color: white;
-	background: url(https://images.unsplash.com/photo-1519155031214-e8d583928bf2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
-	background-size: cover;
-	opacity: 0.5;
-} */
-
+/* confirmation-page */
 div.gallery img {
   width: 100%;
   height: auto;
 }
 
+/* confirmation-page */
 * {
   box-sizing: border-box;
-}
+} 
 
+/* confirmation-page */
 .responsive {
   padding: 0 6px;
   float: left;
   width: 24.99999%;
 }
 
+/* confirmation-page */
 @media only screen and (max-width: 700px) {
   .responsive {
     width: 49.99999%;
@@ -205,10 +184,16 @@ div.gallery img {
   }
 }
 
+/* confirmation-page */
 @media only screen and (max-width: 500px) {
   .responsive {
     width: 100%;
   }
+}
+
+/* confirmation-page */
+.confirm-time-text {
+	color: black;
 }
 
 /* tutor welcome page */
@@ -219,7 +204,6 @@ div.gallery img {
 	height: 100vh;
 	padding: 1em;
 	box-sizing: border-box;
-	/* color: white; */
 	background: url(https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80) center center no-repeat;
 	background-size: cover;
 }
@@ -241,6 +225,7 @@ div.gallery img {
 	opacity: 0.8;
 }
 
+/* tutor and student sessions pages */
 .tutor-sessions {
 	/* display: flex; */
 	flex-direction: column;
@@ -250,6 +235,7 @@ div.gallery img {
 	box-sizing: border-box;
 }
 
+/* tutor and student sessions pages */
 .jumbotron {
    background: url(https://images.unsplash.com/photo-1521316973612-36489899f29b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) no-repeat center center fixed;
    -webkit-background-size: cover;
@@ -260,10 +246,63 @@ div.gallery img {
    font-color: white;
 }
 
+/* tutor and student sessions pages */
 .jumbotron-text {
 	color: black;
 	font-weight: 900;
 	padding-left: 45px;
+}
+
+/* tutor details page */
+.jumbotron-details {
+	 background: url(https://images.unsplash.com/photo-1556565681-67b9cd907d20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   background-size: cover;
+   -o-background-size: cover;
+   font-size: 3em;
+   font-color: white;
+}
+
+/* tutor details buttom */
+.btn-secondary {
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+/* tutor details card */
+.card-header1 {
+	font-size: 1em;
+	font-weight: bold;
+	padding-left: 13px;
+	
+}
+
+/* tutor details card */
+.card-text1 {
+	font-size: large;
+	padding-left: 13px;
+}
+
+/* session-display aka session confirmed page */
+.session-confirmed {
+	display: flex;
+	flex-direction: column;
+	/* justify-content: space-between; */
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	/* color: white; */
+	background: url(https://images.unsplash.com/photo-1460518451285-97b6aa326961?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) center center no-repeat;
+	background-size: cover;
+}
+
+/* session-display aka session confirmed page */
+.confirm-text{
+	padding-top: 377px;
+	color: white;
+	font-weight:900;
+	font-size: 3.3em;
 }
 
 

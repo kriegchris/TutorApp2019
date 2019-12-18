@@ -7,10 +7,11 @@
 <meta charset="UTF-8">
 <title>Your Past Sessions</title>
 <link href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css" rel="stylesheet" integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt" crossorigin="anonymous">
+<link rel="stylesheet" href="/styles.css" type="text/css">
 </head>
 <body>
-	<div class="container">
-		<br>
+	
+		<section class="tutor-sessions">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -31,9 +32,9 @@
 			</div>
 		</nav>
 		<div class="jumbotron">
-			<h3>Your Sessions:</h3>
+			<h3 class="jumbotron-text">Past Sessions:</h3>
 		</div>
-		${thanks}
+		<div class="container">
 		<table class="table">
 			<tr>
 				<th>Tutor</th>
@@ -60,6 +61,6 @@
 
 
 	</div>
-
+</section>
 </body>
 </html>

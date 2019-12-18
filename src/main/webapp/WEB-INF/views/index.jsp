@@ -11,9 +11,10 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="/styles.css" type="text/css">
 </head>
 <body>
-
+  
 	<div class="container">
 	<br>
 	
@@ -50,14 +51,40 @@
 							${studentPasswordError}
 				
 				<input type="submit" value="Login" class="btn btn-primary">
-			</form>
+
+    </form>
 			<br>
-			<h5>Student Registration</h5>
-			<form action="register-student">
-				<input type="submit" value="Register Now" class="btn btn-primary">
+			<br>
+			<form action="tutor-login">
+				TUTOR: <a class="button button-primary" href="#">SIGN-IN</a> <a
+					class="button" href="/register-tutor">REGISTER</a>
 			</form>
+		</footer>
+	</section>
+
+	<%-- 	<h3>Tutor Login</h3>
+		<form action="tutor-login">
+			Email: <input type="email" name="email"> ${tutorError}
+			Password: <input type="password" name="password"> <input
+				type="submit" value="Login" class="btn btn-primary">
+		</form>
+		<br>
+		<h5>Tutor Registration</h5>
+		<form action="register-tutor">
+			<input type="submit" value="Register Now" class="btn btn-primary">
+		</form>
 		
-	</div>
+		<h3>Student Login</h3>
+		<form action="student-login">
+			Email: <input type="email" name="email"> ${studentError}
+			Password: <input type="password" name="password"> <input
+				type="submit" value="Login" class="btn btn-primary">
+		</form>
+		<br>
+		<h5>Student Registration</h5>
+		<form action="register-student">
+			<input type="submit" value="Register Now" class="btn btn-primary">
+		</form> --%>
 
 </body>
 </html>

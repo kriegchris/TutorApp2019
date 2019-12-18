@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,11 +11,13 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="/styles.css" type="text/css">
+
 </head>
 <body>
 
-	<div class="container">
-		<br>
+
+	<section class="tutor-sessions">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -27,17 +29,21 @@
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link" href="/tutor-welcome">Home
 					</a></li>
-					<li class="nav-item active"><a class="nav-link" href="/new-tutor-sessions">Current Sessions</a></li>
-					<li class="nav-item"><a class="nav-link" href="/past-tutor-sessions">Past Sessions</a></li>
+					<li class="nav-item active"><a class="nav-link"
+						href="/new-tutor-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="/past-tutor-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
-					
+
 				</ul>
 			</div>
 		</nav>
+	
 		<div class="jumbotron">
-			<h3>Your Sessions:</h3>
+		<h1 class="jumbotron-text">     Your Sessions:</h1>
 		</div>
 
+ <div class="container">
 		<table class="table">
 			<tr>
 				<th>Student</th>
@@ -45,7 +51,6 @@
 				<th>Duration</th>
 				<th>Session Start Time</th>
 				<th>Completed</th>
-				<th></th>
 			</tr>
 			<c:forEach var="t" items="${sessions}">
 				<tr>
@@ -55,12 +60,11 @@
 					<td>${t.startTime }</td>
 					<td>${t.completed }</td>
 					<td><a href="/mark-complete?id=${t.id }" class="btn btn-primary">Mark Complete</a></td>
-				</tr>
-			</c:forEach>
-		</table>
-
-
-	</div>
-
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+		
+	</section>
 </body>
 </html>

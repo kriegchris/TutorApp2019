@@ -211,6 +211,7 @@ div.gallery img {
   }
 }
 
+/* tutor welcome page */
 .tutor {
 	display: flex;
 	flex-direction: column;
@@ -219,10 +220,50 @@ div.gallery img {
 	padding: 1em;
 	box-sizing: border-box;
 	/* color: white; */
-	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80) center center no-repeat;
+	background: url(https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-1.2.1&auto=format&fit=crop&w=1052&q=80) center center no-repeat;
 	background-size: cover;
 }
 
-.tutor-container {
-	color: white;
+.card-header {
+	font-size: 5em;
+	font-weight: bold;
 }
+
+.card-title {
+	font-size: 2em;
+}
+
+.card-text {
+	font-size: 1.8em;
+}
+
+.tutor-message {
+	opacity: 0.8;
+}
+
+.tutor-sessions {
+	/* display: flex; */
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+}
+
+.jumbotron {
+   background: url(https://images.unsplash.com/photo-1521316973612-36489899f29b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80) no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   background-size: cover;
+   -o-background-size: cover;
+   font-size: 3em;
+   font-color: white;
+}
+
+.jumbotron-text {
+	color: black;
+	font-weight: 900;
+	padding-left: 45px;
+}
+
+

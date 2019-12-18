@@ -1,0 +1,228 @@
+
+/* #header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+} */
+
+/* index page */
+.index {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	color: white;
+	background: url(https://images.unsplash.com/photo-1558402989-4778474384c9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80) center center no-repeat;
+	background-size: cover;
+}
+
+.index-title {
+	max-width: 16em;
+	margin: 0;
+	font-size: 12vh;
+	font-weight: bold;
+	line-height: .9;
+	color: white;
+}
+
+.index-subtitle {
+	color: white;
+}
+	
+	@media only screen and (min-width: 32em) { .hero-title { font-size: 16vh; } }	
+
+.index-footer {
+	display: flex;
+	margin-bottom: 1em;
+}
+
+.button {
+	padding: .4em .60em;
+	color: white;
+	text-decoration: none;
+	border: .1em solid white;
+
+}
+	
+	.button-primary {
+		color: black;
+		background-color: white;
+	}
+	
+article {
+	max-width: 36em;
+	margin: 0 auto;
+	padding: 1em;
+}	
+
+#map {
+	height: 500px; 
+	width: auto; 
+    z-index: 1;
+    position:relative;
+    border: 8px solid black;
+} 
+/* 
+.map-display.img {
+	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80);
+	background-size: cover;
+	opacity: 0.5; 
+}
+
+ .map-display {
+	display: no-repeat;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	color: white;
+	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80);
+	background-size: cover;
+	opacity: 0.5;
+} 
+
+.welcome-title {
+	max-width: 16em;
+	margin: 0;
+	font-size: 8vh;
+	font-weight: bold;
+	line-height: .9;
+}
+	
+.map-display-footer {
+	display: flex;
+	margin-bottom: 1em;
+}
+ */
+#center-header {
+	color:white;
+	
+}
+.center-map {
+	display: no-repeat;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	color: white;
+	/* background: url(https://images.unsplash.com/photo-1565728744382-61accd4aa148?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1052&q=80);
+	background-size: cover;
+	opacity: 0.5; */
+}  
+
+
+
+
+
+/* Create four equal columns that sits next to each other */
+.column {
+  -ms-flex: 25%; /* IE10 */
+  flex: 25%;
+  max-width: 25%;
+  padding: 0 4px;
+}
+
+.column img {
+  margin-top: 8px;
+  vertical-align: middle;
+  width: 100%;
+  
+}
+
+#main-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#center-content {
+    flex:1 1 auto; /* Lets middle column shrink/grow to available width */
+    max-width: auto;
+}
+#left-content,
+#right-content {
+    flex:0 0 auto; /* Forces side columns to stay same width */
+    width:100px; /* Sets the width of side columns */
+}
+img {
+    max-width:100%; /* Shrinks images to fit container */
+}
+
+
+/* Responsive layout - makes a two column-layout instead of four columns */
+@media screen and (max-width: 800px) {
+  .column {
+    -ms-flex: 50%;
+    flex: 50%;
+    max-width: 50%;
+  }
+}
+
+/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+@media screen and (max-width: 600px) {
+  .column {
+    -ms-flex: 100%;
+    flex: 100%;
+    max-width: 100%;
+  }
+}
+
+/* .confirmation-page {
+	display: no-repeat;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	color: white;
+	background: url(https://images.unsplash.com/photo-1519155031214-e8d583928bf2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80);
+	background-size: cover;
+	opacity: 0.5;
+} */
+
+div.gallery img {
+  width: 100%;
+  height: auto;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.responsive {
+  padding: 0 6px;
+  float: left;
+  width: 24.99999%;
+}
+
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.tutor {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100vh;
+	padding: 1em;
+	box-sizing: border-box;
+	/* color: white; */
+	background: url(https://images.unsplash.com/photo-1563986768817-257bf91c5753?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1085&q=80) center center no-repeat;
+	background-size: cover;
+}
+
+.tutor-container {
+	color: white;
+}

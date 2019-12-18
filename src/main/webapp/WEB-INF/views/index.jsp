@@ -12,7 +12,9 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+<link rel="stylesheet" href="/styles.css" type="text/css">
 </head>
+
 <style>
 * {
 	box-sizing: border-box;
@@ -147,7 +149,6 @@ body {
 <body>
 	<div class="container">
 		<br>
-
 		<div class="jumbotron">
 			<h1>QuickTutor</h1>
 		</div>
@@ -156,10 +157,10 @@ body {
 		<br>
 		<hr>
 		<br>
-		<h3>Tutor Login</h3>
+	<h3>Tutor Login</h3>
 		<form action="tutor-login">
 			Email: <input type="email" name="email"> ${tutorError}
-			Password: <input type="password" name="password"><input
+			Password: <input type="password" name="password"> <input
 				type="submit" value="Login" class="btn btn-primary">
 		</form>
 		<br>
@@ -177,9 +178,9 @@ body {
 							<label for="Password"> <strong>Password</strong></label> 
 						<input type="password" id="password" placeholder="Password"	name="password" required> 
 							<label for="Latitude"><strong>Latitude</strong></label> 
-						<input type="decimal" id="latitude" placeholder="Latitude" name="latitude" required> 
+						<input type="latitude" id="latitude" placeholder="Latitude" name="latitude" required> 
 							<label for="Longitude"><strong>Longitude</strong></label> 
-						<input type="decimal" id="longitude" placeholder="Longitude" name="Longitude" required> 
+						<input type="longitude" id="longitude" placeholder="Longitude" name="Longitude" required> 
 							<label for="Subject"><strong>Subject</strong></label> 
 						<input type="text" id="subject" placeholder="Subject" name="subject" required> 
 						<label for="subject"> <strong>Bio</strong></label> 
@@ -220,6 +221,7 @@ body {
 			</div>
 		</div>
 		<hr>
+		
 		<h3>Student Login</h3>
 		<form action="student-login">
 			Email: <input type="email" name="email"> ${studentError}
@@ -241,8 +243,7 @@ body {
 						<input type="password" id="password" placeholder="Password" name="password" required>
 						<button type="submit" class="btn btn-primary">Register</button>
 						<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
-
-					</form>
+		</form>
 				</div>
 			</div>
 		</div>

@@ -14,7 +14,6 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="/styles.css" type="text/css">
 </head>
-
 <style>
 * {
 	box-sizing: border-box;
@@ -146,107 +145,150 @@ body {
 	opacity: 1;
 }
 </style>
-<body>
-	<div class="container">
+<section class="index">
+	<header id="header">
+		<!-- <nav>
+				<a id="menu-icon">&#8801;</a>
+			</nav> -->
+	</header>
+	<header class="index-header">
+		<h1 class="index-title">READY TUTOR ONE</h1>
 		<br>
-		<div class="jumbotron">
-			<h1>QuickTutor</h1>
-		</div>
-		<h3>Welcome to QuickTutor!</h3>
-		<h3>The place to find nearby help, now.</h3>
-		<br>
-		<hr>
-		<br>
-	<h3>Tutor Login</h3>
-		<form action="tutor-login">
-			Email: <input type="email" name="email"> ${tutorError}
-			Password: <input type="password" name="password"> <input
-				type="submit" value="Login" class="btn btn-primary">
-		</form>
-		<br>
-		<h5>Tutor Registration</h5>
-		<div class="open-btn primary">
-			<button class="open-button" onclick="openForm1()">REGISTER</button>
-			<div class="register-popup">
+		<h2 class="index-subtitle">The place to find nearby help, now.</h2>
+	</header>
+	<footer class="index-footer">
+		<div>
+			<div class="open-btn primary">
+				TUTOR <button class="open-button" onclick="openForm1()">SIGN IN</button> ${tutorError}
 				<div class="form-popup" id="popupForm1">
-					<form action="register-t" class="form-container">
-					
-						<label for="Full Name"><strong>Full Name</strong></label> 
-						<input type="text" id="name" placeholder="Full Name" name="name" required> 
-							<label for="email"><strong>Email</strong> </label> 
-							<input type="email" id="email" placeholder="Email" name="email" required>
-							<label for="Password"> <strong>Password</strong></label> 
-						<input type="password" id="password" placeholder="Password"	name="password" required> 
-							<label for="Latitude"><strong>Latitude</strong></label> 
-						<input type="latitude" id="latitude" placeholder="Latitude" name="latitude" required> 
-							<label for="Longitude"><strong>Longitude</strong></label> 
-						<input type="longitude" id="longitude" placeholder="Longitude" name="Longitude" required> 
-							<label for="Subject"><strong>Subject</strong></label> 
-						<input type="text" id="subject" placeholder="Subject" name="subject" required> 
-						<label for="subject"> <strong>Bio</strong></label> 
-						<input type="text" id="Bio" placeholder="Bio" name="Bio" required>
-						<button type="submit" class="btn btn-primary">Register</button>
+					<form action="tutor-login" class="form-container">
+						<input type="email" id="email" placeholder="Email" name="email"
+							required> <label for="Password"> <strong>Password</strong></label>
+						<input type="password" id="password" placeholder="Password"
+							name="password" required>
+						<button type="submit" class="btn btn-primary">Sign in</button>
 						<button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
 					</form>
 				</div>
-				<script>
-					function openForm1() {
-						document.getElementById("popupForm1").style.display = "block";
-					}
-
-					function closeForm1() {
-						document.getElementById("popupForm1").style.display = "none";
-					}
-					window.onclick = function(event) {
-						var modal = document.getElementById('popupForm1');
-						if (event.target == modal) {
-							closeForm1();
-						}
-					}
-
-					function openForm2() {
-						document.getElementById("popupForm2").style.display = "block";
-					}
-
-					function closeForm2() {
-						document.getElementById("popupForm2").style.display = "none";
-					}
-					window.onclick = function(event) {
-						var modal = document.getElementById('popupForm2');
-						if (event.target == modal) {
-							closeForm2();
-						}
-					}
-				</script>
 			</div>
 		</div>
-		<hr>
-		
-		<h3>Student Login</h3>
-		<form action="student-login">
-			Email: <input type="email" name="email"> ${studentError}
-			Password: <input type="password" name="password"> <input
-				type="submit" value="Login" class="btn btn-primary">
-		</form>
-		<br>
-		<h5>Student Registration</h5>
-		<div class="open-btn primary">
-			<button class="open-button" onclick="openForm2()">REGISTER</button>
-			<div class="register-popup">
+		<div>
+			<div class="open-btn primary">
+				<button class="open-button" onclick="openForm2()">REGISTER</button>
 				<div class="form-popup" id="popupForm2">
-					<form action="register-s" class="form-container">
-						<label for="Full Name"> <strong>Full Name</strong></label> 
-						<input type="text" id="name" placeholder="Full Name" name="name" required> 
-						<label for="email"> <strong>Email</strong></label> 
-						<input type="email" id="email" placeholder="Email" name="email" required>
-						<label for="Password"> <strong>Password</strong></label> 
-						<input type="password" id="password" placeholder="Password" name="password" required>
+					<form action="register-t" class="form-container">
+
+						<label for="Full Name"><strong>Full Name</strong></label> <input
+							type="text" id="name" placeholder="Full Name" name="name"
+							required> <label for="email"><strong>Email</strong>
+						</label> <input type="email" id="email" placeholder="Email" name="email"
+							required> <label for="Password"> <strong>Password</strong></label>
+						<input type="password" id="password" placeholder="Password"
+							name="password" required> <label for="Latitude"><strong>Latitude</strong></label>
+						<input type="latitude" id="latitude" placeholder="Latitude"
+							name="latitude" required> <label for="Longitude"><strong>Longitude</strong></label>
+						<input type="longitude" id="longitude" placeholder="Longitude"
+							name="Longitude" required> <label for="Subject"><strong>Subject</strong></label>
+						<input type="text" id="subject" placeholder="Subject"
+							name="subject" required> <label for="subject"> <strong>Bio</strong></label>
+						<input type="text" id="Bio" placeholder="Bio" name="Bio" required>
 						<button type="submit" class="btn btn-primary">Register</button>
 						<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
-		</form>
+					</form>
 				</div>
 			</div>
 		</div>
-	</div>
+		<br> <br>
+		<div>
+			<div class="open-btn primary">
+			STUDENT <button class="open-button" onclick="openForm3()">SIGN IN</button> ${studentError}
+				<div class="form-popup" id="popupForm3">
+					<form action="student-login" class="form-container">
+						<input type="email" id="email" placeholder="Email" name="email"
+							required> <label for="Password"> <strong>Password</strong></label>
+						<input type="password" id="password" placeholder="Password"
+							name="password" required>
+						<button type="submit" class="btn btn-primary">Sign in</button>
+						<button type="button" class="btn cancel" onclick="closeForm3()">Close</button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="open-btn primary">
+				<button class="open-button" onclick="openForm4()">REGISTER</button>
+				<div class="register-popup">
+					<div class="form-popup" id="popupForm4">
+						<form action="register-s" class="form-container">
+							<label for="Full Name"> <strong>Full Name</strong></label> <input
+								type="text" id="name" placeholder="Full Name" name="name"
+								required> <label for="email"> <strong>Email</strong></label>
+							<input type="email" id="email" placeholder="Email" name="email"
+								required> <label for="Password"> <strong>Password</strong></label>
+							<input type="password" id="password" placeholder="Password"
+								name="password" required>
+							<button type="submit" class="btn btn-primary">Register</button>
+							<button type="button" class="btn cancel" onclick="closeForm4()">Close</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<script>
+		function openForm1() {
+			document.getElementById("popupForm1").style.display = "block";
+		}
+
+		function closeForm1() {
+			document.getElementById("popupForm1").style.display = "none";
+		}
+		window.onclick = function(event) {
+			var modal = document.getElementById('popupForm1');
+			if (event.target == modal) {
+				closeForm1();
+			}
+		}
+		function openForm2() {
+			document.getElementById("popupForm2").style.display = "block";
+		}
+
+		function closeForm2() {
+			document.getElementById("popupForm2").style.display = "none";
+		}
+		window.onclick = function(event) {
+			var modal = document.getElementById('popupForm2');
+			if (event.target == modal) {
+				closeForm2();
+			}
+		}
+		function openForm3() {
+			document.getElementById("popupForm3").style.display = "block";
+		}
+
+		function closeForm3() {
+			document.getElementById("popupForm3").style.display = "none";
+		}
+		window.onclick = function(event) {
+			var modal = document.getElementById('popupForm3');
+			if (event.target == modal) {
+				closeForm3();
+			}
+		}
+		function openForm4() {
+			document.getElementById("popupForm4").style.display = "block";
+		}
+
+		function closeForm4() {
+			document.getElementById("popupForm4").style.display = "none";
+		}
+		window.onclick = function(event) {
+			var modal = document.getElementById('popupForm4');
+			if (event.target == modal) {
+				closeForm4();
+			}
+		}
+	</script>
+</section>
 </body>
 </html>

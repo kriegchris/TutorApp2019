@@ -136,8 +136,8 @@
 			    google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
 			        return function() {
 			        	infowindow.close();
-			          	infowindow.setContent("<img src=\"" + businesses[i][0] + "\" width=\"104px\"" +" height=\"104px\">" + "<p>Address: " + businesses[i][3] + "</p>" +
-			          			"<a href=" + "\"" + businesses[i][1] + "\" target=\"_blank\"" + ">" + businesses[i][2] + "</a>" + "<a href=" + "\"/confirm-session?meetingLocation=" + 
+			          	infowindow.setContent("<img src=\"" + businesses[i][0] + "\" width=\"104px\"" +" height=\"104px\">" + "<br><br><p>Address: " + businesses[i][3] + "</p>" +
+			          			"<a href=" + "\"" + businesses[i][1] + "\" target=\"_blank\"" + ">" + businesses[i][2] + "<br><br></a>" + "<a href=" + "\"/confirm-session?meetingLocation=" + 
 			          			businesses[i][3] + "&studentId=" + ${studentId} + "&tutorId=" + ${tutorId} + "\"" + " class=\"btn btn-primary\"" + ">" + "Choose Location" + "</a>");
 			          	//meetingLocation is sent over to the controller via the anchor tag
 			          	infowindow.open(map, marker);

@@ -23,7 +23,6 @@
 			<div class="navbar-collapse collapse" id="navbarColor01" style="">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item"><a class="nav-link" href="/get-location">Home
-							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
 					<li class="nav-item active"><a class="nav-link" href="/new-student-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/past-student-sessions">Past Sessions</a></li>
@@ -43,7 +42,6 @@
 				<th>Duration</th>
 				<th>Session Start Time</th>
 				<th>Completed</th>
-				<th>Date</th>
 			</tr>
 			<c:forEach var="t" items="${sessions}">
 				<tr>
@@ -52,7 +50,6 @@
 					<td>${t.duration}</td>
 					<td>${t.startTime }</td>
 					<td>${t.completed }</td>
-					<td>${t.sessionDate }</td>
 				</tr>
 			</c:forEach>
 		</table>

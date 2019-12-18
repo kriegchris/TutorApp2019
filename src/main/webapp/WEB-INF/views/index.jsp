@@ -170,7 +170,6 @@ body {
 			<div class="register-popup">
 				<div class="form-popup" id="popupForm1">
 					<form action="register-t" class="form-container">
-					
 						<label for="Full Name"><strong>Full Name</strong></label> 
 						<input type="text" id="name" placeholder="Full Name" name="name" required> 
 							<label for="email"><strong>Email</strong> </label> 
@@ -189,6 +188,8 @@ body {
 						<button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
 					</form>
 				</div>
+			</div>
+		</div>
 				<script>
 					function openForm1() {
 						document.getElementById("popupForm1").style.display = "block";
@@ -218,8 +219,6 @@ body {
 						}
 					}
 				</script>
-			</div>
-		</div>
 		<hr>
 		
 		<h3>Student Login</h3>

@@ -121,7 +121,7 @@ public class HomeController {
 			session.setAttribute("student", sr.findByEmail(email));
 			if (!sr.findByEmail(email).getPassword().equals(password)) {
 				ModelAndView mv2 = new ModelAndView("index");
-				mv2.addObject("studentPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+				mv2.addObject("studentPasswordError", "<span style=\"color:white;font-weight:bold\">Invalid password.</span>");
 				return mv2;
 			}
 			mv.addObject("student", session.getAttribute("student"));
@@ -129,7 +129,7 @@ public class HomeController {
 		} catch (NullPointerException e) {
 			//if email is not contained in database, invalid email  message appears
 			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("studentError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			mv.addObject("studentError", "<span style=\"color:white;font-weight:bold\">Invalid email.</span>");
 			return mv;
 		}
 	}
@@ -143,7 +143,7 @@ public class HomeController {
 		session.setAttribute("tutor", tr.findByEmail(email));
 		if (!tr.findByEmail(email).getPassword().equals(password)) {
 			ModelAndView mv2 = new ModelAndView("index");
-			mv2.addObject("tutorPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+			mv2.addObject("tutorPasswordError", "<span style=\"color:white;font-weight:bold\">Invalid password.</span>");
 			return mv2;
 		}
 		mv.addObject("tutor", session.getAttribute("tutor"));
@@ -152,7 +152,7 @@ public class HomeController {
 		} catch (NullPointerException e) {
 			//if email is not contained in database, invalid email message appears
 			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("tutorError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			mv.addObject("tutorError", "<span style=\"color:white;font-weight:bold\">Invalid email.</span>");
 			return mv;
 		}
 	}

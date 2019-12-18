@@ -51,7 +51,7 @@ body {
 	display: none;
 	position: static;
 	left: 45%;
-	top: 5%;
+	top: 1%;
 	transform: translate(-45%, 5%);
 	border: 2px solid #666;
 	z-index: 9;
@@ -59,14 +59,13 @@ body {
 /* Styles for the form container */
 .form-container {
 	max-width: 300px;
-	padding: 20px;
+	padding: 2px;
 	background-color: #fff;
 }
 /* Full-width for input fields */
 .form-container input[type=text], .form-container input[type=name] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -74,7 +73,6 @@ body {
 .form-container input[type=text], .form-container input[type=email] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -82,7 +80,6 @@ body {
 .form-container input[type=text], .form-container input[type=latitude] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -91,7 +88,6 @@ body {
 	{
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -99,7 +95,6 @@ body {
 .form-container input[type=text], .form-container input[type=subject] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -107,7 +102,6 @@ body {
 .form-container input[type=text], .form-container input[type=bio] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -115,7 +109,6 @@ body {
 .form-container input[type=text], .form-container input[type=password] {
 	width: 100%;
 	padding: 10px;
-	margin: 5px 0 22px 0;
 	border: none;
 	background: #eee;
 }
@@ -159,7 +152,8 @@ body {
 	<footer class="index-footer">
 		<div>
 			<div class="open-btn primary">
-				TUTOR <button class="open-button" onclick="openForm1()">SIGN IN</button> ${tutorError}
+				<h4 class="index-word-text"> TUTOR </h4><button class="open-button" onclick="openForm1()" 
+				style="margin:5px;">SIGN IN</button> ${tutorError}${tutorPasswordError }
 				<div class="form-popup" id="popupForm1">
 					<form action="tutor-login" class="form-container">
 						<input type="email" id="email" placeholder="Email" name="email"
@@ -174,23 +168,22 @@ body {
 		</div>
 		<div>
 			<div class="open-btn primary">
-				<button class="open-button" onclick="openForm2()">REGISTER</button>
+				<button class="open-button" onclick="openForm2()" style="margin:5px;">REGISTER</button>
 				<div class="form-popup" id="popupForm2">
 					<form action="register-t" class="form-container">
-
-						<label for="Full Name"><strong>Full Name</strong></label> <input
+						<label for="Full Name">Full Name</label> <input
 							type="text" id="name" placeholder="Full Name" name="name"
-							required> <label for="email"><strong>Email</strong>
+							required> <label for="email">Email
 						</label> <input type="email" id="email" placeholder="Email" name="email"
-							required> <label for="Password"> <strong>Password</strong></label>
+							required> <label for="Password">Password</label>
 						<input type="password" id="password" placeholder="Password"
-							name="password" required> <label for="Latitude"><strong>Latitude</strong></label>
+							name="password" required> <label for="Latitude">Latitude</label>
 						<input type="latitude" id="latitude" placeholder="Latitude"
-							name="latitude" required> <label for="Longitude"><strong>Longitude</strong></label>
+							name="latitude" required> <label for="Longitude">Longitude</label>
 						<input type="longitude" id="longitude" placeholder="Longitude"
-							name="Longitude" required> <label for="Subject"><strong>Subject</strong></label>
+							name="Longitude" required> <label for="Subject">Subject</label>
 						<input type="text" id="subject" placeholder="Subject"
-							name="subject" required> <label for="subject"> <strong>Bio</strong></label>
+							name="subject" required> <label for="subject"> Bio</label>
 						<input type="text" id="Bio" placeholder="Bio" name="Bio" required>
 						<button type="submit" class="btn btn-primary">Register</button>
 						<button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
@@ -201,7 +194,8 @@ body {
 		<br> <br>
 		<div>
 			<div class="open-btn primary">
-			STUDENT <button class="open-button" onclick="openForm3()">SIGN IN</button> ${studentError}
+			<h4 class="student-word-text">STUDENT </h4><button class="open-button" onclick="openForm3()" 
+			style="margin:5px;">SIGN IN</button> ${studentError}${studentPasswordError }
 				<div class="form-popup" id="popupForm3">
 					<form action="student-login" class="form-container">
 						<input type="email" id="email" placeholder="Email" name="email"
@@ -216,7 +210,7 @@ body {
 		</div>
 		<div>
 			<div class="open-btn primary">
-				<button class="open-button" onclick="openForm4()">REGISTER</button>
+				<button class="open-button" onclick="openForm4()" style="margin:5px;">REGISTER</button>
 				<div class="register-popup">
 					<div class="form-popup" id="popupForm4">
 						<form action="register-s" class="form-container">

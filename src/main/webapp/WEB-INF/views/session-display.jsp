@@ -11,10 +11,11 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+	<link rel="stylesheet" href="/styles.css" type="text/css">
 	</head>
 	<body>
-	<div class="container">
-	<br>
+	
+	<section class="session-confirmed">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -34,11 +35,9 @@
 				</ul>
 			</div>
 		</nav>
-		<div class="jumbotron">
 
-			<h1>Session confirmed!</h1>
+			<h1 class="confirm-text">Session confirmed!</h1>
 			
-		</div>
-	</div>
+	</section>
 </body>
 </html>

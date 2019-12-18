@@ -9,18 +9,13 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
-<style>
-/* Set the size of the div element that contains the map */
-#map {
-	height: 400px; /* The height is 400 pixels */
-	width: 100%; /* The width is the width of the web page */
-}
-</style>
+	<link rel="stylesheet" href="/styles.css" type="text/css">
+	
 <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<br>
+	
+	<section class="map-display-background">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -37,23 +32,21 @@
 					<li class="nav-item"><a class="nav-link"
 						href="/past-student-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>
-
 				</ul>
 			</div>
-		</nav>
-		<div class="jumbotron">
-			<h1>Welcome Back, ${studentName}!</h1>
-		</div>
-		
+		</nav> <br>
+		<div class="container">
+			<h1 class="welcome-back-text">Welcome Back, ${studentName}!</h1>
+		<br>
 		<!--The div element for the map -->
 		<div id="map"></div>
 		
 		<br><br>
 
-		<h4>Filter Tutors By Subject:</h4>
+		<h4 class="filter-text">Filter Tutors By Subject:</h4>
 		<form action="/subject-filter">
 			<input type="hidden" value="${tutor.subject }" type="hidden"> <select
-				class="custom-select" name="subject">
+				class="custom-select" name="subject" style="width: 347px;">
 				<option selected value="English">English</option>
 				<option value="Biology">Biology</option>
 				<option value="Spanish">Spanish</option>
@@ -118,6 +111,14 @@
 						}
 			    });
 			    
+			    function givemecolor(thecolor,thetext)
+			    {
+			    return '<span style="color:'+thecolor+'>'+thetext+'</span>';
+			    }
+			document.write(givemecolor('green','I\'m an apple'));
+			document.write(givemecolor('yellow','and I\'m a banana'));
+			    
+			    
 			    //this function adds content to each marker in a popup window
 			  var infowindow = new google.maps.InfoWindow();
 			  google.maps.event.addListener(marker, 'mouseover', (function(marker, i) {
@@ -128,6 +129,7 @@
 			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>" + "		<a href=" + "\"/tutor-details?tutorId=" + 
 			          			locations[i][0] + "\"" + " class=\"btn btn-primary\"" + ">" + "See Details" + "</a>");
 			          	infowindow.open(map, marker);
+			          	/* document.write("<p>Fontcolor: " + infowindow.fontcolor("black")); */
 			        }
 			        
 			      })(marker, i));
@@ -178,6 +180,8 @@
 		<script async defer
 			src="https://maps.googleapis.com/maps/api/js?key=${mapKey }&callback=initialize">
 	</script>
-	</div>
+	
+			</div>
+</section>
 </body>
 </html>

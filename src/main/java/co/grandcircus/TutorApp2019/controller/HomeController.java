@@ -4,6 +4,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -358,7 +359,9 @@ public class HomeController {
 		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
 		for (TimeLedger x : sessions) {
 			if (x.getSessionDate().isBefore(today)) {
-				filteredSessions.add(x); 
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
 			}
 		}
 		mv.addObject("sessions", filteredSessions);
@@ -374,12 +377,22 @@ public class HomeController {
 		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
 		for (TimeLedger x : sessions) {
 			if (x.getSessionDate().isEqual(today)) {
-				filteredSessions.add(x); 
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
 			}
 		}
 		mv.addObject("sessions", filteredSessions);
 		return mv;
 		
+	}
+	
+	@RequestMapping("mark-complete")
+	public ModelAndView markComplete(Integer id) {
+		TimeLedger tl = tlr.findById(id).orElse(null);
+		tl.setCompleted(true);
+		tlr.save(tl);
+		return new ModelAndView("redirect:/new-tutor-sessions");
 	}
 
 	//display all students past sessions
@@ -391,7 +404,9 @@ public class HomeController {
 		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
 		for (TimeLedger x : sessions) {
 			if (x.getSessionDate().isBefore(today)) {
-				filteredSessions.add(x); 
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
 			}
 		}
 		mv.addObject("sessions", filteredSessions);
@@ -431,7 +446,9 @@ public class HomeController {
 		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
 		for (TimeLedger x : sessions) {
 			if (x.getSessionDate().isEqual(today)) {
-				filteredSessions.add(x); 
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
 			}
 		}
 		mv.addObject("sessions", filteredSessions);

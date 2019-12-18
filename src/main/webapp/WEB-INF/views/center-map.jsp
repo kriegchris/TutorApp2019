@@ -9,22 +9,18 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+	<link rel="stylesheet" href="/styles.css" type="text/css">
 <style>
-/* Set the size of the div element that contains the map */
-#map {
-	height: 400px; /* The height is 400 pixels */
-	width: 100%; /* The width is the width of the web page */
-}
 .search-scope {
   margin-top: 10px;
   text-align: left;
+  color: black;
 }
 </style>
 <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.19.0.min.js"></script>
 </head>
 <body>
-	<div class="container">
-		<br>
+	<section class="business-map">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -46,33 +42,35 @@
 				</ul>
 			</div>
 		</nav>
+		<div class="container">
 		<br>
-		<h3>Where would you like to meet ${tutorName}?</h3>
-
+		<h3 class="welcome-back-text">Where would you like to meet ${tutorName}?</h3>
+		<br>
 		<!--The div element for the map -->
 		<div id="map"></div>
 
 		<br>
-		<hr>
 		<form action="search-business">
 			<input name="latitude" value="${latitude }" type="hidden"> <input
 				name="longitude" value="${longitude }" type="hidden">
-			Meeting Location Category: <select required class="custom-select"
-				id="cat" name="cat" style="width: 200px;" required>
+			<h3 class="location-cat-text">Meeting Location Category: </h3><select required class="custom-select"
+				id="cat" name="cat" style="width: 300px;" required>
 				<option selected value="cafe">Cafe</option>
 				<option value="bar">Bar</option>
 				<option value="library">Library</option>
 				<option value="park">Park</option>
 			</select> <br> <br>
+			
+			
+			
 			<div class="search-scope">
-				<input type="range" min="1" max="24" value="1" class="slider"
-					id="myRange" name="radius">
-				<p>
-					Search radius: <span id="demo"></span>
-				</p>
+					<h3 class="location-cat-text">Meeting location search radius (miles): </h3>
+				<input type="range" min="1" max="24" class="slider" value="1" 
+					id="myRange" name="radius"><span id="demo"></span>
 			</div>
-			<input type="submit" value="Submit"><br>
+			<input type="submit" value="Submit" class="btn btn-primary"><br>
 		</form>
+		
 		<script>
 		window.lat = ${stuLat};
 		window.lng = ${stuLon};
@@ -187,5 +185,6 @@
 	</script>
 
 	</div>
+	</section>
 </body>
 </html>

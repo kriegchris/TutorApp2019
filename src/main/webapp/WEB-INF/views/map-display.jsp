@@ -4,7 +4,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -55,8 +54,7 @@
 		<form action="/subject-filter">
 			<input type="hidden" value="${tutor.subject }" type="hidden"> <select
 				class="custom-select" name="subject">
-				<option selected="">Select option</option>
-				<option value="English">English</option>
+				<option selected value="English">English</option>
 				<option value="Biology">Biology</option>
 				<option value="Spanish">Spanish</option>
 				<option value="French">French</option>
@@ -127,7 +125,8 @@
 			       		infowindow.close();
 			          	infowindow.setContent("<p>Name: " + locations[i][1] + "</p>" + "<p>Subject: " + locations[i][3] + 
 			          			"</p>" + "<p>Bio: " + locations[i][4] + "<p>Rating: " + locations[i][2] + "</p>" + "<a href=" + "\"/find-center?tutorName=" + 
-			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>");
+			          			locations[i][1] + "\"" + " class=\"btn btn-primary\"" + ">" + "Request Session" + "</a>" + "		<a href=" + "\"/tutor-details?tutorId=" + 
+			          			locations[i][0] + "\"" + " class=\"btn btn-primary\"" + ">" + "See Details" + "</a>");
 			          	infowindow.open(map, marker);
 			        }
 			        
@@ -173,7 +172,7 @@
 
 		 setInterval(function() {
 		     pubnub.publish({channel:pnChannel, message:currentLocation()});
-		 }, 10000);
+		 }, 1000);
 		
 	</script>
 		<script async defer

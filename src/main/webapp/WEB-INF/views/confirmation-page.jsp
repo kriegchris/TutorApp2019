@@ -52,8 +52,7 @@
 				name="meetingLocation" type="hidden" value="${meetingLocation}">
 			Session Duration: <select class="custom-select" name="duration"
 				type="number"> style="width: 200px;" required>
-				<option selected="">Select option</option>
-				<option value="30">30 Minutes</option>
+				<option selected value="30">30 Minutes</option>
 				<option value="45">45 Minutes</option>
 				<option value="60">60 Minutes</option>
 				<option value="75">75 Minutes</option>

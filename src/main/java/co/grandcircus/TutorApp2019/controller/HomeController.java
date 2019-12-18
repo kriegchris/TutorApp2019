@@ -1,8 +1,9 @@
 package co.grandcircus.TutorApp2019.controller;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
+import co.grandcircus.TutorApp2019.entity.Review;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
@@ -30,6 +32,7 @@ import co.grandcircus.TutorApp2019.json.MapData;
 import co.grandcircus.TutorApp2019.json.PlaceResults;
 import co.grandcircus.TutorApp2019.marks.BusinessMarks;
 import co.grandcircus.TutorApp2019.marks.TutorMarks;
+import co.grandcircus.TutorApp2019.repo.ReviewRepo;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -57,6 +60,9 @@ public class HomeController {
 
 	@Autowired
 	TimeLedgerRepo tlr;
+	
+	@Autowired
+	ReviewRepo rr;
 
 	@Autowired
 	HttpSession session;
@@ -105,13 +111,18 @@ public class HomeController {
 	}
 
 	@RequestMapping("student-login")
-	public ModelAndView studentLogin(@RequestParam("email") String email) {
+	public ModelAndView studentLogin(@RequestParam("email") String email, String password) {
 		try {
 			ModelAndView mv = new ModelAndView("redirect:/get-location");
 			//once the student logs in, we get their  name from the database and display on welcome/home page
 			session.setAttribute("studentName", sr.findByEmail(email).getName());
 			//this saves the student in order to use again when confirming a tutoring session
 			session.setAttribute("student", sr.findByEmail(email));
+			if (!sr.findByEmail(email).getPassword().equals(password)) {
+				ModelAndView mv2 = new ModelAndView("index");
+				mv2.addObject("studentPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+				return mv2;
+			}
 			mv.addObject("student", session.getAttribute("student"));
 			return mv;
 		} catch (NullPointerException e) {
@@ -123,12 +134,17 @@ public class HomeController {
 	}
 
 	@RequestMapping("tutor-login")
-	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+	public ModelAndView tutorLogin(@RequestParam("email") String email, String password) {
 		try {
 			//same thing for tutor as student(above mapping) for when tutor logs in 
 		ModelAndView mv = new ModelAndView("tutor-welcome");
 		session.setAttribute("tutorName", tr.findByEmail(email).getName());
 		session.setAttribute("tutor", tr.findByEmail(email));
+		if (!tr.findByEmail(email).getPassword().equals(password)) {
+			ModelAndView mv2 = new ModelAndView("index");
+			mv2.addObject("tutorPasswordError", "<span style=\"color:red;font-weight:bold\">Invalid password.</span>");
+			return mv2;
+		}
 		mv.addObject("tutor", session.getAttribute("tutor"));
 		//added students current lng and lat to the map
 		return mv;
@@ -202,6 +218,23 @@ public class HomeController {
 		return mv;
 	}
 	
+	//displays details about the tutor
+	@RequestMapping("tutor-details")
+	public ModelAndView displayTutorDetails(@RequestParam("tutorId")Integer id) {
+		ModelAndView mv = new ModelAndView("tutor-details");
+		Tutor t = tr.findById(id).orElse(null);
+		mv.addObject("tutorName", t.getName());
+		mv.addObject("subject", t.getSubject());
+		mv.addObject("bio", t.getBio());
+		mv.addObject("rating", t.getRating());
+		if (rr.findByTutorId(id).isEmpty()) {
+			mv.addObject("no", "No Current ");
+		} else {
+			mv.addObject("reviews", rr.findByTutorId(id));
+		}
+		return mv;
+	}
+	
 	//finds the center point between student and tutor
 	@RequestMapping("find-center")
 	public ModelAndView findCenter(@RequestParam("tutorName") String name) {
@@ -225,12 +258,11 @@ public class HomeController {
 		//this lat & lng returns the center point between the tutor and student
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		
+		mv.addObject("mapKey", mapKey);		
 		//FIXME
 		//implement pubnub later
-		mv.addObject("publishKey", pubnubPublishKey);
-		mv.addObject("subscribeKey", pubnubSubKey);
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -286,6 +318,11 @@ public class HomeController {
 		mv.addObject("tutorId", t.getId()); 
 		Student s = (Student) session.getAttribute("student");
 		mv.addObject("studentId", s.getId());
+		mv.addObject("radius", radius);
+		//FIXME
+		//implement pubnub later
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -361,6 +398,30 @@ public class HomeController {
 		return mv;
 	}
 	
+	@RequestMapping("add-review")
+	public ModelAndView addReview(@RequestParam("sessionId") Integer id, String review, Double rating) {
+		System.out.println(id);
+		ModelAndView mv = new ModelAndView("redirect:/past-student-sessions");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		Tutor t = tutorSession.getTutor();
+		Double newRating = (rating + t.getRating()) / 2;
+		DecimalFormat decimalFormat = new DecimalFormat(".#");
+		t.setRating(Double.valueOf(decimalFormat.format(newRating)));
+		rr.save(new Review(review, tutorSession.getTutor(), tutorSession.getStudent()));
+		mv.addObject("thanks", "<span>Thanks for leaving a review!</span>");
+		return mv;
+	}
+	
+	@RequestMapping("review-page")
+	public ModelAndView reviewPage(Integer id) {
+		ModelAndView mv = new ModelAndView("add-review");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		Tutor t = tutorSession.getTutor();
+		mv.addObject("sessionId", id);
+		mv.addObject("tutorName", t.getName());
+		return mv;
+	}
+	
 	//display all tutors current sessions
 	@RequestMapping("new-student-sessions")
 	public ModelAndView newStudentSessionDisplay(Student student) {
@@ -408,10 +469,10 @@ public class HomeController {
 		String gName = tutor.getName();
 		String subject = tutor.getSubject();
 		String bio = tutor.getBio();
-		String rating = tutor.getRating();
+		Double rating = tutor.getRating();
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
-		return new TutorMarks(id, gName, subject, bio, rating, gLat, gLng);
+		return new TutorMarks(id, gName, bio, rating, subject, gLat, gLng);
 	}
 
 }

@@ -28,11 +28,15 @@ public class Tutor implements Serializable {
 	private String password;
 	private String subject;
 	private String bio;
-	private String rating;
-	private String review;
+	private Double rating;
+	
+	@OneToMany(mappedBy = "tutor", orphanRemoval=true)
+	private List<Review> reviews;
+	
 	
 	@OneToMany(mappedBy = "tutor", orphanRemoval=true)
 	private List<TimeLedger> timeledger;
+	
 	
 	public List<TimeLedger> getTimeledger() {
 		return timeledger;
@@ -43,7 +47,7 @@ public class Tutor implements Serializable {
 	}
 
 	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
-			String subject, String bio, String rating, String review, List<TimeLedger> timeledgerTutor) {
+			String subject, String bio, Double rating, List<Review> reviews, List<TimeLedger> timeledgerTutor) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -54,7 +58,7 @@ public class Tutor implements Serializable {
 		this.subject = subject;
 		this.bio = bio;
 		this.rating = rating;
-		this.review = review;
+		this.reviews = reviews;
 		this.timeledger = timeledgerTutor;
 	}
 
@@ -78,7 +82,7 @@ public class Tutor implements Serializable {
 	}
 
 	public Tutor(Integer id, String name, Double latitude, Double longitude, String email, String password,
-			String subject, String bio, String rating, String review) {
+			String subject, String bio, Double rating, List<Review> reviews) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -89,7 +93,7 @@ public class Tutor implements Serializable {
 		this.subject = subject;
 		this.bio = bio;
 		this.rating = rating;
-		this.review = review;
+		this.reviews = reviews;
 	}
 	
 	
@@ -171,20 +175,20 @@ public class Tutor implements Serializable {
 		this.bio = bio;
 	}
 
-	public String getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 
-	public String getReview() {
-		return review;
+	public List<Review> getReview() {
+		return reviews;
 	}
 
-	public void setReview(String review) {
-		this.review = review;
+	public void setReview(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	//We need to update this after implementing AJAC

@@ -44,7 +44,6 @@
 				<th>Session Start Time</th>
 				<th>Completed</th>
 				<th>Date</th>
-				<th>Rate & Review</th>
 			</tr>
 			<c:forEach var="t" items="${sessions}">
 				<tr>
@@ -54,8 +53,6 @@
 					<td>${t.startTime }</td>
 					<td>${t.completed }</td>
 					<td>${t.sessionDate }</td>
-					<td>**add button here**</td>
-					
 				</tr>
 			</c:forEach>
 		</table>

@@ -7,7 +7,7 @@ public class TutorMarks extends GoogleMarks {
 	private Integer id;
 	private String name;
 	private String bio;
-	private String rating;
+	private Double rating;
 	private String subject;
 	private double lat;
 	private double lng;
@@ -22,7 +22,7 @@ public class TutorMarks extends GoogleMarks {
 		this.lng = lng;
 	}
 
-	public TutorMarks(Integer id, String name, String bio, String rating, String subject, double lat, double lng) {
+	public TutorMarks(Integer id, String name, String bio, Double rating, String subject, double lat, double lng) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -66,11 +66,11 @@ public class TutorMarks extends GoogleMarks {
 		this.bio = bio;
 	}
 
-	public String getRating() {
+	public Double getRating() {
 		return rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(Double rating) {
 		this.rating = rating;
 	}
 
@@ -92,7 +92,7 @@ public class TutorMarks extends GoogleMarks {
 	
 	@Override
 	public String toString() {
-		return "[\"" + id + "\", " + "\"" + name + "\", " + "\"" + subject + "\", " + "\"" + bio + "\", "  + "\"" + rating + "\", " + lat + ", " + lng + "]";
+		return "[\"" + id + "\", " + "\"" + name + "\", " + "\"" + rating + "\", " + "\"" + subject + "\", "  + "\"" + bio + "\", " + lat + ", " + lng + "]";
 	}
 
 }

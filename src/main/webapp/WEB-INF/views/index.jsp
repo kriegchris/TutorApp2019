@@ -49,10 +49,10 @@ body {
 /* Hide the Popup form */
 .form-popup {
 	display: none;
-	position: static;
-	left: 45%;
-	top: 1%;
-	transform: translate(-45%, 5%);
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
 	border: 2px solid #666;
 	z-index: 9;
 }
@@ -127,7 +127,7 @@ body {
 	cursor: pointer;
 	width: 100%;
 	margin-bottom: 10px;
-	opacity: 1;
+	opacity: .8;
 }
 /* Style cancel button */
 .form-container .cancel {
@@ -135,14 +135,11 @@ body {
 }
 /* Hover effects for buttons */
 .form-container .btn:hover, .open-button:hover {
-	opacity: 1;
+	opacity: .8;
 }
 </style>
 <section class="index">
 	<header id="header">
-		<!-- <nav>
-				<a id="menu-icon">&#8801;</a>
-			</nav> -->
 	</header>
 	<header class="index-header">
 		<h1 class="index-title">READY TUTOR ONE</h1>
@@ -168,10 +165,11 @@ body {
 		</div>
 		<div>
 			<div class="open-btn primary">
-				<button class="open-button" onclick="openForm2()" style="margin:5px;">REGISTER</button>
+				<button class="open-button"
+					onclick="openForm2(); closeForm4(); closeForm3(); closeForm1()" style="margin:5px;">REGISTER</button>
 				<div class="form-popup" id="popupForm2">
 					<form action="register-t" class="form-container">
-						<label for="Full Name">Full Name</label> <input
+						<label for="Full Name"><strong>Full Name</strong></label> <input
 							type="text" id="name" placeholder="Full Name" name="name"
 							required> <label for="email">Email
 						</label> <input type="email" id="email" placeholder="Email" name="email"
@@ -194,7 +192,7 @@ body {
 		<br> <br>
 		<div>
 			<div class="open-btn primary">
-			<h4 class="student-word-text">STUDENT </h4><button class="open-button" onclick="openForm3()" 
+			<h4 class="student-word-text">STUDENT </h4><button class="open-button" onclick="openForm3(); closeForm4(); closeForm2();closeForm1()" 
 			style="margin:5px;">SIGN IN</button> ${studentError}${studentPasswordError }
 				<div class="form-popup" id="popupForm3">
 					<form action="student-login" class="form-container">
@@ -210,7 +208,8 @@ body {
 		</div>
 		<div>
 			<div class="open-btn primary">
-				<button class="open-button" onclick="openForm4()" style="margin:5px;">REGISTER</button>
+				<button class="open-button"
+					onclick="openForm4(); closeForm3(); closeForm2(); closeForm1()" style="margin:5px;">REGISTER</button>
 				<div class="register-popup">
 					<div class="form-popup" id="popupForm4">
 						<form action="register-s" class="form-container">
@@ -230,6 +229,7 @@ body {
 		</div>
 	</footer>
 	<script>
+	
 		function openForm1() {
 			document.getElementById("popupForm1").style.display = "block";
 		}
@@ -282,6 +282,22 @@ body {
 				closeForm4();
 			}
 		}
+
+		var modal = document.querySelector("#modal");
+		var modalOverlay = document.querySelector("#modal-overlay");
+		var closeButton = document.querySelector("#close-button");
+		var openButton = document.querySelector("#open-button");
+
+		closeButton.addEventListener("click", function() {
+			modal.classList.toggle("closed");
+			modalOverlay.classList.toggle("closed");
+		});
+
+		openButton.addEventListener("click", function() {
+			modal.classList.toggle("closed");
+			modalOverlay.classList.toggle("closed");
+		});
+		
 	</script>
 </section>
 </body>

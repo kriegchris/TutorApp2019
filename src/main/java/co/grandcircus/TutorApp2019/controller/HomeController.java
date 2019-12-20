@@ -1,6 +1,10 @@
 package co.grandcircus.TutorApp2019.controller;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import co.grandcircus.TutorApp2019.entity.Review;
 import co.grandcircus.TutorApp2019.entity.Student;
 import co.grandcircus.TutorApp2019.entity.TimeLedger;
 import co.grandcircus.TutorApp2019.entity.Tutor;
@@ -29,6 +33,7 @@ import co.grandcircus.TutorApp2019.json.MapData;
 import co.grandcircus.TutorApp2019.json.PlaceResults;
 import co.grandcircus.TutorApp2019.marks.BusinessMarks;
 import co.grandcircus.TutorApp2019.marks.TutorMarks;
+import co.grandcircus.TutorApp2019.repo.ReviewRepo;
 import co.grandcircus.TutorApp2019.repo.StudentRepo;
 import co.grandcircus.TutorApp2019.repo.TimeLedgerRepo;
 import co.grandcircus.TutorApp2019.repo.TutorRepo;
@@ -47,7 +52,7 @@ public class HomeController {
 	
 	@Value("${pubnub.subscribe.key}")
 	private String pubnubSubKey;
-
+	
 	@Autowired
 	TutorRepo tr;
 
@@ -56,6 +61,9 @@ public class HomeController {
 
 	@Autowired
 	TimeLedgerRepo tlr;
+	
+	@Autowired
+	ReviewRepo rr;
 
 	@Autowired
 	HttpSession session;
@@ -64,6 +72,7 @@ public class HomeController {
 	HttpServletResponse response;
 
 	RestTemplate rt = new RestTemplate();
+	LocalDate today = LocalDate.now();
 
 	@RequestMapping("/")
 	public ModelAndView homePage() {
@@ -103,36 +112,47 @@ public class HomeController {
 	}
 
 	@RequestMapping("student-login")
-	public ModelAndView studentLogin(@RequestParam("email") String email) {
+	public ModelAndView studentLogin(@RequestParam("email") String email, String password) {
 		try {
 			ModelAndView mv = new ModelAndView("redirect:/get-location");
 			//once the student logs in, we get their  name from the database and display on welcome/home page
 			session.setAttribute("studentName", sr.findByEmail(email).getName());
 			//this saves the student in order to use again when confirming a tutoring session
 			session.setAttribute("student", sr.findByEmail(email));
+			if (!sr.findByEmail(email).getPassword().equals(password)) {
+				ModelAndView mv2 = new ModelAndView("index");
+				mv2.addObject("studentPasswordError", "<span style=\"color:white;font-weight:bold\">Invalid password.</span>");
+				return mv2;
+			}
 			mv.addObject("student", session.getAttribute("student"));
 			return mv;
 		} catch (NullPointerException e) {
 			//if email is not contained in database, invalid email  message appears
 			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("studentError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			mv.addObject("studentError", "<span style=\"color:white;font-weight:bold\">Invalid email.</span>");
 			return mv;
 		}
 	}
 
 	@RequestMapping("tutor-login")
-	public ModelAndView tutorLogin(@RequestParam("email") String email) {
+	public ModelAndView tutorLogin(@RequestParam("email") String email, String password) {
 		try {
 			//same thing for tutor as student(above mapping) for when tutor logs in 
 		ModelAndView mv = new ModelAndView("tutor-welcome");
 		session.setAttribute("tutorName", tr.findByEmail(email).getName());
 		session.setAttribute("tutor", tr.findByEmail(email));
+		if (!tr.findByEmail(email).getPassword().equals(password)) {
+			ModelAndView mv2 = new ModelAndView("index");
+			mv2.addObject("tutorPasswordError", "<span style=\"color:white;font-weight:bold\">Invalid password.</span>");
+			return mv2;
+		}
 		mv.addObject("tutor", session.getAttribute("tutor"));
+		//added students current lng and lat to the map
 		return mv;
 		} catch (NullPointerException e) {
 			//if email is not contained in database, invalid email message appears
 			ModelAndView mv = new ModelAndView("index");
-			mv.addObject("tutorError", "<span style=\"color:red;font-weight:bold\">Invalid email.</span>");
+			mv.addObject("tutorError", "<span style=\"color:white;font-weight:bold\">Invalid email.</span>");
 			return mv;
 		}
 	}
@@ -167,6 +187,10 @@ public class HomeController {
 			marks.add(dataToTutorMarks(t));
 		}
 		mv.addObject("tutors", marks);
+		//FIXME
+		//implement pubnub later
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -195,6 +219,23 @@ public class HomeController {
 		return mv;
 	}
 	
+	//displays details about the tutor
+	@RequestMapping("tutor-details")
+	public ModelAndView displayTutorDetails(@RequestParam("tutorId")Integer id) {
+		ModelAndView mv = new ModelAndView("tutor-details");
+		Tutor t = tr.findById(id).orElse(null);
+		mv.addObject("tutorName", t.getName());
+		mv.addObject("subject", t.getSubject());
+		mv.addObject("bio", t.getBio());
+		mv.addObject("rating", t.getRating());
+		if (rr.findByTutorId(id).isEmpty()) {
+			mv.addObject("no", "No Current ");
+		} else {
+			mv.addObject("reviews", rr.findByTutorId(id));
+		}
+		return mv;
+	}
+	
 	//finds the center point between student and tutor
 	@RequestMapping("find-center")
 	public ModelAndView findCenter(@RequestParam("tutorName") String name) {
@@ -218,12 +259,11 @@ public class HomeController {
 		//this lat & lng returns the center point between the tutor and student
 		mv.addObject("latitude", coords.get(0));
 		mv.addObject("longitude", coords.get(1));
-		mv.addObject("mapKey", mapKey);
-		
+		mv.addObject("mapKey", mapKey);		
 		//FIXME
 		//implement pubnub later
-		mv.addObject("publishKey", pubnubPublishKey);
-		mv.addObject("subscribeKey", pubnubSubKey);
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -279,6 +319,11 @@ public class HomeController {
 		mv.addObject("tutorId", t.getId()); 
 		Student s = (Student) session.getAttribute("student");
 		mv.addObject("studentId", s.getId());
+		mv.addObject("radius", radius);
+		//FIXME
+		//implement pubnub later
+		mv.addObject("pubKey", pubnubPublishKey);
+		mv.addObject("subKey", pubnubSubKey);
 		return mv;
 	}
 
@@ -299,22 +344,116 @@ public class HomeController {
 		// .orElse(null) will return null if nothing exists
 		Student student = sr.findById(studentId).orElse(null);
 		Tutor tutor = tr.findById(tutorId).orElse(null);
-		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration));
+		Boolean completed = false;
+		LocalDate sessionDate = LocalDate.now();
+		tlr.save(new TimeLedger(student, tutor, meetingLocation, startTime, duration, completed, sessionDate));
 		return new ModelAndView("session-display");
 	}
 
-	//display all tutors current & past sessions
-	@RequestMapping("tutor-sessions")
+	//display all tutors past sessions
+	@RequestMapping("past-tutor-sessions")
 	public ModelAndView tutorSessionsDisplay(Tutor tutor) {
+		ModelAndView mv = new ModelAndView("past-tutor-sessions");
 		Tutor t = (Tutor) session.getAttribute("tutor");
-		return new ModelAndView("tutor-sessions", "sessions", tlr.findByTutorId(t.getId()));
+		List<TimeLedger> sessions = tlr.findByTutorId(t.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isBefore(today)) {
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+	}
+	
+	//display all tutors current sessions
+	@RequestMapping("new-tutor-sessions")
+	public ModelAndView newTutorSessionDisplay(Tutor tutor) {
+		ModelAndView mv = new ModelAndView("new-tutor-sessions");
+		Tutor t = (Tutor) session.getAttribute("tutor");
+		List<TimeLedger> sessions = tlr.findByTutorId(t.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isEqual(today)) {
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+		
+	}
+	
+	@RequestMapping("mark-complete")
+	public ModelAndView markComplete(Integer id) {
+		TimeLedger tl = tlr.findById(id).orElse(null);
+		tl.setCompleted(true);
+		tlr.save(tl);
+		return new ModelAndView("redirect:/new-tutor-sessions");
 	}
 
-	//display all students current & past sessions
-	@RequestMapping("student-sessions")
+	//display all students past sessions
+	@RequestMapping("past-student-sessions")
 	public ModelAndView studentSessionDisplay(Student student) {
+		ModelAndView mv = new ModelAndView("past-student-sessions");
 		Student s = (Student) session.getAttribute("student");
-		return new ModelAndView("student-sessions", "sessions", tlr.findByStudentId(s.getId()));
+		List<TimeLedger> sessions = tlr.findByStudentId(s.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isBefore(today)) {
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+	}
+	
+	@RequestMapping("add-review")
+	public ModelAndView addReview(@RequestParam("sessionId") Integer id, String review, Double rating) {
+		System.out.println(id);
+		ModelAndView mv = new ModelAndView("redirect:/past-student-sessions");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		Tutor t = tutorSession.getTutor();
+		Double newRating = (rating + t.getRating()) / 2;
+		DecimalFormat decimalFormat = new DecimalFormat(".#");
+		t.setRating(Double.valueOf(decimalFormat.format(newRating)));
+		rr.save(new Review(review, tutorSession.getTutor(), tutorSession.getStudent()));
+		mv.addObject("thanks", "<span>Thanks for leaving a review!</span>");
+		return mv;
+	}
+	
+	@RequestMapping("review-page")
+	public ModelAndView reviewPage(Integer id) {
+		ModelAndView mv = new ModelAndView("add-review");
+		TimeLedger tutorSession = tlr.findById(id).orElse(null); 
+		Tutor t = tutorSession.getTutor();
+		mv.addObject("sessionId", id);
+		mv.addObject("tutorName", t.getName());
+		return mv;
+	}
+	
+	//display all tutors current sessions
+	@RequestMapping("new-student-sessions")
+	public ModelAndView newStudentSessionDisplay(Student student) {
+		ModelAndView mv = new ModelAndView("new-student-sessions");
+		Student s = (Student) session.getAttribute("student");
+		List<TimeLedger> sessions = tlr.findByStudentId(s.getId());
+		ArrayList<TimeLedger> filteredSessions = new ArrayList<>();
+		for (TimeLedger x : sessions) {
+			if (x.getSessionDate().isEqual(today)) {
+				filteredSessions.add(x);
+				Collections.sort(filteredSessions,(a,b) -> a.getSessionDate().compareTo(b.getSessionDate()));
+				Collections.reverse(filteredSessions);
+			}
+		}
+		mv.addObject("sessions", filteredSessions);
+		return mv;
+		
 	}
 
 
@@ -347,10 +486,10 @@ public class HomeController {
 		String gName = tutor.getName();
 		String subject = tutor.getSubject();
 		String bio = tutor.getBio();
-		String rating = tutor.getRating();
+		Double rating = tutor.getRating();
 		double gLat = tutor.getLatitude();
 		double gLng = tutor.getLongitude();
-		return new TutorMarks(id, gName, subject, bio, rating, gLat, gLng);
+		return new TutorMarks(id, gName, bio, rating, subject, gLat, gLng);
 	}
 
 }

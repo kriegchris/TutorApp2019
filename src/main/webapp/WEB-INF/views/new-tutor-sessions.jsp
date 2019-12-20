@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Tutor Welcome</title>
+<title>New Tutor Sessions</title>
 <link
 	href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/lux/bootstrap.min.css"
 	rel="stylesheet"
@@ -17,7 +17,7 @@
 <body>
 
 
-	<section class="tutor">
+	<section class="tutor-sessions">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -27,31 +27,44 @@
 			</button>
 			<div class="navbar-collapse collapse" id="navbarColor01" style="">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active"><a class="nav-link"
-						href="/tutor-welcome">Home <!-- <span class="sr-only">(current)</span> -->
+					<li class="nav-item"><a class="nav-link" href="/tutor-welcome">Home
 					</a></li>
-					<li class="nav-item"><a class="nav-link"
+					<li class="nav-item active"><a class="nav-link"
 						href="/new-tutor-sessions">Current Sessions</a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="/past-tutor-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
+
 				</ul>
 			</div>
 		</nav>
-
-<div class="tutor-message">
-		<div class="card text-white bg-primary mb-3" style="max-width: 64rem;">
-			<div class="card-header">Welcome back ${tutorName }!</div>
-			<div class="card-body">
-				<h4 class="card-title">Thanks for logging in to teach today.</h4>
-				<p class="card-text">Keep an eye out for a notification of a new tutor session.</p>
-			</div>
+	
+		<div class="jumbotron">
+		<h1 class="jumbotron-text">     Your Sessions:</h1>
 		</div>
-		</div>
-		<div class="container"></div>
-		<div class="container"></div>
-		<div class="container"></div>
 
+ <div class="container">
+		<table class="table">
+			<tr>
+				<th>Student</th>
+				<th>Meeting Location</th>
+				<th>Duration</th>
+				<th>Session Start Time</th>
+				<th>Completed</th>
+			</tr>
+			<c:forEach var="t" items="${sessions}">
+				<tr>
+					<td>${t.student.name }</td>
+					<td>${t.meetingLocation }</td>
+					<td>${t.duration}</td>
+					<td>${t.startTime }</td>
+					<td>${t.completed }</td>
+					<td><a href="/mark-complete?id=${t.id }" class="btn btn-primary">Mark Complete</a></td>
+					</tr>
+				</c:forEach>
+			</table>
+		</div>
+		
 	</section>
 </body>
 </html>

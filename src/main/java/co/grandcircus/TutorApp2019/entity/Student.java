@@ -1,5 +1,6 @@
 package co.grandcircus.TutorApp2019.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -10,8 +11,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Student {
+public class Student implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="student_id")
@@ -24,6 +29,11 @@ public class Student {
 	
 	@OneToMany(mappedBy = "student", orphanRemoval=true)
 	private List<TimeLedger> timeledger;
+	
+	@OneToMany(mappedBy = "student", orphanRemoval=true)
+	private List<Review> reviews;
+	
+
 
 	public Student() {
 		super();
@@ -41,6 +51,16 @@ public class Student {
 		this.name = name;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public Student(Integer id, String name, String email, String password, List<TimeLedger> timeledgerStudent, List<Review> reviews) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.timeledger = timeledgerStudent;
+		this.reviews = reviews;
 	}
 
 	public Integer getId() {
@@ -75,14 +95,6 @@ public class Student {
 		this.password = password;
 	}
 
-	public Student(Integer id, String name, String email, String password, List<TimeLedger> timeledgerStudent) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.timeledger = timeledgerStudent;
-	}
 
 	public List<TimeLedger> getTimeledgerStudent() {
 		return timeledger;
@@ -92,6 +104,14 @@ public class Student {
 		this.timeledger = timeledgerStudent;
 	}
 
+	public List<Review> getReviews() {
+		return reviews;
+	}
+	
+	public void setReviews(List<Review> reviews) {
+		this.reviews = reviews;
+	}
+	
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + "]";

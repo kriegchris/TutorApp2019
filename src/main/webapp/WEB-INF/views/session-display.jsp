@@ -11,10 +11,11 @@
 	rel="stylesheet"
 	integrity="sha384-hVpXlpdRmJ+uXGwD5W6HZMnR9ENcKVRn855pPbuI/mwPIEKAuKgTKgGksVGmlAvt"
 	crossorigin="anonymous">
+	<link rel="stylesheet" href="/styles.css" type="text/css">
 	</head>
 	<body>
-	<div class="container">
-	<br>
+	
+	<section class="session-confirmed">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
 			<button class="navbar-toggler collapsed" type="button"
 				data-toggle="collapse" data-target="#navbarColor01"
@@ -27,18 +28,16 @@
 					<li class="nav-item"><a class="nav-link" href="/get-location">Home
 							<!-- <span class="sr-only">(current)</span> -->
 					</a></li>
-					<li class="nav-item"><a class="nav-link" href="/student-sessions">Current Sessions</a></li>
-					<li class="nav-item"><a class="nav-link" href="/student-sessions">Past Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/new-student-sessions">Current Sessions</a></li>
+					<li class="nav-item"><a class="nav-link" href="/past-student-sessions">Past Sessions</a></li>
 					<li class="nav-item"><a class="nav-link" href="/">Logout</a></li>
 				
 				</ul>
 			</div>
 		</nav>
-		<div class="jumbotron">
 
-			<h1>Session confirmed!</h1>
+			<h1 class="confirm-text">Session confirmed!</h1>
 			
-		</div>
-	</div>
+	</section>
 </body>
 </html>
